@@ -1,0 +1,14 @@
+{
+    "name": "Connor B\u00e4r",
+    "short_name": "Connor B\u00e4r",
+    "icons": [
+        {
+            "src": "/icons/default/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "standalone"
+}

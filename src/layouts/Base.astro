@@ -1,0 +1,70 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description: string;
+}
+
+const { title = 'Wizard', description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, viewport-fit=cover" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/Metamorphous-Regular.woff2"
+      crossorigin
+    />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/icons/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/icons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/icons/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/icons/site.webmanifest" />
+    <link rel="shortcut icon" href="/icons/favicon.ico" />
+    <meta name="msapplication-config" content="/icons/browserconfig.xml" />
+  </head>
+  <body>
+    <div id="root">
+      <slot />
+    </div>
+
+    <style is:global>
+      html {
+        font-size: 100%;
+        background-color: var(--color-bg-primary);
+      }
+
+      body {
+        color: var(--color-fg-default);
+        background-color: var(--color-bg-default);
+        transition: background var(--transition-micro);
+        line-height: 1.5;
+      }
+    </style>
+  </body>
+</html>

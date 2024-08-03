@@ -1,0 +1,13 @@
+---
+import ScoreKeeper from 'src/components/index.svelte';
+import Layout from 'src/layouts/Base.astro';
+
+const title = 'Wizard Scorekeeper';
+const description =
+  'Keep track of the scores in the trick-taking card game Wizard for three to six players';
+// https://en.wikipedia.org/wiki/Wizard_(card_game)
+---
+
+<Layout title={title} description={description}>
+  <ScoreKeeper client:load />
+</Layout>

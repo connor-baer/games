@@ -1,0 +1,18 @@
+---
+import NewGame from 'src/components/NewGame.svelte';
+import Layout from '../../layouts/Standard.astro';
+import { actions } from 'astro:actions';
+
+const title = 'New game';
+const description = 'TODO:';
+
+const result = Astro.getActionResult(actions.newGame);
+
+if (result?.data) {
+  return Astro.redirect(`/game/${result.data.gameId}`);
+}
+---
+
+<Layout title={title} description={description}>
+  <NewGame client:load />
+</Layout>

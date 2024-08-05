@@ -3,17 +3,17 @@ import { db, Game, Player, PlayerInGame, Scores } from 'astro:db';
 import { createId } from '../src/utils/id';
 
 const games = [
-  { id: 'KVMG' },
+  { id: 'KVMGQ' },
   // TODO: Add complete game data
-  { id: 'MFFR', endedAt: new Date() },
+  { id: 'MFFRA', endedAt: new Date() },
 ];
 
 const players = [
-  { id: createId(), name: 'Connor' },
-  { id: createId(), name: 'Ena' },
-  { id: createId(), name: 'Iris' },
-  { id: createId(), name: 'Jillian' },
-  { id: createId(), name: 'Mat' },
+  { id: createId(), name: 'Apple' },
+  { id: createId(), name: 'Banana' },
+  { id: createId(), name: 'Cherry' },
+  { id: createId(), name: 'Dragonfruit' },
+  { id: createId(), name: 'Elderflower' },
 ];
 
 const playersInGame = players.slice(0, 3).map((player, index) => ({

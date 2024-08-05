@@ -1,14 +1,17 @@
 <script lang="ts">
-  import type { Player, Score } from '../types';
-  import { game, page } from '../stores';
+  import { actions } from 'astro:actions';
+  import type { Player } from 'astro:db';
+
   import { createId } from '../utils/id';
   import { createArray } from '../utils/array';
-  import { MAX_PLAYERS, MIN_PLAYERS, NUMBER_OF_CARDS } from '../constants';
+  import { MIN_PLAYERS, MAX_PLAYERS, NUMBER_OF_CARDS } from '../constants';
 
-  let players: Player[] = createArray(MIN_PLAYERS).map(() => ({
-    id: createId(),
-    name: '',
-  }));
+  let players: (typeof Player.$inferSelect)[] = createArray(MIN_PLAYERS).map(
+    () => ({
+      id: createId(),
+      name: '',
+    }),
+  );
   let rounds = NUMBER_OF_CARDS / players.length;
 
   $: validPlayers = players.filter((player) => Boolean(player.name));
@@ -20,37 +23,19 @@
     // Focus the new input once it has been rendered on the next tick
     requestAnimationFrame(() => {
       const playerInputs = document.querySelectorAll<HTMLInputElement>(
-        'input[name="player-names"]',
+        'input[name="playerNames"]',
       );
       playerInputs[playerInputs.length - 1]?.focus();
     });
   }
 
-  function removePlayer(id: Player['id']) {
+  function removePlayer(id: (typeof Player.$inferSelect)['id']) {
     players = players.filter((player) => player.id !== id);
     rounds = NUMBER_OF_CARDS / players.length;
   }
-
-  function createGame() {
-    const id = createId();
-    const timestamp = new Date().toISOString();
-    const scores = createArray(rounds).map(() =>
-      players.map(() => [] as Score),
-    );
-    game.set({
-      id,
-      timestamp,
-      players,
-      scores,
-      rounds,
-      round: 0,
-      phase: 'dealing',
-    });
-    page.set('game');
-  }
 </script>
 
-<form on:submit={createGame}>
+<form method="POST" action={actions.newGame}>
   <h2>Players</h2>
   <p>
     Add {MIN_PLAYERS} to {MAX_PLAYERS} players in the order they are sitting. The
@@ -59,10 +44,11 @@
   {#each players as player, index (player.id)}
     <div class="field">
       <label for="player-name-{player.id}">Player {index + 1}</label>
+      <input type="hidden" name="playerIds" value={player.id} />
       <input
         bind:value={player.name}
-        id="player-name={player.id}"
-        name="player-names"
+        id="player-name-{player.id}"
+        name="playerNames"
         type="string"
         required
       />
@@ -95,10 +81,6 @@
 </form>
 
 <style>
-  section {
-    margin-bottom: var(--layout-gutter);
-  }
-
   p {
     margin-bottom: 0.75rem;
   }

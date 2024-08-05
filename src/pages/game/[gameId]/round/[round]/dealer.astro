@@ -1,0 +1,71 @@
+---
+import { z } from 'astro/zod';
+
+import Layout from '../../../../../layouts/Standard.astro';
+import { getGame, getScores, getPlayers } from '../../../../../db';
+import { pluralize } from '../../../../../utils/format';
+
+const schema = z.object({
+  gameId: z.string(),
+  round: z.coerce.number(),
+});
+
+const { data, error } = schema.safeParse(Astro.params);
+
+// This should never happen
+if (error) {
+  return Astro.redirect('/404');
+}
+
+const { gameId, round } = data;
+
+const game = await getGame(gameId);
+
+if (!game) {
+  return Astro.redirect('/404');
+}
+
+const scores = await getScores(gameId, round);
+
+if (scores.length === 0) {
+  return Astro.redirect(`/game/${game.id}`);
+}
+
+const players = await getPlayers(gameId);
+const dealer = players[round % players.length]!;
+
+const description = `${dealer.name} deals ${round} ${pluralize({ singular: 'card', plural: 'cards' }, round)}.`;
+---
+
+<Layout title={`Round ${round}`} description={description}>
+  <h2>Dealer</h2>
+  <p>{description}</p>
+  <div class="footer">
+    <a class="button primary" href={`/game/${gameId}/round/${round}/bids`}>
+      Start bidding
+    </a>
+    {
+      round > 0 && (
+        <a
+          class="button"
+          aria-label="Back"
+          href={`/game/${gameId}/round/${round - 1}/tricks`}
+        >
+          ←
+        </a>
+      )
+    }
+  </div>
+</Layout>
+
+<style>
+  p {
+    margin-bottom: var(--layout-gutter);
+  }
+
+  .footer {
+    justify-content: flex-start;
+    gap: 0.5rem;
+    flex-direction: row-reverse;
+  }
+</style>

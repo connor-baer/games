@@ -1,6 +1,6 @@
 ---
 import Layout from '../../../layouts/Standard.astro';
-import { getGame, getPlayers, getScores } from '../../../db';
+import { getGame, getPlayers, getScoreCard } from '../../../db';
 
 const { gameId } = Astro.params;
 
@@ -15,7 +15,7 @@ if (!game) {
 }
 
 const players = await getPlayers(gameId);
-const scores = await getScores(gameId, players);
+const scoreCard = await getScoreCard(gameId, players);
 ---
 
 <Layout title="Scores" description="TODO:">
@@ -27,7 +27,7 @@ const scores = await getScores(gameId, players);
     </thead>
     <tbody>
       {
-        scores.map((round) => (
+        scoreCard.map((round) => (
           <>
             <tr>
               {round.map((score) => {

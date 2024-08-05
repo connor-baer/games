@@ -1,4 +1,4 @@
-import { db, eq, Game, Player, PlayerInGame, Scores } from 'astro:db';
+import { and, db, eq, Game, Player, PlayerInGame, Scores } from 'astro:db';
 
 import { NUMBER_OF_CARDS } from './constants';
 import { createArray } from './utils/array';
@@ -28,21 +28,30 @@ export async function getPlayers(gameId: GameId) {
   }));
 }
 
-export async function getScores(
+export async function getScores(gameId: GameId, round?: number) {
+  return db
+    .select()
+    .from(Scores)
+    .where(
+      round
+        ? and(eq(Scores.gameId, gameId), eq(Scores.round, round))
+        : eq(Scores.gameId, gameId),
+    )
+    .orderBy(Scores.round);
+}
+
+export async function getScoreCard(
   gameId: GameId,
   players: Awaited<ReturnType<typeof getPlayers>>,
 ) {
-  const scores = await db
-    .select()
-    .from(Scores)
-    .where(eq(Scores.gameId, gameId))
-    .orderBy(Scores.round, Scores.playerId);
+  const scores = await getScores(gameId);
 
   const maxRounds = NUMBER_OF_CARDS / players.length;
   const runningTotals: Record<string, number> = {};
 
-  const rounds = createArray(maxRounds).map((_, round) =>
-    players.map((player) => {
+  const rounds = createArray(maxRounds).map((_, index) => {
+    const round = index + 1;
+    return players.map((player) => {
       const score = scores.find(
         (s) => s.round === round && s.playerId === player.id,
       );
@@ -57,8 +66,8 @@ export async function getScores(
       runningTotals[player.id] = total;
 
       return { ...score, delta, total };
-    }),
-  );
+    });
+  });
 
   return rounds;
 }

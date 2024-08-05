@@ -2,7 +2,7 @@ import { derived, writable } from 'svelte/store';
 
 import { isNumber } from './utils/type';
 import type { Game, Page, Player, Score } from './types';
-import { calculateScoreDelta, sortGamesByTimestamp } from './utils/game';
+import { calculateScoreDelta } from './utils/game';
 
 function persisted<T>(
   key: string,
@@ -35,11 +35,10 @@ export const games = (() => {
   const store = persisted<Game[]>('games', []);
 
   const save = ($game: Game) => {
-    store.update((prevGames) =>
-      [...prevGames.filter((prevGame) => prevGame.id !== $game.id), $game].sort(
-        sortGamesByTimestamp,
-      ),
-    );
+    store.update((prevGames) => [
+      ...prevGames.filter((prevGame) => prevGame.id !== $game.id),
+      $game,
+    ]);
   };
 
   return { ...store, save };

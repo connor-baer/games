@@ -4,7 +4,6 @@
   import { createId } from '../utils/id';
   import { createArray } from '../utils/array';
   import { MAX_PLAYERS, MIN_PLAYERS, NUMBER_OF_CARDS } from '../constants';
-  import Layout from './Layout.svelte';
 
   let players: Player[] = createArray(MIN_PLAYERS).map(() => ({
     id: createId(),
@@ -12,7 +11,7 @@
   }));
   let rounds = NUMBER_OF_CARDS / players.length;
 
-  $: enoughPlayers = players.every((player) => Boolean(player.name));
+  $: validPlayers = players.filter((player) => Boolean(player.name));
 
   function addPlayer() {
     players = players.concat({ id: createId(), name: '' });
@@ -51,69 +50,49 @@
   }
 </script>
 
-<Layout title="New game">
-  <form on:submit={createGame}>
-    <section>
-      <h2>Players</h2>
-      <p>
-        Add {MIN_PLAYERS} to {MAX_PLAYERS} players in the order they are sitting.
-      </p>
-      {#each players as player, index (player.id)}
-        <div class="field">
-          <label for="player-name-{player.id}">Player {index + 1}</label>
-          <input
-            bind:value={player.name}
-            id="player-name={player.id}"
-            name="player-names"
-            type="string"
-            required
-          />
-          {#if index >= MIN_PLAYERS}
-            <button
-              class="button"
-              type="button"
-              aria-label="Remove"
-              on:click={() => removePlayer(player.id)}
-            >
-              ✕
-            </button>
-          {/if}
-        </div>
-      {/each}
-      {#if players.length < MAX_PLAYERS}
-        <button class="button" type="button" on:click={addPlayer}>
-          Add player
-        </button>
-      {/if}
-    </section>
-    <section>
-      <h2 id="rounds-label">Rounds</h2>
-      <p id="rounds-description">
-        A deck has {NUMBER_OF_CARDS} cards, so with {players.length} players you
-        can play up to {NUMBER_OF_CARDS / players.length} rounds.
-      </p>
+<form on:submit={createGame}>
+  <h2>Players</h2>
+  <p>
+    Add {MIN_PLAYERS} to {MAX_PLAYERS} players in the order they are sitting. The
+    first player deals first.
+  </p>
+  {#each players as player, index (player.id)}
+    <div class="field">
+      <label for="player-name-{player.id}">Player {index + 1}</label>
       <input
-        bind:value={rounds}
-        id="rounds"
-        name="rounds"
-        type="number"
-        aria-labelledby="rounds-label"
-        aria-describedby="rounds-description"
-        min="1"
-        max={NUMBER_OF_CARDS / players.length}
+        bind:value={player.name}
+        id="player-name={player.id}"
+        name="player-names"
+        type="string"
         required
       />
-    </section>
-    <div class="footer">
-      <button class="button primary" type="submit" disabled={!enoughPlayers}>
-        Start game
-      </button>
+      {#if validPlayers.length > MIN_PLAYERS || (validPlayers.length === MIN_PLAYERS && !player.name)}
+        <button
+          class="button"
+          type="button"
+          aria-label="Remove"
+          on:click={() => removePlayer(player.id)}
+        >
+          ✕
+        </button>
+      {/if}
     </div>
-    <!-- {#if !enoughPlayers}
-      <p>Please add at least 3 players.</p>
-    {/if} -->
-  </form>
-</Layout>
+  {/each}
+  {#if players.length < MAX_PLAYERS}
+    <button class="button" type="button" on:click={addPlayer}>
+      Add player
+    </button>
+  {/if}
+  <div class="footer">
+    <button
+      class="button primary"
+      type="submit"
+      disabled={validPlayers.length < MIN_PLAYERS}
+    >
+      Start game
+    </button>
+  </div>
+</form>
 
 <style>
   section {

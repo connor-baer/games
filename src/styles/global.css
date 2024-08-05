@@ -282,6 +282,7 @@ p {
   background-color: var(--color-bg-subtle);
   color: var(--color-fg-default);
   border: none;
+  text-decoration: none;
   padding: 8px 12px;
 }
 

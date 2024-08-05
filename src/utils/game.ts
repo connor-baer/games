@@ -1,12 +1,14 @@
-import { shiftArray } from 'src/utils/array';
+import type { Scores } from 'astro:db';
 
-import type { Game, Player, Score } from '../types';
+import type { Game, Player } from '../types';
 import { POINTS_CORRECT, POINTS_PER_TRICK } from '../constants';
 
+import { shiftArray } from './array';
 import { isNumber } from './type';
 
-export function calculateScoreDelta(score: Score) {
-  const [bid, tricks] = score;
+// TODO: Make it work with incomplete score
+export function calculateScoreDelta(score: typeof Scores.$inferSelect) {
+  const { bid, tricks } = score;
 
   if (!isNumber(bid) || !isNumber(tricks)) {
     // This should never happen.
@@ -26,8 +28,4 @@ export function sortPlayersForRound(game: Game): Player[] {
 
 export function getPlayerIndex(game: Game, playerId: Player['id']): number {
   return game.players.findIndex((player) => player.id === playerId);
-}
-
-export function sortGamesByTimestamp(a: Game, b: Game) {
-  return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
 }

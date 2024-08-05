@@ -1,13 +1,70 @@
 ---
-import ScoreKeeper from 'src/components/index.svelte';
-import Layout from 'src/layouts/Base.astro';
+import Layout from '../layouts/Standard.astro';
+import GameCard from '../components/GameCard.astro';
+import { getGames } from '../db';
+import { MAX_PLAYERS, MIN_PLAYERS } from '../constants';
 
 const title = 'Wizard Scorekeeper';
 const description =
   'Keep track of the scores in the trick-taking card game Wizard for three to six players';
-// https://en.wikipedia.org/wiki/Wizard_(card_game)
+
+const games = await getGames();
+const hasActiveGame = games.some(game => !game.endedAt)
 ---
 
 <Layout title={title} description={description}>
-  <ScoreKeeper client:load />
+  <h2>About</h2>
+  <p>
+    <a href="https://en.wikipedia.org/wiki/Wizard_(card_game)" target="_blank">Wizard</a> is a trick-taking card game for {MIN_PLAYERS} to {MAX_PLAYERS} players designed by Ken Fisher of Toronto, Ontario in 1984.
+  </p>
+  <p>
+    The objective of the game is to bid correctly on the number of tricks that a player will take in the subsequent round of play. Points are awarded for a correct bid and subtracted for an incorrect bid. The player with the most points after all rounds have been played is the winner.
+  </p>
+  <p>
+    This digital scorekeeper mimics the traditional scorecards, adding validation and automatic point calculation.
+  </p>
+  <div class="buttons">
+    <a class="button" class:list={{ primary: !hasActiveGame }} href="/game/new">
+      New game
+    </a>
+  </div>
+
+  {(games.length > 0) && (
+    <h2 class="games-title">Games</h2>
+    <ul class="games">
+      {games.map(game => (
+        <li>
+          <GameCard {...game} />
+        </li>
+      ))}
+    </ul>
+  )}
 </Layout>
+
+
+<style>
+  h2,
+  p {
+    margin-bottom: 0.75rem;
+  }
+
+  a {
+    font-family: var(--font-family-display);
+  }
+
+  .buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .games-title {
+    margin-top: 3rem;
+  }
+
+  .games {
+    list-style: none;
+    margin-top: 1rem;
+    padding: 0;
+  }
+</style>

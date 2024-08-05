@@ -1,39 +1,36 @@
 <script lang="ts">
   import { createArray } from '../utils/array';
-  import Layout from './Layout.svelte';
   import { game, points } from '../stores';
 </script>
 
-<Layout title="Scores" link={{ label: 'Back', page: 'game' }}>
-  {#if $game && $points}
-    <table style="--player-count: {$game.players.length}">
-      <thead>
+{#if $game && $points}
+  <table style="--player-count: {$game.players.length}">
+    <thead>
+      <tr>
+        {#each $game.players as player (player.id)}
+          <th colspan="2">
+            {player.name}
+          </th>
+        {/each}
+      </tr>
+    </thead>
+    <tbody>
+      {#each createArray($game.rounds) as _, round}
         <tr>
-          {#each $game.players as player (player.id)}
-            <th colspan="2">
-              {player.name}
-            </th>
+          {#each $game.players as _, index}
+            <td rowspan="2">{$points[index]?.[round] ?? ''}</td>
+            <td>{$game.scores[round]?.[index]?.[0] ?? ''}</td>
           {/each}
         </tr>
-      </thead>
-      <tbody>
-        {#each createArray($game.rounds) as _, round}
-          <tr>
-            {#each $game.players as _, index}
-              <td rowspan="2">{$points[index]?.[round] ?? ''}</td>
-              <td>{$game.scores[round]?.[index]?.[0] ?? ''}</td>
-            {/each}
-          </tr>
-          <tr>
-            {#each $game.players as _, index}
-              <td>{$game.scores[round]?.[index]?.[1] ?? ''}</td>
-            {/each}
-          </tr>
-        {/each}
-      </tbody>
-    </table>
-  {/if}
-</Layout>
+        <tr>
+          {#each $game.players as _, index}
+            <td>{$game.scores[round]?.[index]?.[1] ?? ''}</td>
+          {/each}
+        </tr>
+      {/each}
+    </tbody>
+  </table>
+{/if}
 
 <style>
   table {

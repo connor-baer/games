@@ -1,27 +1,36 @@
-<script lang="ts">
-  import { LOGO } from '../constants';
-  import { page } from '../stores';
-  import type { Page } from '../types';
+---
+import { LOGO } from '../constants';
 
-  export let title: string = 'Wizard';
-  export let link: { label: string; page: Page } | null = null;
-</script>
+import Layout from './Base.astro';
 
-<header>
-  <button aria-label="Wizard" class="logo" on:click={() => page.set('home')}>
-    {LOGO}
-  </button>
-  <span class="title">{title}</span>
-  {#if link}
-    <button class="link" on:click={() => page.set(link.page)}>
-      {link.label}
-    </button>
-  {/if}
-</header>
+export interface Props {
+  title: string;
+  description: string;
+  link?: { label: string; href: string };
+}
 
-<main data-pagefind-body>
-  <slot />
-</main>
+const { title, description, link } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <header>
+    <a aria-label="Home" class="logo" href="/">
+      {LOGO}
+    </a>
+    <h1 class="title">{title}</h1>
+    {
+      link && (
+        <a class="link" href={link.href}>
+          {link.label}
+        </a>
+      )
+    }
+  </header>
+
+  <main>
+    <slot />
+  </main>
+</Layout>
 
 <style>
   header {
@@ -34,9 +43,7 @@
     justify-content: space-between;
   }
 
-  button {
-    background: none;
-    border: none;
+  a {
     padding: 0.25rem;
   }
 
@@ -44,6 +51,7 @@
     font-size: 2rem;
     line-height: 1;
     transition: transform var(--transition-micro);
+    text-decoration: none;
   }
 
   .logo:hover,

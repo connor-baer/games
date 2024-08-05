@@ -7,7 +7,7 @@ import browserslist from 'browserslist';
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'hybrid',
+  output: 'server',
   adapter: vercel({
     imageService: true,
     functionPerRoute: false,
@@ -16,7 +16,7 @@ export default defineConfig({
     checkOrigin: true,
   },
   experimental: {
-    contentCollectionCache: true,
+    actions: true,
   },
   site: 'https://wizard.madebyconnor.co',
   prefetch: {

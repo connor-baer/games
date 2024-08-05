@@ -2,8 +2,6 @@
 import Layout from '../../../layouts/Standard.astro';
 import { getGame, getPlayers, getScores } from '../../../db';
 
-export const prerender = false;
-
 const { gameId } = Astro.params;
 
 if (!gameId) {

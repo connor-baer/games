@@ -1,8 +1,6 @@
-import { derived, writable } from 'svelte/store';
+import { writable } from 'svelte/store';
 
-import { isNumber } from './utils/type';
-import type { Game, Page, Player, Score } from './types';
-import { calculateScoreDelta } from './utils/game';
+import type { Game, Page } from './types';
 
 function persisted<T>(
   key: string,
@@ -30,19 +28,6 @@ function persisted<T>(
 }
 
 export const page = persisted<Page>('page', 'home', { listen: false });
-
-export const games = (() => {
-  const store = persisted<Game[]>('games', []);
-
-  const save = ($game: Game) => {
-    store.update((prevGames) => [
-      ...prevGames.filter((prevGame) => prevGame.id !== $game.id),
-      $game,
-    ]);
-  };
-
-  return { ...store, save };
-})();
 
 export const game = (() => {
   const store = persisted<Game | null>('game', null);
@@ -87,31 +72,3 @@ export const game = (() => {
 
   return { ...store, previous, next };
 })();
-
-export const dealer = derived(game, ($game) => {
-  if (!$game) {
-    return null;
-  }
-  const index = $game.round % $game.players.length;
-  return $game.players[index] as Player;
-});
-
-export const points = derived(game, ($game) => {
-  if (!$game) {
-    return null;
-  }
-
-  return $game.players.map((_, index) => {
-    let playerPoints = 0;
-
-    return $game.scores.map((score) => {
-      const [bid, tricks] = score[index] as Score;
-      if (isNumber(bid) && isNumber(tricks)) {
-        const delta = calculateScoreDelta([bid, tricks]);
-        playerPoints += delta;
-        return playerPoints;
-      }
-      return null;
-    });
-  });
-});

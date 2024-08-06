@@ -1,7 +1,10 @@
 ---
-import NewGame from 'src/components/NewGame.svelte';
-import Layout from '../../layouts/Standard.astro';
 import { actions } from 'astro:actions';
+
+import Layout from '../../layouts/Standard.astro';
+import { MAX_PLAYERS, MIN_PLAYERS } from '../../constants';
+import { createArray } from '../../utils/array';
+import { createId } from '../../utils/id';
 
 const title = 'New game';
 const description = 'TODO:';
@@ -11,8 +14,66 @@ const result = Astro.getActionResult(actions.newGame);
 if (result?.data) {
   return Astro.redirect(`/game/${result.data.gameId}`);
 }
+
+const players = createArray(MAX_PLAYERS).map(() => ({ id: createId() }));
 ---
 
 <Layout title={title} description={description}>
-  <NewGame client:load />
+  <h2>Players</h2>
+  <p>
+    Add {MIN_PLAYERS} to {MAX_PLAYERS} players in the order they are sitting. The
+    first player deals first.
+  </p>
+
+  <form method="POST" action={actions.newGame}>
+    {
+      players.map((player, index) => (
+        <div class="field">
+          <label for={`player-name-${player.id}`}>Player {index + 1}</label>
+          <input type="hidden" name="playerIds" value={player.id} />
+          <input
+            id={`player-name-${player.id}`}
+            name="playerNames"
+            type="text"
+            required={index < MIN_PLAYERS}
+          />
+        </div>
+      ))
+    }
+    <div class="footer">
+      <button class="button primary" type="submit">Start game</button>
+    </div>
+  </form>
 </Layout>
+
+<style>
+  p {
+    margin-bottom: 1rem;
+  }
+
+  .field {
+    margin-bottom: 0.5rem;
+  }
+
+  label {
+    display: block;
+    font-size: smaller;
+  }
+
+  input {
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--color-fg-subtle);
+    width: 100%;
+    max-width: 40ch;
+  }
+
+  input:focus,
+  input:active {
+    border: 1px solid var(--color-fg-default);
+  }
+
+  .footer {
+    margin-top: 1rem;
+  }
+</style>

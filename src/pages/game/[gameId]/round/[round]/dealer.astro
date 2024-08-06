@@ -2,7 +2,7 @@
 import { z } from 'astro/zod';
 
 import Layout from '../../../../../layouts/Standard.astro';
-import { getGame, getScores, getPlayers } from '../../../../../db';
+import { getGame, getPlayers } from '../../../../../db';
 import { pluralize } from '../../../../../utils/format';
 
 const schema = z.object({
@@ -25,14 +25,8 @@ if (!game) {
   return Astro.redirect('/404');
 }
 
-const scores = await getScores(gameId, round);
-
-if (scores.length === 0) {
-  return Astro.redirect(`/game/${game.id}`);
-}
-
-const players = await getPlayers(gameId);
-const dealer = players[round % players.length]!;
+const players = await getPlayers(gameId, round);
+const dealer = players[players.length - 1]!;
 
 const description = `${dealer.name} deals ${round} ${pluralize({ singular: 'card', plural: 'cards' }, round)}.`;
 ---
@@ -45,7 +39,7 @@ const description = `${dealer.name} deals ${round} ${pluralize({ singular: 'card
       Start bidding
     </a>
     {
-      round > 0 && (
+      round > 1 && (
         <a
           class="button"
           aria-label="Back"

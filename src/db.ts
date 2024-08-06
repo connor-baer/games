@@ -1,7 +1,7 @@
 import { and, db, eq, Game, Player, PlayerInGame, Scores } from 'astro:db';
 
 import { NUMBER_OF_CARDS } from './constants';
-import { createArray } from './utils/array';
+import { createArray, shiftArray } from './utils/array';
 import { calculateScoreDelta } from './utils/game';
 
 type GameId = (typeof Game.$inferSelect)['id'];
@@ -14,18 +14,19 @@ export function getGame(gameId: GameId) {
   return db.select().from(Game).where(eq(Game.id, gameId)).get();
 }
 
-export async function getPlayers(gameId: GameId) {
-  const players = await db
+export async function getPlayers(gameId: GameId, round?: number) {
+  const playersAndPlayersInGame = await db
     .select()
     .from(PlayerInGame)
     .where(eq(PlayerInGame.gameId, gameId))
     .orderBy(PlayerInGame.position)
     .innerJoin(Player, eq(PlayerInGame.playerId, Player.id));
-  return players.map((player) => ({
+  const players = playersAndPlayersInGame.map((player) => ({
     id: player.Player.id,
     name: player.Player.name,
     position: player.PlayerInGame.position,
   }));
+  return round ? shiftArray(players, round) : players;
 }
 
 export async function getScores(gameId: GameId, round?: number) {

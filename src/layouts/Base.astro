@@ -1,4 +1,6 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
+
 import '../styles/global.css';
 
 export interface Props {
@@ -47,6 +49,7 @@ const { title = 'Wizard', description } = Astro.props;
     <link rel="manifest" href="/icons/site.webmanifest" />
     <link rel="shortcut icon" href="/icons/favicon.ico" />
     <meta name="msapplication-config" content="/icons/browserconfig.xml" />
+    <ViewTransitions />
   </head>
   <body>
     <div id="root">

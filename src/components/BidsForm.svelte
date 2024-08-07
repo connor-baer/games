@@ -1,5 +1,6 @@
 <script lang="ts">
   import { actions } from 'astro:actions';
+  import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
 
   import { isNumber } from '../utils/type';
@@ -12,6 +13,12 @@
   export let players: { id: string; name: string }[];
   export let scores: Score[] | null;
 
+  let mounted = false;
+
+  onMount(() => {
+    mounted = true;
+  });
+
   const store = writable(
     players.map((player) => {
       const score = scores?.find((score) => score.playerId === player.id) || {
@@ -22,8 +29,8 @@
     }),
   );
 
-  $: total = $store?.reduce((acc, { score }) => acc + (score?.bid || 0), 0);
-  $: valid = $store.every(({ score }) => isNumber(score?.bid));
+  $: total = $store?.reduce((acc, { score }) => acc + (score.bid || 0), 0);
+  $: valid = !mounted || $store.every(({ score }) => isNumber(score.bid));
 </script>
 
 <form method="POST" action={actions.updateBids}>
@@ -38,7 +45,7 @@
   </ol>
 
   <div class="footer">
-    <div><strong>Total:</strong> {total}/{round}</div>
+    <div class="total"><strong>Total:</strong> {total}/{round}</div>
     <div class="buttons">
       <button class="button primary" type="submit" disabled={!valid}>
         Save bids
@@ -59,5 +66,9 @@
     display: flex;
     gap: 0.5rem;
     flex-direction: row-reverse;
+  }
+
+  :global(.no-js) .total {
+    display: none;
   }
 </style>

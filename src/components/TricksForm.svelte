@@ -1,5 +1,6 @@
 <script lang="ts">
   import { actions } from 'astro:actions';
+  import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
 
   import { isNumber } from '../utils/type';
@@ -12,6 +13,12 @@
   export let players: { id: string; name: string }[];
   export let scores: Score[] | null;
 
+  let mounted = false;
+
+  onMount(() => {
+    mounted = true;
+  });
+
   const store = writable(
     players.map((player) => {
       const score = scores?.find((score) => score.playerId === player.id) || {
@@ -22,9 +29,9 @@
     }),
   );
 
-  $: total = $store?.reduce((acc, { score }) => acc + (score?.tricks || 0), 0);
-  $: allTricks = $store.every(({ score }) => isNumber(score?.tricks));
-  $: valid = allTricks && total === round;
+  $: total = $store?.reduce((acc, { score }) => acc + (score.tricks || 0), 0);
+  $: allTricks = $store.every(({ score }) => isNumber(score.tricks));
+  $: valid = !mounted || (allTricks && total === round);
 </script>
 
 <form method="POST" action={actions.updateTricks}>
@@ -39,7 +46,7 @@
   </ol>
 
   <div class="footer">
-    <div><strong>Total:</strong> {total}/{round}</div>
+    <div class="total"><strong>Total:</strong> {total}/{round}</div>
     <div class="buttons">
       <button class="button primary" type="submit" disabled={!valid}>
         Save tricks
@@ -60,5 +67,9 @@
     display: flex;
     gap: 0.5rem;
     flex-direction: row-reverse;
+  }
+
+  :global(.no-js) .total {
+    display: none;
   }
 </style>

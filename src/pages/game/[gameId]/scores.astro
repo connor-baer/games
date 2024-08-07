@@ -18,7 +18,11 @@ const players = await getPlayers(gameId);
 const scoreCard = await getScoreCard(gameId, players);
 ---
 
-<Layout title="Scores" description="TODO:">
+<Layout
+  title="Scores"
+  description="TODO:"
+  link={{ label: 'Back', href: `/game/${gameId}` }}
+>
   <table style={`--player-count: ${players.length}`}>
     <thead>
       <tr>

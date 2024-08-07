@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-
   import { isNumber } from '../utils/type';
   import {
     isArrowDown,
@@ -24,11 +22,6 @@
 
   let timeoutId: ReturnType<typeof setTimeout>;
   let previousKeys = '';
-  let mounted = false;
-
-  onMount(() => {
-    mounted = true;
-  });
 
   const min = 0;
   const max = round;
@@ -77,9 +70,9 @@
     {player.name}
     {#if player.name === 'Mat'}🎯{/if}
   </h3>
-  {#if delta}
+  {#if name === 'tricks' && delta}
     <span
-      hidden={!delta}
+      class="delta"
       class:positive={delta > 0}
       class:negative={delta < 0}
       role="status"
@@ -91,7 +84,7 @@
 </div>
 <input type="hidden" name="playerIds" value={player.id} />
 <input
-  hidden={mounted}
+  class="input"
   type="number"
   {name}
   bind:value={player.score[key]}
@@ -101,8 +94,7 @@
   step="1"
 />
 <div
-  hidden={!mounted}
-  class="input"
+  class="slider"
   role="slider"
   aria-labelledby={labelId}
   tabindex="0"
@@ -133,6 +125,10 @@
     align-items: baseline;
   }
 
+  :global(.no-js) .delta {
+    display: none;
+  }
+
   .positive {
     color: green;
   }
@@ -146,8 +142,30 @@
   }
 
   .input {
+    display: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--color-fg-subtle);
+    width: 100%;
+    max-width: 10ch;
+  }
+
+  .input:focus,
+  .input:active {
+    border: 1px solid var(--color-fg-default);
+  }
+
+  :global(.no-js) .input {
+    display: block;
+  }
+
+  .slider {
     display: inline-block;
     border-radius: 1rem;
+  }
+
+  :global(.no-js) .slider {
+    display: none;
   }
 
   .option {
@@ -176,5 +194,6 @@
     background-color: var(--color-bg-primary);
     border: 1px solid var(--color-fg-primary);
     color: var(--color-fg-primary);
+    font-weight: var(--font-weight-ui-bold);
   }
 </style>

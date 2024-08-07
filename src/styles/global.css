@@ -29,9 +29,8 @@
   /* type-role(-state) */
   --font-family-display: 'Metamorphous', system-ui, sans-serif;
   --font-family-ui: system-ui, sans-serif;
-  --font-weight-ui: 350;
-  --font-weight-ui-medium: 600;
-  --font-weight-ui-bold: 800;
+  --font-weight-ui: regular;
+  --font-weight-ui-bold: bold;
   --font-family-code: Menlo, Monaco, Lucida Console, Liberation Mono,
     DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
   --font-size-prose: 1.125rem;
@@ -293,6 +292,7 @@ p {
 .button.primary {
   background-color: var(--color-bg-primary);
   color: var(--color-fg-primary);
+  font-weight: var(--font-weight-ui-bold);
 }
 
 .footer {

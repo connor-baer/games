@@ -12,7 +12,7 @@ const { title = 'Wizard', description } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, viewport-fit=cover" />
@@ -52,6 +52,9 @@ const { title = 'Wizard', description } = Astro.props;
     <meta name="msapplication-config" content="/icons/browserconfig.xml" />
     <meta name="msapplication-TileColor" content="#8e4491" />
     <meta name="theme-color" content="#8e4491" />
+    <script is:inline data-astro-rerun>
+      document.documentElement.classList.remove('no-js');
+    </script>
     <ViewTransitions />
   </head>
   <body>

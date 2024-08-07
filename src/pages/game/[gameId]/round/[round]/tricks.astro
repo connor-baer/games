@@ -5,6 +5,7 @@ import { z } from 'astro/zod';
 import Layout from '../../../../../layouts/Standard.astro';
 import TricksForm from '../../../../../components/TricksForm.svelte';
 import { getGame, getPlayers, getScores } from '../../../../../db';
+import { getMaxRounds } from '../../../../../utils/game';
 
 const schema = z.object({
   gameId: z.string(),
@@ -34,11 +35,16 @@ if (result && !result.error) {
 
 const players = await getPlayers(gameId, round);
 const scores = await getScores(gameId, round);
+const maxRounds = getMaxRounds(players);
 
 const description = 'Count how many tricks each player managed to take.';
 ---
 
-<Layout title={`Round ${round}`} description={description}>
+<Layout
+  title={`Round ${round} of ${maxRounds}`}
+  description={description}
+  link={{ label: 'Scores', href: `/game/${gameId}/scores` }}
+>
   <h2>Tricks</h2>
   <p>{description}</p>
 

@@ -3,6 +3,7 @@ import { z } from 'astro/zod';
 
 import Layout from '../../../../../layouts/Standard.astro';
 import { getGame, getPlayers } from '../../../../../db';
+import { getMaxRounds } from '../../../../../utils/game';
 import { pluralize } from '../../../../../utils/format';
 
 const schema = z.object({
@@ -27,11 +28,16 @@ if (!game) {
 
 const players = await getPlayers(gameId, round);
 const dealer = players[players.length - 1]!;
+const maxRounds = getMaxRounds(players);
 
 const description = `${dealer.name} deals ${round} ${pluralize({ singular: 'card', plural: 'cards' }, round)}.`;
 ---
 
-<Layout title={`Round ${round}`} description={description}>
+<Layout
+  title={`Round ${round} of ${maxRounds}`}
+  description={description}
+  link={{ label: 'Scores', href: `/game/${gameId}/scores` }}
+>
   <h2>Dealer</h2>
   <p>{description}</p>
   <div class="footer">

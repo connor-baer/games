@@ -17,6 +17,7 @@ const players = [
 ];
 
 const playersInGame = players.slice(0, 3).map((player, index) => ({
+  id: createId(),
   gameId: games[0]?.id as string,
   playerId: player.id,
   position: index,
@@ -86,7 +87,10 @@ const scores = [
     bid: 1,
     tricks: 1,
   },
-];
+].map((score) => ({
+  id: `${score.gameId}-${score.playerId}-${score.round}`,
+  ...score,
+}));
 
 // https://astro.build/db/seed
 export default async function seed() {

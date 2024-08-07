@@ -37,12 +37,19 @@ const PlayerInGame = defineTable({
 
 const Scores = defineTable({
   columns: {
+    id: column.text({ primaryKey: true }),
     gameId: column.text({ references: () => Game.columns.id }),
     playerId: column.text({ references: () => Player.columns.id }),
     round: column.number(),
     bid: column.number({ optional: true }),
     tricks: column.number({ optional: true }),
   },
+  indexes: [
+    {
+      on: ['gameId', 'playerId', 'round'],
+      unique: true,
+    },
+  ],
 });
 
 // https://astro.build/db/config

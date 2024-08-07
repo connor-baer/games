@@ -172,6 +172,10 @@ body {
   font-weight: var(--font-weight-ui);
 }
 
+[hidden] {
+  display: none !important;
+}
+
 button,
 select {
   cursor: pointer;

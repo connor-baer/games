@@ -3,8 +3,7 @@ import { and, db, eq, Game, Player, PlayerInGame, Scores } from 'astro:db';
 import { NUMBER_OF_CARDS } from './constants';
 import { createArray, shiftArray } from './utils/array';
 import { calculateScoreDelta } from './utils/game';
-
-type GameId = (typeof Game.$inferSelect)['id'];
+import type { GameId } from './types';
 
 export function getGames() {
   return db.select().from(Game).orderBy(Game.endedAt);
@@ -62,6 +61,11 @@ export async function getScoreCard(
       }
 
       const delta = calculateScoreDelta(score);
+
+      if (!delta) {
+        return score;
+      }
+
       const total = (runningTotals[player.id] || 0) + delta;
 
       runningTotals[player.id] = total;

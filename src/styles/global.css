@@ -13,11 +13,11 @@
   /* type-layer-role(-state) */
   --color-fg-default: hsl(0, 0%, 4%);
   --color-fg-subtle: hsl(0, 0%, 33%);
-  --color-fg-primary: var(--fgColor, #000);
+  --color-fg-primary: var(--fgColor, #fff);
   --color-bg-default: hsl(0, 0%, 100%);
   --color-bg-subtle: hsl(0, 0%, 90%);
   --color-bg-elevated: var(--color-bg-default);
-  --color-bg-primary: var(--bgColor, lightblue);
+  --color-bg-primary: var(--bgColor, #8e4491);
   --color-mg-default: hsl(0, 0%, 80%);
 
   /* Shadows */

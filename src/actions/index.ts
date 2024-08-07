@@ -1,5 +1,6 @@
 import { defineAction, z } from 'astro:actions';
 import { db, eq, Game, Player, PlayerInGame, Scores, sql } from 'astro:db';
+import { getMaxRounds } from 'src/utils/game';
 
 import { MAX_PLAYERS, MIN_PLAYERS } from '../constants';
 import { createHumanId } from '../utils/id';
@@ -81,6 +82,26 @@ export const server = {
             .where(eq(Scores.id, `${gameId}-${playerId}-${round}`)),
         ),
       );
+      const maxRounds = getMaxRounds(playerIds.length);
+
+      if (round === maxRounds) {
+        await db
+          .update(Game)
+          .set({ endedAt: new Date() })
+          .where(eq(Game.id, gameId));
+      }
+    },
+  }),
+  endGame: defineAction({
+    accept: 'form',
+    input: z.object({
+      gameId: z.string(),
+    }),
+    handler: async ({ gameId }) => {
+      await db
+        .update(Game)
+        .set({ endedAt: new Date() })
+        .where(eq(Game.id, gameId));
     },
   }),
 };

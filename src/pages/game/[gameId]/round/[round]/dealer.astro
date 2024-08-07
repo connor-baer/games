@@ -28,7 +28,7 @@ if (!game) {
 
 const players = await getPlayers(gameId, round);
 const dealer = players[players.length - 1]!;
-const maxRounds = getMaxRounds(players);
+const maxRounds = getMaxRounds(players.length);
 
 const description = `${dealer.name} deals ${round} ${pluralize({ singular: 'card', plural: 'cards' }, round)}.`;
 ---

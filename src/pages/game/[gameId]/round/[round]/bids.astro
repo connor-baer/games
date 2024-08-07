@@ -35,7 +35,7 @@ if (result && !result.error) {
 
 const players = await getPlayers(gameId, round);
 const scores = await getScores(gameId, round);
-const maxRounds = getMaxRounds(players);
+const maxRounds = getMaxRounds(players.length);
 
 const description =
   'Each player predicts how many tricks they will take this round.';

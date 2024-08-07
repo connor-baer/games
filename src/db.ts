@@ -61,14 +61,11 @@ export async function getScoreCard(
       }
 
       const delta = calculateScoreDelta(score);
+      const total = delta ? (runningTotals[player.id] || 0) + delta : null;
 
-      if (!delta) {
-        return score;
+      if (total) {
+        runningTotals[player.id] = total;
       }
-
-      const total = (runningTotals[player.id] || 0) + delta;
-
-      runningTotals[player.id] = total;
 
       return { ...score, delta, total };
     });

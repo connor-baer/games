@@ -27,15 +27,18 @@ if (!game) {
   return Astro.redirect('/404');
 }
 
+const players = await getPlayers(gameId, round);
+const scores = await getScores(gameId, round);
+const maxRounds = getMaxRounds(players.length);
+
 const result = Astro.getActionResult(actions.updateTricks);
 
 if (result && !result.error) {
+  if (round === maxRounds || round > maxRounds) {
+    return Astro.redirect(`/game/${gameId}/scores`);
+  }
   return Astro.redirect(`/game/${gameId}/round/${round + 1}/dealer`);
 }
-
-const players = await getPlayers(gameId, round);
-const scores = await getScores(gameId, round);
-const maxRounds = getMaxRounds(players);
 
 const description = 'Count how many tricks each player managed to take.';
 ---

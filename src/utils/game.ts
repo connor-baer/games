@@ -1,4 +1,4 @@
-import type { Player, Score } from '../types';
+import type { Score } from '../types';
 import {
   NUMBER_OF_CARDS,
   POINTS_CORRECT,
@@ -19,6 +19,6 @@ export function calculateScoreDelta(score: Score | null | undefined) {
   return -1 * Math.abs(score.tricks - score.bid) * POINTS_PER_TRICK;
 }
 
-export function getMaxRounds(players: Player[]) {
-  return NUMBER_OF_CARDS / players.length;
+export function getMaxRounds(numberOfPlayers: number) {
+  return NUMBER_OF_CARDS / numberOfPlayers;
 }

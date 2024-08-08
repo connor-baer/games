@@ -1,12 +1,13 @@
 import { defineConfig } from 'astro/config';
+import db from '@astrojs/db';
 import svelte from '@astrojs/svelte';
+import vercel from '@astrojs/vercel/serverless';
 import { browserslistToTargets } from 'lightningcss';
 import browserslist from 'browserslist';
-import vercel from '@astrojs/vercel/serverless';
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'hybrid',
+  output: 'server',
   adapter: vercel({
     imageService: true,
     functionPerRoute: false,
@@ -15,14 +16,14 @@ export default defineConfig({
     checkOrigin: true,
   },
   experimental: {
-    contentCollectionCache: true,
+    actions: true,
   },
   site: 'https://wizard.madebyconnor.co',
   prefetch: {
     prefetchAll: true,
     defaultStrategy: 'hover',
   },
-  integrations: [svelte()],
+  integrations: [svelte(), db()],
   vite: {
     css: {
       transformer: 'lightningcss',

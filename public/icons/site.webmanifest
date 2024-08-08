@@ -1,10 +1,10 @@
 {
-    "name": "Connor B\u00e4r",
-    "short_name": "Connor B\u00e4r",
+    "name": "Wizard",
+    "short_name": "Wizard",
     "icons": [
         {
-            "src": "/icons/default/android-chrome-192x192.png",
-            "sizes": "192x192",
+            "src": "/icons/android-chrome-144x144.png",
+            "sizes": "144x144",
             "type": "image/png"
         }
     ],

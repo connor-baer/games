@@ -1,0 +1,100 @@
+---
+import { actions } from 'astro:actions';
+
+import Layout from '../../../layouts/Standard.astro';
+import { getGame, getPlayers, getScoreCard } from '../../../db';
+
+const { gameId } = Astro.params;
+
+if (!gameId) {
+  return Astro.redirect('/404');
+}
+
+const game = await getGame(gameId);
+
+if (!game) {
+  return Astro.redirect('/404');
+}
+
+const players = await getPlayers(gameId);
+const scoreCard = await getScoreCard(gameId, players);
+---
+
+<Layout
+  title="Scores"
+  description="TODO:"
+  link={{ label: 'Back', href: `/game/${gameId}` }}
+>
+  <table style={`--player-count: ${players.length}`}>
+    <thead>
+      <tr>
+        {players.map((player) => <th colspan="2">{player.name}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {
+        scoreCard.map((round) => (
+          <>
+            <tr>
+              {round.map((score) => {
+                return (
+                  <>
+                    <td rowspan="2">{score?.total ?? ''}</td>
+                    <td>{score?.bid ?? ''}</td>
+                  </>
+                );
+              })}
+            </tr>
+            <tr>
+              {round.map((score) => {
+                return <td>{score?.tricks ?? ''}</td>;
+              })}
+            </tr>
+          </>
+        ))
+      }
+    </tbody>
+  </table>
+  <form method="POST" action={actions.endGame}>
+    <input type="hidden" name="gameId" value={gameId} />
+    <button class="button destructive" type="submit">End game</button>
+  </form>
+</Layout>
+
+<style>
+  table {
+    position: relative;
+    table-layout: fixed;
+    border-collapse: collapse;
+    text-align: center;
+    margin-bottom: var(--layout-gutter);
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+    background-color: var(--color-bg-default);
+  }
+
+  thead th {
+    min-width: 4rem;
+    width: calc(100vw / var(--player-count));
+    font-family: var(--font-family-display);
+  }
+
+  td {
+    padding: 0;
+  }
+
+  td:not([rowspan]) {
+    font-size: 0.85rem;
+    line-height: 1;
+    height: 1rem;
+    width: 1.5rem;
+  }
+
+  th,
+  td {
+    border: 1px solid black;
+  }
+</style>

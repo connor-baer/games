@@ -1,0 +1,65 @@
+---
+import { actions } from 'astro:actions';
+import { z } from 'astro/zod';
+
+import Layout from '../../../../../layouts/Standard.astro';
+import BidsForm from '../../../../../components/BidsForm.svelte';
+import { getGame, getPlayers, getScores } from '../../../../../db';
+import { getMaxRounds } from '../../../../../utils/game';
+
+const schema = z.object({
+  gameId: z.string(),
+  round: z.coerce.number(),
+});
+
+const { data, error } = schema.safeParse(Astro.params);
+
+// This should never happen
+if (error) {
+  return Astro.redirect('/404');
+}
+
+const { gameId, round } = data;
+
+const game = await getGame(gameId);
+
+if (!game) {
+  return Astro.redirect('/404');
+}
+
+const result = Astro.getActionResult(actions.updateBids);
+
+if (result && !result.error) {
+  return Astro.redirect(`/game/${gameId}/round/${round}/tricks`);
+}
+
+const players = await getPlayers(gameId, round);
+const scores = await getScores(gameId, round);
+const maxRounds = getMaxRounds(players.length);
+
+const description =
+  'Each player predicts how many tricks they will take this round.';
+---
+
+<Layout
+  title={`Round ${round} of ${maxRounds}`}
+  description={description}
+  link={{ label: 'Scores', href: `/game/${gameId}/scores` }}
+>
+  <h2>Bids</h2>
+  <p>{description}</p>
+
+  <BidsForm
+    client:load
+    gameId={gameId}
+    round={round}
+    players={players}
+    scores={scores}
+  />
+</Layout>
+
+<style>
+  p {
+    margin-bottom: var(--layout-gutter);
+  }
+</style>

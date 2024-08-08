@@ -13,11 +13,11 @@
   /* type-layer-role(-state) */
   --color-fg-default: hsl(0, 0%, 4%);
   --color-fg-subtle: hsl(0, 0%, 33%);
-  --color-fg-primary: var(--fgColor, #000);
+  --color-fg-primary: var(--fgColor, #fff);
   --color-bg-default: hsl(0, 0%, 100%);
   --color-bg-subtle: hsl(0, 0%, 90%);
   --color-bg-elevated: var(--color-bg-default);
-  --color-bg-primary: var(--bgColor, lightblue);
+  --color-bg-primary: var(--bgColor, #8e4491);
   --color-mg-default: hsl(0, 0%, 80%);
 
   /* Shadows */
@@ -29,9 +29,8 @@
   /* type-role(-state) */
   --font-family-display: 'Metamorphous', system-ui, sans-serif;
   --font-family-ui: system-ui, sans-serif;
-  --font-weight-ui: 350;
-  --font-weight-ui-medium: 600;
-  --font-weight-ui-bold: 800;
+  --font-weight-ui: regular;
+  --font-weight-ui-bold: bold;
   --font-family-code: Menlo, Monaco, Lucida Console, Liberation Mono,
     DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
   --font-size-prose: 1.125rem;
@@ -172,6 +171,10 @@ body {
   font-weight: var(--font-weight-ui);
 }
 
+[hidden] {
+  display: none !important;
+}
+
 button,
 select {
   cursor: pointer;
@@ -282,12 +285,14 @@ p {
   background-color: var(--color-bg-subtle);
   color: var(--color-fg-default);
   border: none;
+  text-decoration: none;
   padding: 8px 12px;
 }
 
 .button.primary {
   background-color: var(--color-bg-primary);
   color: var(--color-fg-primary);
+  font-weight: var(--font-weight-ui-bold);
 }
 
 .footer {

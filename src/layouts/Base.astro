@@ -1,4 +1,6 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
+
 import '../styles/global.css';
 
 export interface Props {
@@ -10,7 +12,7 @@ const { title = 'Wizard', description } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, viewport-fit=cover" />
@@ -45,8 +47,15 @@ const { title = 'Wizard', description } = Astro.props;
       href="/icons/favicon-16x16.png"
     />
     <link rel="manifest" href="/icons/site.webmanifest" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#8e4491" />
     <link rel="shortcut icon" href="/icons/favicon.ico" />
     <meta name="msapplication-config" content="/icons/browserconfig.xml" />
+    <meta name="msapplication-TileColor" content="#8e4491" />
+    <meta name="theme-color" content="#8e4491" />
+    <script is:inline data-astro-rerun>
+      document.documentElement.classList.remove('no-js');
+    </script>
+    <ViewTransitions />
   </head>
   <body>
     <div id="root">

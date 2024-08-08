@@ -1,33 +1,24 @@
-import { shiftArray } from 'src/utils/array';
-
-import type { Game, Player, Score } from '../types';
-import { POINTS_CORRECT, POINTS_PER_TRICK } from '../constants';
+import type { Score } from '../types';
+import {
+  NUMBER_OF_CARDS,
+  POINTS_CORRECT,
+  POINTS_PER_TRICK,
+} from '../constants';
 
 import { isNumber } from './type';
 
-export function calculateScoreDelta(score: Score) {
-  const [bid, tricks] = score;
-
-  if (!isNumber(bid) || !isNumber(tricks)) {
-    // This should never happen.
-    throw new Error('Missing bid or tricks');
+export function calculateScoreDelta(score: Score | null | undefined) {
+  if (!score || !isNumber(score.bid) || !isNumber(score.tricks)) {
+    return null;
   }
 
-  if (bid === tricks) {
-    return POINTS_CORRECT + tricks * POINTS_PER_TRICK;
+  if (score.bid === score.tricks) {
+    return POINTS_CORRECT + score.tricks * POINTS_PER_TRICK;
   }
 
-  return -1 * Math.abs(tricks - bid) * POINTS_PER_TRICK;
+  return -1 * Math.abs(score.tricks - score.bid) * POINTS_PER_TRICK;
 }
 
-export function sortPlayersForRound(game: Game): Player[] {
-  return shiftArray(game.players, game.round + 1);
-}
-
-export function getPlayerIndex(game: Game, playerId: Player['id']): number {
-  return game.players.findIndex((player) => player.id === playerId);
-}
-
-export function sortGamesByTimestamp(a: Game, b: Game) {
-  return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
+export function getMaxRounds(numberOfPlayers: number) {
+  return NUMBER_OF_CARDS / numberOfPlayers;
 }

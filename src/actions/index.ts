@@ -19,6 +19,7 @@ export const server = {
 
       const game = { id: createHumanId() };
       const playersInGame = players.map((player, index) => ({
+        id: `${game.id}-${player.id}`,
         gameId: game.id,
         playerId: player.id,
         position: index,

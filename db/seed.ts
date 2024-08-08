@@ -16,12 +16,17 @@ const players = [
   { id: createId(), name: 'Elderflower' },
 ];
 
-const playersInGame = players.slice(0, 3).map((player, index) => ({
-  id: createId(),
-  gameId: games[0]?.id as string,
-  playerId: player.id,
-  position: index,
-}));
+const playersInGame = players
+  .slice(0, 3)
+  .map((player, index) => ({
+    gameId: games[0]?.id as string,
+    playerId: player.id,
+    position: index,
+  }))
+  .map((playerInGame) => ({
+    ...playerInGame,
+    id: `${playerInGame.gameId}-${playerInGame.playerId}`,
+  }));
 
 const scores = [
   {

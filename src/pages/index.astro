@@ -2,13 +2,13 @@
 import Layout from '../layouts/Standard.astro';
 import GameCard from '../components/GameCard.astro';
 import { getGames } from '../db';
-import { MAX_PLAYERS, MIN_PLAYERS } from '../constants';
+import { LEAGUE_COOKIE, MAX_PLAYERS, MIN_PLAYERS } from '../constants';
 
 const title = 'Wizard Scorekeeper';
 const description =
   'Keep track of the scores in the trick-taking card game Wizard for three to six players';
 
-const games = await getGames();
+const games = await getGames(Astro.cookies.get(LEAGUE_COOKIE)?.value);
 const hasActiveGame = games.some(game => !game.endedAt)
 ---
 

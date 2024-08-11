@@ -5,8 +5,14 @@ import { createArray, shiftArray } from './utils/array';
 import { calculateScoreDelta } from './utils/game';
 import type { GameId } from './types';
 
-export function getGames() {
-  return db.select().from(Game).orderBy(Game.endedAt);
+export function getGames(leagueId: string | undefined) {
+  return leagueId
+    ? db
+        .select()
+        .from(Game)
+        .where(eq(Game.leagueId, leagueId))
+        .orderBy(Game.endedAt)
+    : [];
 }
 
 export function getGame(gameId: GameId) {

@@ -1,8 +1,18 @@
 import { defineAction, z } from 'astro:actions';
-import { db, eq, Game, Player, PlayerInGame, Scores, sql } from 'astro:db';
-import { getMaxRounds } from 'src/utils/game';
+import {
+  db,
+  eq,
+  Game,
+  League,
+  Player,
+  PlayerInGame,
+  Scores,
+  sql,
+} from 'astro:db';
+import { inDaysFromNow } from 'src/utils/date';
 
-import { MAX_PLAYERS, MIN_PLAYERS } from '../constants';
+import { LEAGUE_COOKIE, MAX_PLAYERS, MIN_PLAYERS } from '../constants';
+import { getMaxRounds } from '../utils/game';
 import { createHumanId } from '../utils/id';
 
 export const server = {
@@ -12,12 +22,26 @@ export const server = {
       playerIds: z.array(z.string()).min(MIN_PLAYERS).max(MAX_PLAYERS),
       playerNames: z.array(z.string()).min(MIN_PLAYERS).max(MAX_PLAYERS),
     }),
-    handler: async ({ playerIds, playerNames }) => {
+    handler: async ({ playerIds, playerNames }, context) => {
+      let leagueId: string;
+      if (context.cookies.has(LEAGUE_COOKIE)) {
+        leagueId = context.cookies.get(LEAGUE_COOKIE)!.value;
+      } else {
+        leagueId = createHumanId();
+        await db.insert(League).values({ id: leagueId });
+      }
+
+      context.cookies.set(LEAGUE_COOKIE, leagueId, {
+        path: '/',
+        sameSite: 'strict',
+        expires: inDaysFromNow(90),
+      });
+
       const players = playerIds
         .map((id, index) => ({ id, name: playerNames[index] as string }))
         .filter((player) => Boolean(player.name));
 
-      const game = { id: createHumanId() };
+      const game = { id: createHumanId(), leagueId };
       const playersInGame = players.map((player, index) => ({
         id: `${game.id}-${player.id}`,
         gameId: game.id,

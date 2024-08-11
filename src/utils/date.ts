@@ -7,3 +7,8 @@ const dateTimeFormat = new Intl.DateTimeFormat(LOCALE, {
 export function formatDate(date: Date): string {
   return dateTimeFormat.format(date);
 }
+
+export function inDaysFromNow(days: number) {
+  const today = new Date();
+  return new Date(today.getTime() + days * 24 * 60 * 60 * 1000);
+}

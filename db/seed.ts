@@ -2,11 +2,7 @@ import { db, Game, Player, PlayerInGame, Scores } from 'astro:db';
 
 import { createId } from '../src/utils/id';
 
-const games = [
-  { id: 'KVMGQ' },
-  // TODO: Add complete game data
-  { id: 'MFFRA', endedAt: new Date() },
-];
+const games = [{ id: 'KVMGQ' }];
 
 const players = [
   { id: createId(), name: 'Apple' },

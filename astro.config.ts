@@ -18,7 +18,7 @@ export default defineConfig({
   experimental: {
     actions: true,
   },
-  site: 'https://wizard.madebyconnor.co',
+  site: 'https://games.connorbaer.com',
   prefetch: {
     prefetchAll: true,
     defaultStrategy: 'hover',

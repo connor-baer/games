@@ -1,4 +1,9 @@
-# 🧙🏻 Wizard
+# Games
+
+A collection of score sheets for tabletop games.
+
+- 🧙🏻 Wizard
+- 🎲 Qwixx
 
 ## 🚀 Project Structure
 

@@ -1,18 +1,18 @@
 {
-  "name": "wizard",
+  "name": "games",
   "type": "module",
   "version": "8.0.0",
-  "description": "Digital scorekeeper for Wizard, the trick-taking card game",
+  "description": "A collection of score sheets for tabletop games",
   "author": {
     "name": "Connor Bär, connor-baer",
     "email": "github@connorbaer.com"
   },
-  "homepage": "https://github.com/connor-baer/wizard",
+  "homepage": "https://github.com/connor-baer/games",
   "private": true,
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/connor-baer/wizard.git"
+    "url": "git+https://github.com/connor-baer/games.git"
   },
   "keywords": [
     "connor",
@@ -21,7 +21,7 @@
     "website"
   ],
   "bugs": {
-    "url": "https://github.com/connor-baer/wizard/issues"
+    "url": "https://github.com/connor-baer/games/issues"
   },
   "scripts": {
     "dev": "astro dev",

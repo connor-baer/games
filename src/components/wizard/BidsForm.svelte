@@ -3,8 +3,8 @@
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
 
-  import { isNumber } from '../utils/type';
-  import type { Score } from '../types';
+  import { isNumber } from '../../utils/type';
+  import type { Score } from '../../types';
 
   import ScoreInput from './ScoreInput.svelte';
 

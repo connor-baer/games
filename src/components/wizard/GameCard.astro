@@ -1,7 +1,7 @@
 ---
 import type { Game } from 'astro:db';
 
-import { getPlayers } from '../../db';
+import { getPlayers } from '../../lib/wizard/db';
 import { formatDate } from '../../utils/date';
 
 export type Props = typeof Game.$inferSelect;

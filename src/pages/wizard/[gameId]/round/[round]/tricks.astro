@@ -4,8 +4,8 @@ import { z } from 'astro/zod';
 
 import Layout from '../../../../../layouts/Wizard.astro';
 import TricksForm from '../../../../../components/wizard/TricksForm.svelte';
-import { getGame, getPlayers, getScores } from '../../../../../db';
-import { getMaxRounds } from '../../../../../utils/game';
+import { getGame, getPlayers, getScores } from '../../../../../lib/wizard/db';
+import { getMaxRounds } from '../../../../../lib/wizard/game';
 
 const schema = z.object({
   gameId: z.string(),

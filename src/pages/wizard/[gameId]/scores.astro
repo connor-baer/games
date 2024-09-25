@@ -2,7 +2,7 @@
 import { actions } from 'astro:actions';
 
 import Layout from '../../../layouts/Wizard.astro';
-import { getGame, getPlayers, getScoreCard } from '../../../db';
+import { getGame, getPlayers, getScoreCard } from '../../../lib/wizard/db';
 
 const { gameId } = Astro.params;
 

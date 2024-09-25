@@ -2,8 +2,8 @@
 import { z } from 'astro/zod';
 
 import Layout from '../../../../../layouts/Wizard.astro';
-import { getGame, getPlayers } from '../../../../../db';
-import { getMaxRounds } from '../../../../../utils/game';
+import { getGame, getPlayers } from '../../../../../lib/wizard/db';
+import { getMaxRounds } from '../../../../../lib/wizard/game';
 import { pluralize } from '../../../../../utils/format';
 
 const schema = z.object({

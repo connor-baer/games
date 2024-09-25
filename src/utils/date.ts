@@ -1,4 +1,4 @@
-import { LOCALE } from '../constants';
+import { LOCALE } from '../lib/wizard/constants';
 
 const dateTimeFormat = new Intl.DateTimeFormat(LOCALE, {
   dateStyle: 'medium',

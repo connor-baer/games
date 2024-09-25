@@ -11,8 +11,12 @@ import {
 } from 'astro:db';
 import { inDaysFromNow } from 'src/utils/date';
 
-import { LEAGUE_COOKIE, MAX_PLAYERS, MIN_PLAYERS } from '../constants';
-import { getMaxRounds } from '../utils/game';
+import {
+  LEAGUE_COOKIE,
+  MAX_PLAYERS,
+  MIN_PLAYERS,
+} from '../lib/wizard/constants';
+import { getMaxRounds } from '../lib/wizard/game';
 import { createHumanId } from '../utils/id';
 
 export const server = {

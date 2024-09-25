@@ -2,10 +2,10 @@
 import { actions } from 'astro:actions';
 import { z } from 'astro/zod';
 
-import Layout from '../../../../../layouts/Standard.astro';
-import TricksForm from '../../../../../components/TricksForm.svelte';
-import { getGame, getPlayers, getScores } from '../../../../../db';
-import { getMaxRounds } from '../../../../../utils/game';
+import Layout from '../../../../../../layouts/Wizard.astro';
+import TricksForm from '../../../../../../components/TricksForm.svelte';
+import { getGame, getPlayers, getScores } from '../../../../../../db';
+import { getMaxRounds } from '../../../../../../utils/game';
 
 const schema = z.object({
   gameId: z.string(),
@@ -35,9 +35,9 @@ const result = Astro.getActionResult(actions.updateTricks);
 
 if (result && !result.error) {
   if (round === maxRounds || round > maxRounds) {
-    return Astro.redirect(`/game/${gameId}/scores`);
+    return Astro.redirect(`/wizard/game/${gameId}/scores`);
   }
-  return Astro.redirect(`/game/${gameId}/round/${round + 1}/dealer`);
+  return Astro.redirect(`/wizard/game/${gameId}/round/${round + 1}/dealer`);
 }
 
 const description = 'Count how many tricks each player managed to take.';
@@ -46,7 +46,7 @@ const description = 'Count how many tricks each player managed to take.';
 <Layout
   title={`Round ${round} of ${maxRounds}`}
   description={description}
-  link={{ label: 'Scores', href: `/game/${gameId}/scores` }}
+  link={{ label: 'Scores', href: `/wizard/game/${gameId}/scores` }}
 >
   <h2>Tricks</h2>
   <p>{description}</p>

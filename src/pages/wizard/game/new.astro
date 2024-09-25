@@ -1,10 +1,10 @@
 ---
 import { actions } from 'astro:actions';
 
-import Layout from '../../layouts/Standard.astro';
-import { MAX_PLAYERS, MIN_PLAYERS } from '../../constants';
-import { createArray } from '../../utils/array';
-import { createId } from '../../utils/id';
+import Layout from '../../../layouts/Wizard.astro';
+import { MAX_PLAYERS, MIN_PLAYERS } from '../../../constants';
+import { createArray } from '../../../utils/array';
+import { createId } from '../../../utils/id';
 
 const title = 'New game';
 const description = 'TODO:';
@@ -12,7 +12,7 @@ const description = 'TODO:';
 const result = Astro.getActionResult(actions.newGame);
 
 if (result?.data) {
-  return Astro.redirect(`/game/${result.data.gameId}`);
+  return Astro.redirect(`/wizard/game/${result.data.gameId}`);
 }
 
 const players = createArray(MAX_PLAYERS).map(() => ({ id: createId() }));

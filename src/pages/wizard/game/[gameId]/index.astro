@@ -1,6 +1,6 @@
 ---
-import { getGame, getScores } from '../../../db';
-import { isNumber } from '../../../utils/type';
+import { getGame, getScores } from '../../../../db';
+import { isNumber } from '../../../../utils/type';
 
 const { gameId } = Astro.params;
 
@@ -15,13 +15,13 @@ if (!game) {
 }
 
 if (game.endedAt) {
-  return Astro.redirect(`/game/${game.id}/scores`);
+  return Astro.redirect(`/wizard/game/${game.id}/scores`);
 }
 
 const scores = await getScores(gameId);
 
 if (scores.length === 0) {
-  return Astro.redirect(`/game/${game.id}/round/1/dealer`);
+  return Astro.redirect(`/wizard/game/${game.id}/round/1/dealer`);
 }
 
 const rounds = scores.map(({ round }) => round);
@@ -30,14 +30,14 @@ const scoresInRound = scores.filter((score) => score.round === round);
 const hasTricks = scoresInRound.every((score) => isNumber(score.tricks));
 
 if (hasTricks) {
-  return Astro.redirect(`/game/${game.id}/round/${round + 1}/dealer`);
+  return Astro.redirect(`/wizard/game/${game.id}/round/${round + 1}/dealer`);
 }
 
 const hasBids = scoresInRound.every((score) => isNumber(score.bid));
 
 if (hasBids) {
-  return Astro.redirect(`/game/${game.id}/round/${round}/tricks`);
+  return Astro.redirect(`/wizard/game/${game.id}/round/${round}/tricks`);
 }
 
-return Astro.redirect(`/game/${game.id}/round/${round}/dealer`);
+return Astro.redirect(`/wizard/game/${game.id}/round/${round}/dealer`);
 ---

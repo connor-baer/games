@@ -2,10 +2,10 @@
 import { actions } from 'astro:actions';
 import { z } from 'astro/zod';
 
-import Layout from '../../../../../../layouts/Wizard.astro';
-import BidsForm from '../../../../../../components/wizard/BidsForm.svelte';
-import { getGame, getPlayers, getScores } from '../../../../../../db';
-import { getMaxRounds } from '../../../../../../utils/game';
+import Layout from '../../../../../layouts/Wizard.astro';
+import BidsForm from '../../../../../components/wizard/BidsForm.svelte';
+import { getGame, getPlayers, getScores } from '../../../../../db';
+import { getMaxRounds } from '../../../../../utils/game';
 
 const schema = z.object({
   gameId: z.string(),
@@ -30,7 +30,7 @@ if (!game) {
 const result = Astro.getActionResult(actions.updateBids);
 
 if (result && !result.error) {
-  return Astro.redirect(`/wizard/game/${gameId}/round/${round}/tricks`);
+  return Astro.redirect(`/wizard/${gameId}/round/${round}/tricks`);
 }
 
 const players = await getPlayers(gameId, round);
@@ -44,7 +44,7 @@ const description =
 <Layout
   title={`Round ${round} of ${maxRounds}`}
   description={description}
-  link={{ label: 'Scores', href: `/wizard/game/${gameId}/scores` }}
+  link={{ label: 'Scores', href: `/wizard/${gameId}/scores` }}
 >
   <h2>Bids</h2>
   <p>{description}</p>

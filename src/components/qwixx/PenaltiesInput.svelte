@@ -15,19 +15,19 @@
   ) {
     const { value } = event.currentTarget;
     const penalty = Number.parseInt(value, 10);
-    penalties.update((prev) => (penalty <= prev ? penalty - 1 : penalty));
+    penalties.update((prev) => (penalty === prev ? penalty - 1 : penalty));
   }
 </script>
 
 <fieldset>
-  <legend>Penalities</legend>
+  <legend class="hide-visually">Penalities</legend>
   {#each maxPenalties as penalty}
     <input
       id={`penalty-${penalty}`}
       type="checkbox"
       name="penalty"
       checked={penalty <= $penalties}
-      disabled={penalty > $penalties + 1}
+      disabled={penalty < $penalties || penalty > $penalties + 1}
       value={penalty}
       on:input={onInput}
       class="hide-visually"
@@ -50,8 +50,8 @@
   label {
     display: inline-grid;
     place-content: center;
-    width: calc(var(--number-size) * 0.5);
-    height: calc(var(--number-size) * 0.5);
+    width: var(--number-size);
+    height: var(--number-size);
     border-radius: 8px;
     border: 3px solid var(--color-mg-default);
     font-size: 1.5rem;

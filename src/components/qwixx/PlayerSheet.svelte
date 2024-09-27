@@ -25,8 +25,8 @@
   </div>
 
   <div class="points-penalties">
-    <PointsTable />
     <PenaltiesInput {penalties} />
+    <PointsTable />
   </div>
 
   <ScoreEquation {colors} {penalties} />

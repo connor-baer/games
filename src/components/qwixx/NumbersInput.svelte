@@ -91,9 +91,10 @@
     font-size: 1.5rem;
     font-weight: var(--font-weight-ui-bold);
     text-align: center;
-    color: hsl(var(--hue) var(--saturation) calc(var(--lightness) - 15));
+    color: hsl(var(--hue) var(--saturation) calc(var(--lightness) - 15%));
     background-color: hsl(
-      var(--hue) calc(var(--saturation) - 10) calc(var(--lightness) + 15) / 0.2
+      var(--hue) calc(var(--saturation) - 10%) calc(var(--lightness) + 15%) /
+        0.2
     );
     transition:
       color var(--transition-micro),

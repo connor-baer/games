@@ -13,7 +13,7 @@ export function createColorConfig(
   const isLocked = writable(false);
 
   const [hue, saturation, lightness] = color;
-  const style = `--hue: ${hue}; --saturation: ${saturation}; --lightness: ${lightness};`;
+  const style = `--hue: ${hue}; --saturation: ${saturation}%; --lightness: ${lightness}%;`;
 
   const toggleNumber = (number: number) => {
     if (get(isLocked)) {

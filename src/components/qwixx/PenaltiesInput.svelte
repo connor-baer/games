@@ -50,8 +50,8 @@
   label {
     display: inline-grid;
     place-content: center;
-    width: var(--number-size);
-    height: var(--number-size);
+    width: var(--column-size);
+    height: var(--column-size);
     border-radius: 8px;
     border: 3px solid var(--color-mg-default);
     font-size: 1.5rem;

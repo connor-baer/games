@@ -26,7 +26,7 @@
     padding: 0 12px;
     width: 100%;
     text-align: center;
-    height: calc(var(--number-size) * 0.75);
+    height: calc(var(--column-size) * 0.75);
     min-width: 0;
   }
 </style>

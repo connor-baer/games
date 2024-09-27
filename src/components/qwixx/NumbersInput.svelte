@@ -76,15 +76,15 @@
     border: none;
     display: flex;
     flex-wrap: wrap;
-    gap: var(--number-gap);
+    gap: var(--gutter);
     padding: 0;
   }
 
   label {
     display: inline-grid;
     place-content: center;
-    width: var(--number-size);
-    height: var(--number-size);
+    width: var(--column-size);
+    height: var(--column-size);
     border-radius: 8px;
     border: 3px solid hsl(var(--hue) var(--saturation) var(--lightness));
     font-size: 1.5rem;

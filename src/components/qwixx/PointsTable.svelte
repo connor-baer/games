@@ -25,8 +25,8 @@
   }
 
   td {
-    width: calc(var(--number-size) * 0.5);
-    height: calc(var(--number-size) * 0.4);
+    width: calc(var(--column-size) * 0.5);
+    height: calc(var(--column-size) * 0.4);
     border: 2px solid var(--color-mg-default);
   }
 

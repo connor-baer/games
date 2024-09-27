@@ -35,49 +35,44 @@
 <style>
   .container {
     --columns: 4;
-    --padding: 12px;
-    --number-gap: 0.5rem;
-    --horizontal-frame: calc(
-      2 * var(--padding) + env(safe-area-inset-left) +
-        env(safe-area-inset-right)
+    --gutters: calc(var(--columns) - 1);
+    --frame: 12px;
+    --gutter: 0.5rem;
+    --total-frame: calc(
+      2 * var(--frame) + env(safe-area-inset-left) + env(safe-area-inset-right)
     );
-    --number-size: clamp(
+    --total-gutters: var(--gutters) * var(--gutter);
+    --column-size: clamp(
       3rem,
       calc(
-        (
-            100vw - (var(--columns) - 1) * var(--number-gap) -
-              var(--horizontal-frame)
-          ) / var(--columns)
+        (100vw - var(--total-gutters) - var(--total-frame)) / var(--columns)
       ),
       5rem
     );
 
     max-width: calc(
-      6 * var(--number-size) + 5 * var(--number-gap) + var(--horizontal-frame)
+      var(--columns) * var(--column-size) + var(--gutters) * var(--gutter) +
+        var(--total-frame)
     );
-    padding-top: calc(var(--padding) + env(safe-area-inset-top));
-    padding-left: calc(var(--padding) + env(safe-area-inset-left));
-    padding-bottom: calc(var(--padding) + env(safe-area-inset-bottom));
-    padding-right: calc(var(--padding) + env(safe-area-inset-right));
+    padding-top: calc(var(--frame) + env(safe-area-inset-top));
+    padding-left: calc(var(--frame) + env(safe-area-inset-left));
+    padding-bottom: calc(var(--frame) + env(safe-area-inset-bottom));
+    padding-right: calc(var(--frame) + env(safe-area-inset-right));
     margin: 0 auto;
   }
 
   @media (min-width: 360px) {
     .container {
       --columns: 6;
-      --padding: 16px;
+      --frame: 16px;
     }
   }
 
   @media (min-width: 720px) {
     .container {
       --columns: 12;
-      --padding: 24px;
-      --number-gap: 0.5rem;
-
-      max-width: calc(
-        12 * var(--number-size) + 11 * var(--number-gap) + 2 * var(--padding)
-      );
+      --frame: 24px;
+      --gutter: 0.5rem;
     }
   }
 

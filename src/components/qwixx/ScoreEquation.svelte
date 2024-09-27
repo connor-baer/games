@@ -71,7 +71,7 @@
 
   input {
     width: 100%;
-    height: calc(var(--number-size) * 0.75);
+    height: calc(var(--column-size) * 0.75);
     padding: 0 12px;
     border-width: 2px;
     border-style: solid;

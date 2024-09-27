@@ -20,7 +20,7 @@
 </script>
 
 <fieldset>
-  <legend class="hide-visually">Penalities</legend>
+  <legend>Penalities</legend>
   {#each maxPenalties as penalty}
     <input
       id={`penalty-${penalty}`}

@@ -16,7 +16,7 @@
   const penaltyPoints = derived(penalties, (p) => p * PENALTY_POINTS);
 </script>
 
-<div class="wrapper">
+<div class="container">
   {#each colors as config, index (config.label)}
     <Score label={config.label} points={config.points} style={config.style} />
     {#if index + 1 !== colors.length}
@@ -26,14 +26,14 @@
 
   <span class="sign">-</span>
 
-  <div>
+  <div class="penalties">
     <label for="penalties" class="hide-visually">Penalties</label>
     <input id="penalties" type="number" value={$penaltyPoints} readonly />
   </div>
 
   <span class="sign">=</span>
 
-  <div>
+  <div class="total">
     <label for="total" class="hide-visually">Total</label>
     <input
       id="total"
@@ -45,16 +45,28 @@
 </div>
 
 <style>
-  .wrapper {
-    display: grid;
+  .container {
+    display: flex;
     align-items: center;
-    grid-template-columns: 1fr 1rem 1fr 1rem 1fr 1rem 1fr 1rem 1fr 1rem 2fr;
+    flex-wrap: wrap;
     gap: 0.5rem;
     text-align: center;
   }
 
   .sign {
     font-size: 1.5rem;
+    width: 1rem;
+    flex-shrink: 0;
+  }
+
+  .penalties {
+    width: 3rem;
+    flex-grow: 1;
+  }
+
+  .total {
+    width: 3rem;
+    flex-grow: 3;
   }
 
   input {

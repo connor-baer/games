@@ -14,6 +14,11 @@
 </div>
 
 <style>
+  .wrapper {
+    width: 3rem;
+    flex-grow: 1;
+  }
+
   input {
     border: 2px solid hsl(var(--hue) var(--saturation) var(--lightness));
     border-radius: 8px;
@@ -22,5 +27,6 @@
     width: 100%;
     text-align: center;
     height: calc(var(--number-size) * 0.75);
+    min-width: 0;
   }
 </style>

@@ -16,33 +16,36 @@
   const penaltyPoints = derived(penalties, (p) => p * PENALTY_POINTS);
 </script>
 
-<div class="container">
-  {#each colors as config, index (config.label)}
-    <Score label={config.label} points={config.points} style={config.style} />
-    {#if index + 1 !== colors.length}
-      <span class="sign">+</span>
-    {/if}
-  {/each}
+<section>
+  <h2>Totals</h2>
+  <div class="container">
+    {#each colors as config, index (config.label)}
+      <Score label={config.label} points={config.points} style={config.style} />
+      {#if index + 1 !== colors.length}
+        <span class="sign">+</span>
+      {/if}
+    {/each}
 
-  <span class="sign">-</span>
+    <span class="sign">-</span>
 
-  <div class="penalties">
-    <label for="penalties" class="hide-visually">Penalties</label>
-    <input id="penalties" type="number" value={$penaltyPoints} readonly />
+    <div class="penalties">
+      <label for="penalties" class="hide-visually">Penalties</label>
+      <input id="penalties" type="number" value={$penaltyPoints} readonly />
+    </div>
+
+    <span class="sign">=</span>
+
+    <div class="total">
+      <label for="total" class="hide-visually">Total</label>
+      <input
+        id="total"
+        type="number"
+        value={$colorPoints - $penaltyPoints}
+        readonly
+      />
+    </div>
   </div>
-
-  <span class="sign">=</span>
-
-  <div class="total">
-    <label for="total" class="hide-visually">Total</label>
-    <input
-      id="total"
-      type="number"
-      value={$colorPoints - $penaltyPoints}
-      readonly
-    />
-  </div>
-</div>
+</section>
 
 <style>
   .container {

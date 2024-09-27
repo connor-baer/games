@@ -19,29 +19,30 @@
   }
 </script>
 
-<fieldset>
-  <legend class="hide-visually">Penalities</legend>
-  {#each maxPenalties as penalty}
-    <input
-      id={`penalty-${penalty}`}
-      type="checkbox"
-      name="penalty"
-      checked={penalty <= $penalties}
-      disabled={penalty < $penalties || penalty > $penalties + 1}
-      value={penalty}
-      on:input={onInput}
-      class="hide-visually"
-    />
-    <label for={`penalty-${penalty}`}>
-      <span class="hide-visually">{penalty}</span>
-      <Cross class="icon-cross" />
-    </label>
-  {/each}
-</fieldset>
+<section>
+  <h2 id="penalties-heading">Penalities</h2>
+  <div role="group" aria-labelledby="penalties-heading">
+    {#each maxPenalties as penalty}
+      <input
+        id={`penalty-${penalty}`}
+        type="checkbox"
+        name="penalty"
+        checked={penalty <= $penalties}
+        disabled={penalty < $penalties || penalty > $penalties + 1}
+        value={penalty}
+        on:input={onInput}
+        class="hide-visually"
+      />
+      <label for={`penalty-${penalty}`}>
+        <span class="hide-visually">{penalty}</span>
+        <Cross class="icon-cross" />
+      </label>
+    {/each}
+  </div>
+</section>
 
 <style>
-  fieldset {
-    border: none;
+  div[role='group'] {
     display: flex;
     gap: 0.5rem;
     padding: 0;

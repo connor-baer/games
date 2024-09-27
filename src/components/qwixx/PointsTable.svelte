@@ -4,18 +4,21 @@
   const [, ...tmp] = POINTS;
 </script>
 
-<table>
-  <tr>
-    {#each tmp as _, index}
-      <td>{index + 1}x</td>
-    {/each}
-  </tr>
-  <tr>
-    {#each tmp as points}
-      <td>{points}</td>
-    {/each}
-  </tr>
-</table>
+<section>
+  <h2>Points</h2>
+  <table>
+    <tr>
+      {#each tmp as _, index}
+        <td>{index + 1}x</td>
+      {/each}
+    </tr>
+    <tr>
+      {#each tmp as points}
+        <td>{points}</td>
+      {/each}
+    </tr>
+  </table>
+</section>
 
 <style>
   table {
@@ -26,8 +29,9 @@
 
   td {
     width: calc(var(--column-size) * 0.5);
-    height: calc(var(--column-size) * 0.4);
+    height: calc(var(--column-size) * 0.5);
     border: 2px solid var(--color-mg-default);
+    line-height: 1;
   }
 
   tr:first-child td {

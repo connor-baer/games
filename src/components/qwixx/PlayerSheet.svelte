@@ -18,11 +18,15 @@
 </script>
 
 <div class="container">
-  <div class="numbers">
-    {#each colors as config (config.label)}
-      <NumbersInput {config} />
-    {/each}
-  </div>
+  <section>
+    <h2>Numbers</h2>
+
+    <div class="numbers">
+      {#each colors as config (config.label)}
+        <NumbersInput {config} />
+      {/each}
+    </div>
+  </section>
 
   <div class="points-penalties">
     <PenaltiesInput {penalties} />
@@ -47,7 +51,7 @@
       calc(
         (100vw - var(--total-gutters) - var(--total-frame)) / var(--columns)
       ),
-      5rem
+      4rem
     );
 
     max-width: calc(

@@ -1,0 +1,16 @@
+---
+import Layout from './Base.astro';
+
+import './qwixx.css';
+
+export interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <slot />
+</Layout>

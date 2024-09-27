@@ -3,6 +3,8 @@ import { LOGO } from '../lib/wizard/constants';
 
 import Layout from './Base.astro';
 
+import './wizard.css';
+
 export interface Props {
   title: string;
   description: string;
@@ -13,6 +15,14 @@ const { title, description, link } = Astro.props;
 ---
 
 <Layout title={title} description={description}>
+  <link
+    slot="head"
+    rel="preload"
+    as="font"
+    type="font/woff2"
+    href="/fonts/Metamorphous-Regular.woff2"
+    crossorigin
+  />
   <header>
     <a aria-label="Home" class="logo" href="/wizard">
       {LOGO}

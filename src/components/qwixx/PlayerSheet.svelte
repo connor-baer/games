@@ -40,14 +40,14 @@
   .container {
     --columns: 4;
     --gutters: calc(var(--columns) - 1);
-    --frame: 12px;
     --gutter: 0.5rem;
     --total-frame: calc(
-      2 * var(--frame) + env(safe-area-inset-left) + env(safe-area-inset-right)
+      2 * var(--layout-frame) + env(safe-area-inset-left) +
+        env(safe-area-inset-right)
     );
     --total-gutters: var(--gutters) * var(--gutter);
     --column-size: clamp(
-      3rem,
+      2.5rem,
       calc(
         (100vw - var(--total-gutters) - var(--total-frame)) / var(--columns)
       ),
@@ -58,10 +58,10 @@
       var(--columns) * var(--column-size) + var(--gutters) * var(--gutter) +
         var(--total-frame)
     );
-    padding-top: calc(var(--frame) + env(safe-area-inset-top));
-    padding-left: calc(var(--frame) + env(safe-area-inset-left));
-    padding-bottom: calc(var(--frame) + env(safe-area-inset-bottom));
-    padding-right: calc(var(--frame) + env(safe-area-inset-right));
+    padding-top: calc(var(--layout-frame) + env(safe-area-inset-top));
+    padding-left: calc(var(--layout-frame) + env(safe-area-inset-left));
+    padding-bottom: calc(var(--layout-frame) + env(safe-area-inset-bottom));
+    padding-right: calc(var(--layout-frame) + env(safe-area-inset-right));
     margin: 0 auto;
   }
 
@@ -89,8 +89,8 @@
   .points-penalties {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    gap: var(--layout-gutter);
+    margin-top: var(--layout-gutter);
+    margin-bottom: var(--layout-gutter);
   }
 </style>

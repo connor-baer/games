@@ -1,0 +1,6 @@
+h2 {
+  font-size: 1rem;
+  font-weight: var(--font-weight-ui);
+  line-height: var(--line-height-heading);
+  margin-bottom: 0.5rem;
+}

@@ -29,17 +29,17 @@ export function createColorConfig(
             if (number <= Math.max(...prev)) {
               throw new Error('Can only push a larger number');
             }
-            // if (number === 12) {
-            //   isLocked.set(true);
-            // }
+            if (number === 12) {
+              isLocked.set(true);
+            }
             break;
           case Direction.DESCENDING:
             if (number >= Math.min(...prev)) {
               throw new Error('Can only push a smaller number');
             }
-          // if (number === 2) {
-          //   isLocked.set(true);
-          // }
+            if (number === 2) {
+              isLocked.set(true);
+            }
         }
 
         return [...prev, number];

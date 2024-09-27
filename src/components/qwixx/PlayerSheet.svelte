@@ -12,7 +12,7 @@
     createColorConfig('Red', [350, 100, 45], Direction.ASCENDING),
     createColorConfig('Yellow', [40, 100, 55], Direction.ASCENDING),
     createColorConfig('Green', [140, 100, 35], Direction.DESCENDING),
-    createColorConfig('Blue', [215, 100, 45], Direction.DESCENDING),
+    createColorConfig('Blue', [215, 100, 50], Direction.DESCENDING),
   ];
   const penalties = writable(0);
 </script>

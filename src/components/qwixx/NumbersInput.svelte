@@ -102,6 +102,12 @@
     cursor: pointer;
   }
 
+  @media (prefers-color-scheme: dark) {
+    label {
+      color: hsl(var(--hue) var(--saturation) calc(var(--lightness) + 15%));
+    }
+  }
+
   input:disabled + label {
     cursor: not-allowed;
   }

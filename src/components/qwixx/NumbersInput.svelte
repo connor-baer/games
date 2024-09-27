@@ -63,7 +63,6 @@
     type="checkbox"
     name={label}
     bind:checked={$isLocked}
-    disabled={length < 5}
     class="hide-visually lock"
   />
   <label for={`${label}-lock`}>

@@ -123,6 +123,10 @@
     opacity: 0.5;
   }
 
+  input:disabled:not(:checked) + label {
+    opacity: 0.5;
+  }
+
   input:nth-last-of-type(-n + 2):disabled + label {
     opacity: 0.5;
   }

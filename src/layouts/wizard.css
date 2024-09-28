@@ -5,7 +5,7 @@
   src: url('/fonts/Metamorphous-Regular.woff2') format('woff2');
 }
 
-:root {
+body {
   --font-family-display: 'Metamorphous', system-ui, sans-serif;
 }
 

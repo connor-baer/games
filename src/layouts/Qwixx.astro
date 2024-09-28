@@ -1,0 +1,84 @@
+---
+import Layout from './Base.astro';
+
+import './qwixx.css';
+
+export interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <link
+    slot="head"
+    rel="preload"
+    as="font"
+    type="font/woff2"
+    href="/fonts/Lilita-One.woff2"
+    crossorigin
+  />
+
+  <div class="container">
+    <slot />
+    <footer>
+      Not affiliated with Gamewright. Qwixx™ and all other trademarks are
+      property of their respective owners.
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .container {
+    --columns: 4;
+    --gutters: calc(var(--columns) - 1);
+    --gutter: 0.5rem;
+    --total-frame: calc(
+      2 * var(--layout-frame) + env(safe-area-inset-left) +
+        env(safe-area-inset-right)
+    );
+    --total-gutters: var(--gutters) * var(--gutter);
+    --column-size: clamp(
+      2.5rem,
+      calc(
+        (100vw - var(--total-gutters) - var(--total-frame)) / var(--columns)
+      ),
+      4rem
+    );
+
+    max-width: calc(
+      var(--columns) * var(--column-size) + var(--gutters) * var(--gutter) +
+        var(--total-frame)
+    );
+    padding-top: calc(var(--layout-frame) + env(safe-area-inset-top));
+    padding-left: calc(var(--layout-frame) + env(safe-area-inset-left));
+    padding-bottom: calc(var(--layout-frame) + env(safe-area-inset-bottom));
+    padding-right: calc(var(--layout-frame) + env(safe-area-inset-right));
+    margin: 0 auto;
+  }
+
+  @media (min-width: 360px) {
+    .container {
+      --columns: 6;
+      --frame: 16px;
+    }
+  }
+
+  @media (min-width: 720px) {
+    .container {
+      --columns: 12;
+      --frame: 24px;
+      --gutter: 0.5rem;
+    }
+  }
+
+  footer {
+    color: var(--color-fg-subtle);
+    text-align: center;
+    padding-top: var(--layout-gutter);
+    font-size: 0.875rem;
+    line-height: 1.2;
+  }
+</style>

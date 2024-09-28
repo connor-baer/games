@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { isNumber } from '../utils/type';
+  import { isNumber } from '../../utils/type';
   import {
     isArrowDown,
     isArrowLeft,
     isArrowRight,
     isArrowUp,
-  } from '../utils/keyboard';
-  import { createArray } from '../utils/array';
-  import { calculateScoreDelta } from '../utils/game';
-  import type { Score } from '../types';
+  } from '../../utils/keyboard';
+  import { createArray } from '../../utils/array';
+  import { calculateScoreDelta } from '../../lib/wizard/game';
+  import type { Score } from '../../lib/wizard/types';
 
   export let name: 'bids' | 'tricks';
   export let round: number;

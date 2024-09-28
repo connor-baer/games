@@ -1,11 +1,7 @@
-import type { Score } from '../types';
-import {
-  NUMBER_OF_CARDS,
-  POINTS_CORRECT,
-  POINTS_PER_TRICK,
-} from '../constants';
+import { isNumber } from '../../utils/type';
 
-import { isNumber } from './type';
+import type { Score } from './types';
+import { NUMBER_OF_CARDS, POINTS_CORRECT, POINTS_PER_TRICK } from './constants';
 
 export function calculateScoreDelta(score: Score | null | undefined) {
   if (!score || !isNumber(score.bid) || !isNumber(score.tricks)) {

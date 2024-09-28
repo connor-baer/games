@@ -1,4 +1,4 @@
-import { LOCALE } from '../constants';
+import { LOCALE } from '../lib/wizard/constants';
 
 export function capitalize(word: string): string {
   return word.charAt(0).toUpperCase() + word.slice(1);

@@ -1,8 +1,8 @@
 ---
 import type { Game } from 'astro:db';
 
-import { getPlayers } from '../db';
-import { formatDate } from '../utils/date';
+import { getPlayers } from '../../lib/wizard/db';
+import { formatDate } from '../../utils/date';
 
 export type Props = typeof Game.$inferSelect;
 
@@ -18,11 +18,11 @@ const players = await getPlayers(id);
   </div>
   {
     endedAt ? (
-      <a class="button" href={`/game/${id}/scores`}>
+      <a class="button" href={`/wizard/${id}/scores`}>
         View
       </a>
     ) : (
-      <a class="button primary" href={`/game/${id}`}>
+      <a class="button primary" href={`/wizard/${id}`}>
         Resume
       </a>
     )

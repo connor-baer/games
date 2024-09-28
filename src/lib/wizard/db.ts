@@ -1,8 +1,9 @@
 import { and, db, eq, Game, Player, PlayerInGame, Scores } from 'astro:db';
 
+import { createArray, shiftArray } from '../../utils/array';
+
 import { NUMBER_OF_CARDS } from './constants';
-import { createArray, shiftArray } from './utils/array';
-import { calculateScoreDelta } from './utils/game';
+import { calculateScoreDelta } from './game';
 import type { GameId } from './types';
 
 export function getGames(leagueId: string | undefined) {

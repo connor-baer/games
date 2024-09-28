@@ -3,8 +3,8 @@
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
 
-  import { isNumber } from '../utils/type';
-  import type { Score } from '../types';
+  import { isNumber } from '../../utils/type';
+  import type { Score } from '../../lib/wizard/types';
 
   import ScoreInput from './ScoreInput.svelte';
 
@@ -54,7 +54,7 @@
       <a
         class="button"
         aria-label="Back"
-        href={`/game/${gameId}/round/${round}/bids`}
+        href={`/wizard/${gameId}/round/${round}/bids`}
       >
         ←
       </a>

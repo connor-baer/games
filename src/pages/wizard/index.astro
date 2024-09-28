@@ -1,0 +1,89 @@
+---
+import Layout from '../../layouts/Wizard.astro';
+import GameCard from '../../components/wizard/GameCard.astro';
+import { getGames } from '../../lib/wizard/db';
+import {
+  LEAGUE_COOKIE,
+  MAX_PLAYERS,
+  MIN_PLAYERS,
+} from '../../lib/wizard/constants';
+
+const title = 'Wizard Scorekeeper';
+const description =
+  'Keep track of the scores in the trick-taking card game Wizard for three to six players';
+
+const games = await getGames(Astro.cookies.get(LEAGUE_COOKIE)?.value);
+const hasActiveGame = games.some((game) => !game.endedAt);
+---
+
+<Layout title={title} description={description}>
+  <h2>About</h2>
+  <p>
+    <a href="https://en.wikipedia.org/wiki/Wizard_(card_game)" target="_blank"
+      >Wizard</a
+    > is a trick-taking card game for {MIN_PLAYERS} to {MAX_PLAYERS} players designed
+    by Ken Fisher of Toronto, Ontario in 1984.
+  </p>
+  <p>
+    The objective of the game is to bid correctly on the number of tricks that a
+    player will take in the subsequent round of play. Points are awarded for a
+    correct bid and subtracted for an incorrect bid. The player with the most
+    points after all rounds have been played is the winner.
+  </p>
+  <p>
+    This digital scorekeeper mimics the traditional scorecards, adding
+    validation and automatic point calculation.
+  </p>
+  <div class="buttons">
+    <a
+      class="button"
+      class:list={{ primary: !hasActiveGame }}
+      href="/wizard/new"
+    >
+      New game
+    </a>
+  </div>
+
+  {
+    games.length > 0 && (
+      <>
+        <h2 class="games-title">Games</h2>
+        <ul class="games">
+          {games.map((game) => (
+            <li>
+              <GameCard {...game} />
+            </li>
+          ))}
+        </ul>
+      </>
+    )
+  }
+</Layout>
+
+<style>
+  h2,
+  p {
+    margin-bottom: 0.75rem;
+  }
+
+  p a {
+    font-family: var(--font-family-display);
+    font-size: 0.9em;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .games-title {
+    margin-top: 3rem;
+  }
+
+  .games {
+    list-style: none;
+    margin-top: 1rem;
+    padding: 0;
+  }
+</style>

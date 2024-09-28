@@ -1,4 +1,4 @@
-import { derived, get, writable } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
 
 import { Direction, type ColorConfig, type HSLColor } from './types';
 import { POINTS } from './constants';
@@ -9,17 +9,30 @@ export function createColorConfig(
   direction: Direction,
 ): ColorConfig {
   const numbers = writable<number[]>([]);
-  const points = derived(numbers, (n) => POINTS[n.length] || 0);
+  const points = derived(numbers, (n) => {
+    let crosses = n.length;
+
+    // eslint-disable-next-line default-case
+    switch (direction) {
+      case Direction.ASCENDING:
+        if (n.includes(12)) {
+          crosses += 1;
+        }
+        break;
+      case Direction.DESCENDING:
+        if (n.includes(2)) {
+          crosses += 1;
+        }
+    }
+
+    return POINTS[crosses] || 0;
+  });
   const isLocked = writable(false);
 
   const [hue, saturation, lightness] = color;
   const style = `--hue: ${hue}; --saturation: ${saturation}%; --lightness: ${lightness}%;`;
 
   const toggleNumber = (number: number) => {
-    if (get(isLocked)) {
-      throw new Error(`The ${label} color is locked`);
-    }
-
     numbers.update((prev) => {
       // Push
       if (!prev.includes(number)) {
@@ -52,10 +65,16 @@ export function createColorConfig(
           if (number !== Math.max(...prev)) {
             throw new Error('Can only pop the largest number');
           }
+          if (number === 12) {
+            isLocked.set(false);
+          }
           break;
         case Direction.DESCENDING:
           if (number !== Math.min(...prev)) {
             throw new Error('Can only pop the smallest number');
+          }
+          if (number === 2) {
+            isLocked.set(false);
           }
       }
 

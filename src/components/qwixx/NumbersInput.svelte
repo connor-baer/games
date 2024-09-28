@@ -17,15 +17,13 @@
         return NUMBERS + 1 - index;
     }
   });
+  const lastNumber = numberRange[numberRange.length - 1] as number;
 
   $: min = Math.min(...$numbers);
   $: max = Math.max(...$numbers);
   $: length = $numbers.length;
 
   $: isDisabled = (number: number) => {
-    if ($isLocked) {
-      return true;
-    }
     switch (direction) {
       case Direction.ASCENDING:
         return number === 12 ? length < 5 : number < max;
@@ -62,7 +60,10 @@
     id={`${label}-lock`}
     type="checkbox"
     name={label}
-    bind:checked={$isLocked}
+    checked={$numbers.includes(lastNumber)}
+    disabled={isDisabled(lastNumber)}
+    value={lastNumber}
+    on:input={onInput}
     class="hide-visually lock"
   />
   <label for={`${label}-lock`}>
@@ -89,7 +90,6 @@
     border: 3px solid hsl(var(--hue) var(--saturation) var(--lightness));
     font-family: var(--font-family-display);
     font-size: 1.5rem;
-    font-weight: var(--font-weight-ui-bold);
     text-align: center;
     color: hsl(var(--hue) var(--saturation) calc(var(--lightness) - 15%));
     background-color: hsl(

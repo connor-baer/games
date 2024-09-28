@@ -25,7 +25,10 @@
 </script>
 
 <header>
-  <h1><span aria-hidden>🎲</span> Qwixx</h1>
+  <div class="brand">
+    <a href="/" aria-label="All games" class="logo">🎲</a>
+    <h1>Qwixx™</h1>
+  </div>
   <button on:click={reset} class="button">Reset</button>
 </header>
 
@@ -56,9 +59,27 @@
     margin-bottom: var(--layout-gutter);
   }
 
-  h1 {
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     font-family: var(--font-family-display);
-    font-size: 2rem;
+    font-size: 2.25rem;
+    line-height: var(--line-height-heading);
+  }
+
+  h1 {
+    font-size: inherit;
+  }
+
+  .logo {
+    text-decoration: none;
+    transition: transform var(--transition-micro);
+  }
+
+  .logo:hover,
+  .logo:focus {
+    transform: scale(1.1);
   }
 
   .numbers {

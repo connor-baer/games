@@ -17,4 +17,9 @@ h2 {
   line-height: var(--line-height-heading);
   margin-bottom: 0.5rem;
   text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+
+.button {
+  font-weight: var(--font-weight-ui-bold);
 }

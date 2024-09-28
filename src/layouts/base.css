@@ -11,7 +11,7 @@
   --color-bg-subtle: hsl(0, 0%, 92%);
   --color-bg-elevated: var(--color-bg-default);
   --color-bg-primary: var(--bgColor, #8e4491);
-  --color-mg-default: hsl(0, 0%, 80%);
+  --color-mg-default: hsl(0, 0%, 75%);
 
   /* Shadows */
   /* type-role(-level) */

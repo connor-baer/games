@@ -12,6 +12,15 @@ const { title, description } = Astro.props;
 ---
 
 <Layout title={title} description={description}>
+  <link
+    slot="head"
+    rel="preload"
+    as="font"
+    type="font/woff2"
+    href="/fonts/Lilita-One.woff2"
+    crossorigin
+  />
+
   <div class="container">
     <slot />
     <footer>

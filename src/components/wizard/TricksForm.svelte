@@ -54,7 +54,7 @@
       <a
         class="button"
         aria-label="Back"
-        href={`/game/${gameId}/round/${round}/bids`}
+        href={`/wizard/${gameId}/round/${round}/bids`}
       >
         ←
       </a>

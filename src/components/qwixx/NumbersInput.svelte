@@ -87,6 +87,7 @@
     height: var(--column-size);
     border-radius: 8px;
     border: 3px solid hsl(var(--hue) var(--saturation) var(--lightness));
+    font-family: var(--font-family-display);
     font-size: 1.5rem;
     font-weight: var(--font-weight-ui-bold);
     text-align: center;

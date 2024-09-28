@@ -1,8 +1,28 @@
 ---
 import Layout from '../layouts/Base.astro';
+
+import WizardLogo from 'src/components/wizard/WizardLogo.astro';
+import QwixxLogo from 'src/components/qwixx/QwixxLogo.astro';
 ---
 
 <Layout title="Games" description="TODO:">
-  <a href="/wizard">Wizard</a>
-  <a href="/qwixx">Qwixx</a>
+  <ul>
+    <li>
+      <a href="/wizard" aria-label="Wizard"><WizardLogo /></a>
+    </li>
+    <li>
+      <a href="/qwixx" aria-label="Qwixx"><QwixxLogo /></a>
+    </li>
+  </ul>
 </Layout>
+
+<style>
+  ul {
+    list-style-type: none;
+    display: grid;
+    place-content: center;
+    gap: var(--layout-gutter);
+    min-height: 66vh;
+    padding: var(--layout-frame);
+  }
+</style>

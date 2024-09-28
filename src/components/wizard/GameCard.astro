@@ -18,11 +18,11 @@ const players = await getPlayers(id);
   </div>
   {
     endedAt ? (
-      <a class="button" href={`/game/${id}/scores`}>
+      <a class="button" href={`/wizard/${id}/scores`}>
         View
       </a>
     ) : (
-      <a class="button primary" href={`/game/${id}`}>
+      <a class="button primary" href={`/wizard/${id}`}>
         Resume
       </a>
     )

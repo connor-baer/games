@@ -11,9 +11,12 @@
 
   const colorPoints = derived(
     colors.map((color) => color.points),
-    (s) => s.reduce((acc, points) => acc + points, 0),
+    ($points) => $points.reduce((acc, points) => acc + points, 0),
   );
-  const penaltyPoints = derived(penalties, (p) => p * PENALTY_POINTS);
+  const penaltyPoints = derived(
+    penalties,
+    ($penalties) => $penalties * PENALTY_POINTS,
+  );
 </script>
 
 <section>

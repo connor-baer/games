@@ -1,9 +1,9 @@
 {
-  "name": "Games",
-  "short_name": "Games",
+  "name": "Wizard",
+  "short_name": "Wizard",
   "icons": [
     {
-      "src": "/icons/android-chrome-144x144.png",
+      "src": "/icons/wizard/android-chrome-144x144.png",
       "sizes": "144x144",
       "type": "image/png"
     }

@@ -9,18 +9,18 @@ export function createColorConfig(
   direction: Direction,
 ): ColorConfig {
   const numbers = writable<number[]>([]);
-  const points = derived(numbers, (n) => {
-    let crosses = n.length;
+  const points = derived(numbers, ($numbers) => {
+    let crosses = $numbers.length;
 
     // eslint-disable-next-line default-case
     switch (direction) {
       case Direction.ASCENDING:
-        if (n.includes(12)) {
+        if ($numbers.includes(12)) {
           crosses += 1;
         }
         break;
       case Direction.DESCENDING:
-        if (n.includes(2)) {
+        if ($numbers.includes(2)) {
           crosses += 1;
         }
     }

@@ -2,8 +2,8 @@
 
 A collection of score sheets for tabletop games.
 
-- 🧙🏻 Wizard
-- 🎲 Qwixx
+- 🔮 [Wizard](https://games.connorbaer.com/wizard): a trick-taking card game for 3-6 players
+- 🎲 [Qwixx™](https://games.connorbaer.com/qwixx): a quick-playing dice game for 2-5 players
 
 ## 🚀 Project Structure
 

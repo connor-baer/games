@@ -32,6 +32,7 @@
     height: calc(var(--column-size) * 0.5);
     border: 2px solid var(--color-mg-default);
     line-height: 1;
+    letter-spacing: -0.66px;
   }
 
   tr:first-child td {

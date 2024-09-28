@@ -54,7 +54,8 @@
     width: var(--column-size);
     height: var(--column-size);
     border-radius: 8px;
-    border: 3px solid var(--color-mg-default);
+    border: 3px solid var(--color-fg-subtle);
+    background: var(--color-bg-subtle);
     font-size: 1.5rem;
     font-weight: var(--font-weight-ui-bold);
     text-align: center;

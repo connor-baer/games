@@ -84,7 +84,7 @@
   }
 
   input#penalties {
-    border-color: var(--color-mg-default);
+    border-color: var(--color-fg-subtle);
   }
 
   input#total {

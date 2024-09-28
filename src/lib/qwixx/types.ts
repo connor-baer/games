@@ -15,4 +15,5 @@ export type ColorConfig = {
   points: Readable<number>;
   isLocked: Writable<boolean>;
   style: string;
+  reset: () => void;
 };

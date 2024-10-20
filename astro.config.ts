@@ -15,9 +15,6 @@ export default defineConfig({
   security: {
     checkOrigin: true,
   },
-  experimental: {
-    actions: true,
-  },
   site: 'https://games.connorbaer.com',
   prefetch: {
     prefetchAll: true,

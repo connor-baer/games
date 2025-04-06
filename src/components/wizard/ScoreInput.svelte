@@ -10,15 +10,19 @@
   import { calculateScoreDelta } from '../../lib/wizard/game';
   import type { Score } from '../../lib/wizard/types';
 
-  export let name: 'bids' | 'tricks';
-  export let round: number;
-  export let player: {
-    id: string;
-    name: string;
-    score: Score;
-  };
+  interface Props {
+    name: 'bids' | 'tricks';
+    round: number;
+    player: {
+      id: string;
+      name: string;
+      score: Score;
+    };
+  }
 
-  $: delta = calculateScoreDelta(player.score);
+  const { name, round, player = $bindable() }: Props = $props();
+
+  const delta = $derived(calculateScoreDelta(player.score));
 
   let timeoutId: ReturnType<typeof setTimeout>;
   let previousKeys = '';
@@ -101,17 +105,17 @@
   aria-valuemin={min}
   aria-valuemax={max}
   aria-valuenow={player.score[key]}
-  on:keydown={handleKeyDown}
+  onkeydown={handleKeyDown}
 >
   {#each createArray(round + 1) as _, option}
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
       class="option"
       data-value={option}
       data-active={option === player.score[key]}
       data-predicted={option === player.score.bid}
-      on:click={handleSelect}
+      onclick={handleSelect}
     >
       {option}
     </div>

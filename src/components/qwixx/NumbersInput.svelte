@@ -5,7 +5,11 @@
   import Lock from './Lock.svelte';
   import LockOpen from './LockOpen.svelte';
 
-  export let config: ColorConfig;
+  interface Props {
+    config: ColorConfig;
+  }
+
+  const { config }: Props = $props();
 
   const { label, direction, numbers, toggleNumber, isLocked, style } = config;
 
@@ -19,18 +23,18 @@
   });
   const lastNumber = numberRange[numberRange.length - 1] as number;
 
-  $: min = Math.min(...$numbers);
-  $: max = Math.max(...$numbers);
-  $: length = $numbers.length;
+  const min = $derived(Math.min(...$numbers));
+  const max = $derived(Math.max(...$numbers));
+  const length = $derived($numbers.length);
 
-  $: isDisabled = (number: number) => {
+  const isDisabled = $derived((number: number) => {
     switch (direction) {
       case Direction.ASCENDING:
         return number === 12 ? length < 5 : number < max;
       case Direction.DESCENDING:
         return number === 2 ? length < 5 : number > min;
     }
-  };
+  });
 
   function onInput(
     event: Event & { currentTarget: EventTarget & HTMLInputElement },
@@ -51,7 +55,7 @@
       checked={$numbers.includes(number)}
       disabled={isDisabled(number)}
       value={number}
-      on:input={onInput}
+      oninput={onInput}
       class="hide-visually"
     />
     <label for={`${label}-${number}`}>{number}</label>
@@ -63,7 +67,7 @@
     checked={$numbers.includes(lastNumber)}
     disabled={isDisabled(lastNumber)}
     value={lastNumber}
-    on:input={onInput}
+    oninput={onInput}
     class="hide-visually lock"
   />
   <label for={`${label}-lock`}>

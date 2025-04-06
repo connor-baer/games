@@ -6,8 +6,12 @@
 
   import Score from './Score.svelte';
 
-  export let colors: ColorConfig[];
-  export let penalties: Readable<number>;
+  interface Props {
+    colors: ColorConfig[];
+    penalties: Readable<number>;
+  }
+
+  const { colors, penalties }: Props = $props();
 
   const colorPoints = derived(
     colors.map((color) => color.points),

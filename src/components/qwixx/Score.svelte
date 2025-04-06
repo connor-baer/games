@@ -1,9 +1,13 @@
 <script lang="ts">
   import type { ColorConfig } from '../../lib/qwixx/types';
 
-  export let label: ColorConfig['label'];
-  export let points: ColorConfig['points'];
-  export let style: ColorConfig['style'];
+  interface Props {
+    label: ColorConfig['label'];
+    points: ColorConfig['points'];
+    style: ColorConfig['style'];
+  }
+
+  const { label, points, style }: Props = $props();
 </script>
 
 <div {style} class="wrapper">

@@ -1,4 +1,3 @@
-import { derived } from 'svelte/store';
 import { persisted } from 'svelte-persisted-store';
 
 import { Direction, type ColorConfig, type HSLColor } from './types';
@@ -10,7 +9,7 @@ export function createColorConfig(
   direction: Direction,
 ): ColorConfig {
   const numbers = persisted<number[]>(`qwixx-numbers-${label}`, []);
-  const points = derived(numbers, ($numbers) => {
+  const points = $derived(($numbers) => {
     let crosses = $numbers.length;
 
     // eslint-disable-next-line default-case

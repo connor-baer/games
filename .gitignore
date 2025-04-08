@@ -6,6 +6,7 @@ src/content/.obsidian/workspace.json
 
 # build output
 dist/
+dev-dist/
 .output/
 .vercel/
 .astro/

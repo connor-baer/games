@@ -27,7 +27,6 @@ export default defineConfig({
     AstroPWA({
       base: '/',
       scope: '/',
-      includeAssets: ['favicon.svg'],
       workbox: {
         navigateFallback: '/',
         globPatterns: ['**/*.{css,js,html,svg,png,ico,txt}'],

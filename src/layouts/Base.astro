@@ -1,5 +1,6 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
+import ReloadPrompt from '../components/ReloadPrompt.svelte';
 
 import './base.css';
 
@@ -60,5 +61,6 @@ const { title = 'Games', description, faviconDir = 'dice' } = Astro.props;
     <div id="root">
       <slot />
     </div>
+    <ReloadPrompt client:only="svelte" />
   </body>
 </html>

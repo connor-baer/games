@@ -1,11 +1,9 @@
 # project
-src/content/.obsidian/plugins/**/main.js
-src/content/.obsidian/plugins/**/styles.css
-src/content/.obsidian/plugins/**/manifest.json
-src/content/.obsidian/workspace.json
+.env
 
 # build output
 dist/
+dev-dist/
 .output/
 .vercel/
 .astro/

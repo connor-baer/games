@@ -6,6 +6,8 @@
   /* type-layer-role(-state) */
   --color-fg-default: hsl(0, 0%, 4%);
   --color-fg-subtle: hsl(0, 0%, 42%);
+  --color-fg-success: hsl(140, 90%, 20%);
+  --color-fg-danger: hsl(350, 100%, 30%);
   --color-fg-primary: var(--fgColor, #fff);
   --color-bg-default: hsl(0, 0%, 100%);
   --color-bg-subtle: hsl(0, 0%, 92%);
@@ -26,6 +28,7 @@
   --font-weight-ui-bold: bold;
   --font-family-code: Menlo, Monaco, Lucida Console, Liberation Mono,
     DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+  --font-size-ui: 1rem;
   --font-size-prose: 1.125rem;
   --line-height-prose: 1.8;
   --line-height-heading: 1.25;
@@ -69,6 +72,8 @@
     /* type-layer-role(-state) */
     --color-fg-default: hsl(0, 0%, 96%);
     --color-fg-subtle: hsl(0, 0%, 75%);
+     --color-fg-success: hsl(140, 90%, 50%);
+    --color-fg-danger: hsl(350, 100%, 60%);
     --color-bg-default: hsl(0, 0%, 5%);
     --color-bg-subtle: hsl(0, 0%, 25%);
     --color-bg-elevated: hsl(0, 0%, 15%);
@@ -278,10 +283,12 @@ p {
   border: none;
   text-decoration: none;
   padding: 8px 12px;
+  font-family: var(--font-family-ui);
+  font-weight: var(--font-weight-ui-bold);
+  font-size: var(--font-size-ui);
 }
 
 .button.primary {
   background-color: var(--color-bg-primary);
   color: var(--color-fg-primary);
-  font-weight: var(--font-weight-ui-bold);
 }

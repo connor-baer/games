@@ -130,7 +130,7 @@
   }
 
   .positive {
-    color: green;
+    color: var(--color-fg-success);
   }
 
   .positive::before {
@@ -138,7 +138,7 @@
   }
 
   .negative {
-    color: red;
+    color: var(--color-fg-danger);
   }
 
   .input {
@@ -177,22 +177,22 @@
     border-radius: 100%;
     color: var(--color-fg-default);
     background-color: var(--color-bg-subtle);
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     margin: 0.25rem;
     cursor: pointer;
   }
 
   .option:hover {
-    border: 1px solid var(--color-fg-subtle);
+    border: 2px solid var(--color-fg-subtle);
   }
 
   .option[data-predicted='true'] {
-    border: 1px solid var(--color-bg-primary);
+    border: 2px solid var(--color-bg-primary);
   }
 
   .option[data-active='true'] {
     background-color: var(--color-bg-primary);
-    border: 1px solid var(--color-fg-primary);
+    border: 2px solid var(--color-fg-primary);
     color: var(--color-fg-primary);
     font-weight: var(--font-weight-ui-bold);
   }

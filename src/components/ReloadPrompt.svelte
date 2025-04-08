@@ -35,7 +35,7 @@
 <div class="toasts" aria-live="polite" aria-atomic="false" role="status">
   {#if $offlineReady}
     <div class="toast" transition:fly={{ y: 200 }}>
-      <p class="message">Ready to work offline</p>
+      <p class="message">Ready to use offline</p>
       <button class="button" on:click={closeOffline}>Okay</button>
     </div>
   {/if}
@@ -69,7 +69,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    border: 2px solid var(--color-mg-default);
+    border: 2px solid var(--color-fg-success);
     border-radius: 8px;
     text-align: left;
     background-color: var(--color-bg-elevated);

@@ -52,6 +52,17 @@ const { title = 'Games', description, faviconDir = 'dice' } = Astro.props;
       name="msapplication-config"
       content={`/icons/${faviconDir}/browserconfig.xml`}
     />
+    <meta
+      name="theme-color"
+      content="#fff"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#0d0d0d"
+      media="(prefers-color-scheme: dark)"
+    />
+
     <script is:inline data-astro-rerun>
       document.documentElement.classList.remove('no-js');
     </script>

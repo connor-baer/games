@@ -20,7 +20,7 @@
 </script>
 
 <section>
-  <h2 id="penalties-heading">Penalities</h2>
+  <h2 id="penalties-heading">Penalties</h2>
   <div role="group" aria-labelledby="penalties-heading">
     {#each maxPenalties as penalty}
       <input

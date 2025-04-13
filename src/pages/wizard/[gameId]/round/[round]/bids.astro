@@ -29,6 +29,10 @@ if (!game) {
 
 const result = Astro.getActionResult(actions.updateBids);
 
+if (result?.error) {
+  console.error(result.error);
+}
+
 if (result && !result.error) {
   return Astro.redirect(`/wizard/${gameId}/round/${round}/tricks`);
 }

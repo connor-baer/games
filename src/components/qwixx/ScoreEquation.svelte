@@ -6,8 +6,12 @@
 
   import Score from './Score.svelte';
 
-  export let colors: ColorConfig[];
-  export let penalties: Readable<number>;
+  interface Props {
+    colors: ColorConfig[];
+    penalties: Readable<number>;
+  }
+
+  const { colors, penalties }: Props = $props();
 
   const colorPoints = derived(
     colors.map((color) => color.points),
@@ -92,5 +96,10 @@
 
   input#total {
     border-color: var(--color-fg-default);
+  }
+
+  input:focus {
+    border-width: 3px;
+    outline: none;
   }
 </style>

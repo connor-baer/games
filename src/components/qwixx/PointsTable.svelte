@@ -7,16 +7,20 @@
 <section>
   <h2>Points</h2>
   <table>
-    <tr>
-      {#each tmp as _, index}
-        <td>{index + 1}x</td>
-      {/each}
-    </tr>
-    <tr>
-      {#each tmp as points}
-        <td>{points}</td>
-      {/each}
-    </tr>
+    <thead>
+      <tr>
+        {#each tmp as _, index}
+          <td>{index + 1}x</td>
+        {/each}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        {#each tmp as points}
+          <td>{points}</td>
+        {/each}
+      </tr>
+    </tbody>
   </table>
 </section>
 
@@ -35,13 +39,13 @@
     letter-spacing: -0.66px;
   }
 
-  tr:first-child td {
+  thead td {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border-bottom-width: 1px;
   }
 
-  tr:last-child td {
+  tbody td {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     border-top-width: 1px;

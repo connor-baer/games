@@ -1,9 +1,13 @@
 <script lang="ts">
   import type { ColorConfig } from '../../lib/qwixx/types';
 
-  export let label: ColorConfig['label'];
-  export let points: ColorConfig['points'];
-  export let style: ColorConfig['style'];
+  interface Props {
+    label: ColorConfig['label'];
+    points: ColorConfig['points'];
+    style: ColorConfig['style'];
+  }
+
+  const { label, points, style }: Props = $props();
 </script>
 
 <div {style} class="wrapper">
@@ -28,5 +32,10 @@
     text-align: center;
     height: calc(var(--column-size) * 0.75);
     min-width: 0;
+  }
+
+  input:focus {
+    border-width: 3px;
+    outline: none;
   }
 </style>

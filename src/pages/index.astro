@@ -1,8 +1,8 @@
 ---
 import Layout from '../layouts/Base.astro';
 
-import WizardLogo from 'src/components/wizard/WizardLogo.astro';
-import QwixxLogo from 'src/components/qwixx/QwixxLogo.astro';
+import WizardLogo from 'src/components/wizard/WizardLogo.svg';
+import QwixxLogo from 'src/components/qwixx/QwixxLogo.svg';
 
 export const prerender = true;
 ---
@@ -29,5 +29,16 @@ export const prerender = true;
     gap: var(--layout-gutter);
     min-height: 66vh;
     padding: var(--layout-frame);
+  }
+
+  a {
+    display: block;
+    border-radius: 4px;
+    line-height: 1;
+  }
+
+  a:focus-visible {
+    outline: 2px solid var(--color-fg-subtle);
+    outline-offset: 3px;
   }
 </style>

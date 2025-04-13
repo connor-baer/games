@@ -6,7 +6,11 @@
 
   import Cross from './Cross.svelte';
 
-  export let penalties: Writable<number>;
+  interface Props {
+    penalties: Writable<number>;
+  }
+
+  const { penalties }: Props = $props();
 
   const maxPenalties = createArray(PENALTIES).map((_, index) => index + 1);
 
@@ -28,9 +32,9 @@
         type="checkbox"
         name="penalty"
         checked={penalty <= $penalties}
-        disabled={penalty < $penalties || penalty > $penalties + 1}
+        readonly={penalty < $penalties || penalty > $penalties + 1}
         value={penalty}
-        on:input={onInput}
+        oninput={onInput}
         class="hide-visually"
       />
       <label for={`penalty-${penalty}`}>
@@ -67,7 +71,7 @@
     padding: 2px;
   }
 
-  input:disabled + label {
+  input:read-only + label {
     cursor: not-allowed;
   }
 
@@ -79,5 +83,10 @@
 
   input:checked + label :global(.icon-cross) {
     opacity: 1;
+  }
+
+  input:focus-visible + label {
+    outline: 2px solid var(--color-fg-subtle);
+    outline-offset: 3px;
   }
 </style>

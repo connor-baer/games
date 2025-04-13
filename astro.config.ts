@@ -11,8 +11,10 @@ export default defineConfig({
   output: 'server',
   adapter: vercel({
     imageService: true,
-    functionPerRoute: false,
   }),
+  experimental: {
+    svg: true,
+  },
   security: {
     checkOrigin: true,
   },

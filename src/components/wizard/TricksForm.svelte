@@ -8,12 +8,16 @@
 
   import ScoreInput from './ScoreInput.svelte';
 
-  export let gameId: string;
-  export let round: number;
-  export let players: { id: string; name: string }[];
-  export let scores: Score[] | null;
+  interface Props {
+    gameId: string;
+    round: number;
+    players: { id: string; name: string }[];
+    scores: Score[] | null;
+  }
 
-  let mounted = false;
+  const { gameId, round, players, scores }: Props = $props();
+
+  let mounted = $state(false);
 
   onMount(() => {
     mounted = true;
@@ -29,18 +33,22 @@
     }),
   );
 
-  $: total = $store?.reduce((acc, { score }) => acc + (score.tricks || 0), 0);
-  $: allTricks = $store.every(({ score }) => isNumber(score.tricks));
-  $: valid = !mounted || (allTricks && total === round);
+  const total = $derived(
+    $store?.reduce((acc, { score }) => acc + (score.tricks || 0), 0),
+  );
+  const allTricks = $derived(
+    $store.every(({ score }) => isNumber(score.tricks)),
+  );
+  const valid = $derived(!mounted || (allTricks && total === round));
 </script>
 
 <form method="POST" action={actions.updateTricks}>
   <input type="hidden" name="gameId" value={gameId} />
   <input type="hidden" name="round" value={round} />
   <ol>
-    {#each $store as player (player.id)}
+    {#each $store as player, index (player.id)}
       <li>
-        <ScoreInput name="tricks" {round} bind:player />
+        <ScoreInput name="tricks" {round} bind:player={$store[index]} />
       </li>
     {/each}
   </ol>

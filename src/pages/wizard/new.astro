@@ -11,6 +11,10 @@ const description = 'Start a new game of Wizard, the trick-taking card game';
 
 const result = Astro.getActionResult(actions.newGame);
 
+if (result?.error) {
+  console.error(result.error);
+}
+
 if (result?.data) {
   return Astro.redirect(`/wizard/${result.data.gameId}`);
 }

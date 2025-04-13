@@ -33,6 +33,10 @@ const maxRounds = getMaxRounds(players.length);
 
 const result = Astro.getActionResult(actions.updateTricks);
 
+if (result?.error) {
+  console.error(result.error);
+}
+
 if (result && !result.error) {
   if (round === maxRounds || round > maxRounds) {
     return Astro.redirect(`/wizard/${gameId}/scores`);

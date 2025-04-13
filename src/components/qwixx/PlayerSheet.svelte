@@ -2,7 +2,7 @@
   import { persisted } from 'svelte-persisted-store';
 
   import { Direction } from '../../lib/qwixx/types.ts';
-  import { createColorConfig } from '../../lib/qwixx/game.ts';
+  import { createColorConfig } from '../../lib/qwixx/game.svelte.ts';
   import NumbersInput from './NumbersInput.svelte';
   import PointsTable from './PointsTable.svelte';
   import PenaltiesInput from './PenaltiesInput.svelte';
@@ -18,9 +18,9 @@
 
   function reset() {
     penalties.reset();
-    colors.forEach((color) => {
+    for (const color of colors) {
       color.reset();
-    });
+    }
   }
 </script>
 
@@ -29,7 +29,7 @@
     <a href="/" aria-label="All games" class="logo">🎲</a>
     <h1>Qwixx™</h1>
   </div>
-  <button on:click={reset} class="button">Reset</button>
+  <button onclick={reset} class="button">Reset</button>
 </header>
 
 <section>
@@ -74,12 +74,19 @@
 
   .logo {
     text-decoration: none;
+    line-height: 1;
     transition: transform var(--transition-micro);
+    border-radius: 4px;
   }
 
   .logo:hover,
   .logo:focus {
     transform: scale(1.1);
+  }
+
+  .logo:focus-visible {
+    outline: 2px solid var(--color-fg-subtle);
+    outline-offset: 3px;
   }
 
   .numbers {

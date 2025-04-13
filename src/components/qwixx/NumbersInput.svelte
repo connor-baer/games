@@ -5,7 +5,11 @@
   import Lock from './Lock.svelte';
   import LockOpen from './LockOpen.svelte';
 
-  export let config: ColorConfig;
+  interface Props {
+    config: ColorConfig;
+  }
+
+  const { config }: Props = $props();
 
   const { label, direction, numbers, toggleNumber, isLocked, style } = config;
 
@@ -19,25 +23,31 @@
   });
   const lastNumber = numberRange[numberRange.length - 1] as number;
 
-  $: min = Math.min(...$numbers);
-  $: max = Math.max(...$numbers);
-  $: length = $numbers.length;
+  const min = $derived(Math.min(...$numbers));
+  const max = $derived(Math.max(...$numbers));
+  const length = $derived($numbers.length);
 
-  $: isDisabled = (number: number) => {
+  const isDisabled = $derived((number: number) => {
     switch (direction) {
       case Direction.ASCENDING:
         return number === 12 ? length < 5 : number < max;
       case Direction.DESCENDING:
         return number === 2 ? length < 5 : number > min;
     }
-  };
+  });
 
-  function onInput(
+  function onClick(
     event: Event & { currentTarget: EventTarget & HTMLInputElement },
   ) {
-    const { value } = event.currentTarget;
+    const { value, ariaDisabled } = event.currentTarget;
+    if (ariaDisabled === 'true') {
+      event.preventDefault();
+      return;
+    }
     const number = Number.parseInt(value, 10);
     toggleNumber(number);
+    // HACK: This somehow ensures that toggleNumber is defined.
+    Boolean(isLocked);
   }
 </script>
 
@@ -49,9 +59,9 @@
       type="checkbox"
       name={label}
       checked={$numbers.includes(number)}
-      disabled={isDisabled(number)}
+      aria-disabled={isDisabled(number)}
       value={number}
-      on:input={onInput}
+      onclick={onClick}
       class="hide-visually"
     />
     <label for={`${label}-${number}`}>{number}</label>
@@ -61,9 +71,9 @@
     type="checkbox"
     name={label}
     checked={$numbers.includes(lastNumber)}
-    disabled={isDisabled(lastNumber)}
+    aria-disabled={isDisabled(lastNumber)}
     value={lastNumber}
-    on:input={onInput}
+    onclick={onClick}
     class="hide-visually lock"
   />
   <label for={`${label}-lock`}>
@@ -109,7 +119,7 @@
     }
   }
 
-  input:disabled + label {
+  input[aria-disabled='true'] + label {
     cursor: not-allowed;
   }
 
@@ -119,15 +129,20 @@
     font-weight: var(--font-weight-ui-bold);
   }
 
+  input:focus-visible + label {
+    outline: 2px solid hsl(var(--hue) var(--saturation) var(--lightness));
+    outline-offset: 3px;
+  }
+
   .locked label {
     opacity: 0.5;
   }
 
-  input:disabled:not(:checked) + label {
+  input[aria-disabled='true']:not(:checked) + label {
     opacity: 0.5;
   }
 
-  input:nth-last-of-type(-n + 2):disabled + label {
+  input:nth-last-of-type(-n + 2)[aria-disabled='true'] + label {
     opacity: 0.5;
   }
 

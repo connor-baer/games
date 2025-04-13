@@ -13,7 +13,7 @@ export type ColorConfig = {
   numbers: Writable<number[]>;
   toggleNumber: (number: number) => void;
   points: Readable<number>;
-  isLocked: Writable<boolean>;
+  isLocked: Readable<boolean>;
   style: string;
   reset: () => void;
 };

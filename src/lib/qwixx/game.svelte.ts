@@ -13,22 +13,24 @@ export function createColorConfig(
   const points = derived(numbers, ($numbers) => {
     let crosses = $numbers.length;
 
-    // eslint-disable-next-line default-case
-    switch (direction) {
-      case Direction.ASCENDING:
-        if ($numbers.includes(12)) {
-          crosses += 1;
-        }
-        break;
-      case Direction.DESCENDING:
-        if ($numbers.includes(2)) {
-          crosses += 1;
-        }
+    if (
+      (direction === Direction.ASCENDING && $numbers.includes(12)) ||
+      (direction === Direction.DESCENDING && $numbers.includes(2))
+    ) {
+      crosses += 1;
     }
 
     return POINTS[crosses] || 0;
   });
-  const isLocked = persisted(`qwixx-locked-${label}`, false);
+  const isLocked = derived(numbers, ($numbers) => {
+    if (direction === Direction.ASCENDING) {
+      return $numbers.includes(12);
+    }
+    if (direction === Direction.DESCENDING) {
+      return $numbers.includes(2);
+    }
+    return false;
+  });
 
   const [hue, saturation, lightness] = color;
   const style = `--hue: ${hue}; --saturation: ${saturation}%; --lightness: ${lightness}%;`;
@@ -43,16 +45,10 @@ export function createColorConfig(
             if (number <= Math.max(...prev)) {
               throw new Error('Can only push a larger number');
             }
-            if (number === 12) {
-              isLocked.set(true);
-            }
             break;
           case Direction.DESCENDING:
             if (number >= Math.min(...prev)) {
               throw new Error('Can only push a smaller number');
-            }
-            if (number === 2) {
-              isLocked.set(true);
             }
         }
 
@@ -66,16 +62,10 @@ export function createColorConfig(
           if (number !== Math.max(...prev)) {
             throw new Error('Can only pop the largest number');
           }
-          if (number === 12) {
-            isLocked.set(false);
-          }
           break;
         case Direction.DESCENDING:
           if (number !== Math.min(...prev)) {
             throw new Error('Can only pop the smallest number');
-          }
-          if (number === 2) {
-            isLocked.set(false);
           }
       }
 

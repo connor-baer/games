@@ -2,16 +2,19 @@
   import { Direction, type ColorConfig } from '../../lib/qwixx/types';
   import { createArray } from '../../utils/array';
   import { NUMBERS } from '../../lib/qwixx/constants';
+  import { isColorLocked } from '../../lib/qwixx/game';
   import Lock from './Lock.svelte';
   import LockOpen from './LockOpen.svelte';
 
   interface Props {
-    config: ColorConfig;
+    color: ColorConfig;
+    numbers: number[];
+    toggleNumber: (color: ColorConfig, number: number) => void;
   }
 
-  const { config }: Props = $props();
+  const { color, numbers, toggleNumber }: Props = $props();
 
-  const { label, direction, numbers, toggleNumber, isLocked, style } = config;
+  const { key, name, direction, style } = color;
 
   const numberRange = createArray(NUMBERS).map((_, index) => {
     switch (direction) {
@@ -23,9 +26,11 @@
   });
   const lastNumber = numberRange[numberRange.length - 1] as number;
 
-  const min = $derived(Math.min(...$numbers));
-  const max = $derived(Math.max(...$numbers));
-  const length = $derived($numbers.length);
+  const min = $derived(Math.min(...numbers));
+  const max = $derived(Math.max(...numbers));
+  const length = $derived(numbers.length);
+
+  const isLocked = isColorLocked(numbers, color);
 
   const isDisabled = $derived((number: number) => {
     switch (direction) {
@@ -36,47 +41,45 @@
     }
   });
 
-  function onClick(
-    event: Event & { currentTarget: EventTarget & HTMLInputElement },
-  ) {
-    const { value, ariaDisabled } = event.currentTarget;
-    if (ariaDisabled === 'true') {
-      event.preventDefault();
-      return;
-    }
-    const number = Number.parseInt(value, 10);
-    toggleNumber(number);
-    // HACK: This somehow ensures that toggleNumber is defined.
-    Boolean(isLocked);
-  }
+  const onClick = $derived(
+    (event: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
+      const { value, ariaDisabled } = event.currentTarget;
+      if (ariaDisabled === 'true') {
+        event.preventDefault();
+        return;
+      }
+      const number = Number.parseInt(value, 10);
+      toggleNumber(color, number);
+    },
+  );
 </script>
 
-<fieldset {style} class:locked={$isLocked}>
-  <legend class="hide-visually">{label}</legend>
+<fieldset {style} class:locked={isLocked}>
+  <legend class="hide-visually">{name}</legend>
   {#each numberRange as number}
     <input
-      id={`${label}-${number}`}
+      id={`${key}-${number}`}
       type="checkbox"
-      name={label}
-      checked={$numbers.includes(number)}
+      name={key}
+      checked={numbers.includes(number)}
       aria-disabled={isDisabled(number)}
       value={number}
       onclick={onClick}
       class="hide-visually"
     />
-    <label for={`${label}-${number}`}>{number}</label>
+    <label for={`${key}-${number}`}>{number}</label>
   {/each}
   <input
-    id={`${label}-lock`}
+    id={`${key}-lock`}
     type="checkbox"
-    name={label}
-    checked={$numbers.includes(lastNumber)}
+    name={key}
+    checked={numbers.includes(lastNumber)}
     aria-disabled={isDisabled(lastNumber)}
     value={lastNumber}
     onclick={onClick}
     class="hide-visually lock"
   />
-  <label for={`${label}-lock`}>
+  <label for={`${key}-lock`}>
     <Lock class="icon-lock" />
     <LockOpen class="icon-lock-open" />
   </label>

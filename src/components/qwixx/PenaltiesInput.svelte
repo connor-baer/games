@@ -1,25 +1,28 @@
 <script lang="ts">
-  import type { Writable } from 'svelte/store';
-
   import { createArray } from '../../utils/array';
   import { PENALTIES } from '../../lib/qwixx/constants';
 
   import Cross from './Cross.svelte';
 
   interface Props {
-    penalties: Writable<number>;
+    penalties: number;
+    togglePenalty: (penalty: number) => void;
   }
 
-  const { penalties }: Props = $props();
+  const { penalties, togglePenalty }: Props = $props();
 
   const maxPenalties = createArray(PENALTIES).map((_, index) => index + 1);
 
-  function onInput(
+  function onClick(
     event: Event & { currentTarget: EventTarget & HTMLInputElement },
   ) {
-    const { value } = event.currentTarget;
+    const { value, ariaDisabled } = event.currentTarget;
+    if (ariaDisabled === 'true') {
+      event.preventDefault();
+      return;
+    }
     const penalty = Number.parseInt(value, 10);
-    penalties.update((prev) => (penalty === prev ? penalty - 1 : penalty));
+    togglePenalty(penalty);
   }
 </script>
 
@@ -31,10 +34,10 @@
         id={`penalty-${penalty}`}
         type="checkbox"
         name="penalty"
-        checked={penalty <= $penalties}
-        readonly={penalty < $penalties || penalty > $penalties + 1}
+        checked={penalty <= penalties}
+        aria-disabled={penalty < penalties || penalty > penalties + 1}
         value={penalty}
-        oninput={onInput}
+        onclick={onClick}
         class="hide-visually"
       />
       <label for={`penalty-${penalty}`}>
@@ -71,7 +74,7 @@
     padding: 2px;
   }
 
-  input:read-only + label {
+  input[aria-disabled='true'] + label {
     cursor: not-allowed;
   }
 

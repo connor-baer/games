@@ -10,7 +10,7 @@
   --color-fg-danger: hsl(350, 100%, 30%);
   --color-fg-primary: var(--fgColor, #fff);
   --color-bg-default: hsl(0, 0%, 100%);
-  --color-bg-subtle: hsl(0, 0%, 92%);
+  --color-bg-subtle: hsl(0, 0%, 90%);
   --color-bg-elevated: var(--color-bg-default);
   --color-bg-primary: var(--bgColor, #8e4491);
   --color-mg-default: hsl(0, 0%, 75%);
@@ -75,7 +75,7 @@
      --color-fg-success: hsl(140, 90%, 50%);
     --color-fg-danger: hsl(350, 100%, 60%);
     --color-bg-default: hsl(0, 0%, 5%);
-    --color-bg-subtle: hsl(0, 0%, 25%);
+    --color-bg-subtle: hsl(0, 0%, 20%);
     --color-bg-elevated: hsl(0, 0%, 15%);
     --color-mg-default: hsl(0, 0%, 40%);
   }

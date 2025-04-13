@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import ReloadPrompt from '../components/ReloadPrompt.svelte';
 
 import './base.css';
@@ -66,7 +66,7 @@ const { title = 'Games', description, faviconDir = 'dice' } = Astro.props;
     <script is:inline data-astro-rerun>
       document.documentElement.classList.remove('no-js');
     </script>
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body>
     <div id="root">

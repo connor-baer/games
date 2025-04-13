@@ -1,27 +1,56 @@
 <script lang="ts">
   import { persisted } from 'svelte-persisted-store';
 
-  import { Direction } from '../../lib/qwixx/types.ts';
-  import { createColorConfig } from '../../lib/qwixx/game.svelte.ts';
+  import type { ColorConfig, GameState } from '../../lib/qwixx/types.ts';
+  import { stack, getPoints } from '../../lib/qwixx/game.ts';
+  import { COLORS } from '../../lib/qwixx/constants.ts';
   import NumbersInput from './NumbersInput.svelte';
   import PointsTable from './PointsTable.svelte';
   import PenaltiesInput from './PenaltiesInput.svelte';
   import ScoreEquation from './ScoreEquation.svelte';
 
-  const colors = [
-    createColorConfig('Red', [350, 100, 45], Direction.ASCENDING),
-    createColorConfig('Yellow', [40, 100, 55], Direction.ASCENDING),
-    createColorConfig('Green', [140, 90, 35], Direction.DESCENDING),
-    createColorConfig('Blue', [215, 100, 50], Direction.DESCENDING),
-  ];
-  const penalties = persisted('qwixx-penalties', 0);
+  const initialState: GameState = {
+    red: [],
+    yellow: [],
+    green: [],
+    blue: [],
+    penalties: 0,
+  };
+
+  const game = stack(persisted('qwixx-state', initialState));
+  const { undo, redo, canUndo, canRedo } = game;
 
   function reset() {
-    penalties.reset();
-    for (const color of colors) {
-      color.reset();
-    }
+    game.set(initialState);
   }
+
+  function toggleNumber(color: ColorConfig, number: number) {
+    const { key } = color;
+    game.update((state) => {
+      const numbers = state[key];
+      if (numbers.includes(number)) {
+        return {
+          ...state,
+          [key]: numbers.filter((n) => n !== number),
+        };
+      }
+      return {
+        ...state,
+        [key]: [...numbers, number],
+      };
+    });
+  }
+
+  function togglePenalty(penalty: number) {
+    game.update((state) => {
+      return {
+        ...state,
+        penalties: penalty === state.penalties ? penalty - 1 : penalty,
+      };
+    });
+  }
+
+  const points = getPoints(game);
 </script>
 
 <header>
@@ -29,26 +58,30 @@
     <a href="/" aria-label="All games" class="logo">🎲</a>
     <h1>Qwixx™</h1>
   </div>
-  <button onclick={reset} class="button">Reset</button>
+  <div class="controls">
+    <button onclick={undo} disabled={!$canUndo} class="button">Undo</button>
+    <button onclick={redo} disabled={!$canRedo} class="button">Redo</button>
+    <button onclick={reset} class="button">Reset</button>
+  </div>
 </header>
 
 <section>
   <h2>Numbers</h2>
 
   <div class="numbers">
-    {#each colors as config (config.label)}
-      <NumbersInput {config} />
+    {#each COLORS as color (color.key)}
+      <NumbersInput {color} numbers={$game[color.key]} {toggleNumber} />
     {/each}
   </div>
 </section>
 
 <div class="points-penalties">
-  <PenaltiesInput {penalties} />
+  <PenaltiesInput penalties={$game.penalties} {togglePenalty} />
   <PointsTable />
 </div>
 
 <div class="score">
-  <ScoreEquation {colors} {penalties} />
+  <ScoreEquation points={$points} />
 </div>
 
 <style>
@@ -57,6 +90,8 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: var(--layout-gutter);
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 
   .brand {
@@ -66,6 +101,12 @@
     font-family: var(--font-family-display);
     font-size: 2.25rem;
     line-height: var(--line-height-heading);
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   h1 {

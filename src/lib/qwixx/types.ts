@@ -1,19 +1,30 @@
-import type { Readable, Writable } from 'svelte/store';
-
 export enum Direction {
   ASCENDING = 0,
   DESCENDING = 1,
 }
 
-export type HSLColor = [number, number, number, number?];
+export type Color = 'red' | 'yellow' | 'green' | 'blue';
 
 export type ColorConfig = {
-  label: string;
-  direction: Direction;
-  numbers: Writable<number[]>;
-  toggleNumber: (number: number) => void;
-  points: Readable<number>;
-  isLocked: Readable<boolean>;
+  key: Color;
+  name: string;
   style: string;
-  reset: () => void;
+  direction: Direction;
+};
+
+export type GameState = {
+  red: number[];
+  yellow: number[];
+  green: number[];
+  blue: number[];
+  penalties: number;
+};
+
+export type Points = {
+  red: number;
+  yellow: number;
+  green: number;
+  blue: number;
+  penalties: number;
+  total: number;
 };

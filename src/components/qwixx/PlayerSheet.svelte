@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { persisted } from 'svelte-persisted-store';
 
   import type { ColorConfig, GameState } from '../../lib/qwixx/types.ts';
@@ -51,6 +52,25 @@
   }
 
   const points = getPoints(game);
+
+  onMount(() => {
+    const handleKeydown = (event: KeyboardEvent) => {
+      if (event.metaKey && event.key === 'z') {
+        event.preventDefault();
+        undo();
+      }
+      if (event.metaKey && event.key === 'y') {
+        event.preventDefault();
+        redo();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeydown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+    };
+  });
 </script>
 
 <header>

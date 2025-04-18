@@ -1,4 +1,5 @@
 ---
+import { t } from '../utils/i18n';
 import Layout from './Base.astro';
 
 import './qwixx.css';
@@ -24,8 +25,7 @@ const { title, description } = Astro.props;
   <div class="container">
     <slot />
     <footer>
-      Not affiliated with Gamewright®. Qwixx™ and all other trademarks are
-      property of their respective owners.
+      {t.qwixx.disclaimer}
     </footer>
   </div>
 </Layout>

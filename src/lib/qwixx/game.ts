@@ -1,101 +1,97 @@
-import { derived } from 'svelte/store';
-import { persisted } from 'svelte-persisted-store';
+import {
+  derived,
+  get,
+  writable,
+  type Readable,
+  type Writable,
+} from 'svelte/store';
 
-import { Direction, type ColorConfig, type HSLColor } from './types';
-import { POINTS } from './constants';
+import { Direction, type ColorConfig, type GameState } from './types';
+import { RED, YELLOW, GREEN, BLUE, PENALTY_POINTS, POINTS } from './constants';
 
-export function createColorConfig(
-  label: string,
-  color: HSLColor,
-  direction: Direction,
-): ColorConfig {
-  const numbers = persisted<number[]>(`qwixx-numbers-${label}`, []);
-  const points = derived(numbers, ($numbers) => {
-    let crosses = $numbers.length;
+export function stack<Value, Store extends Writable<Value>>(store: Store) {
+  const history = writable<Value[]>([get(store)]);
+  const position = writable(0);
 
-    // eslint-disable-next-line default-case
-    switch (direction) {
-      case Direction.ASCENDING:
-        if ($numbers.includes(12)) {
-          crosses += 1;
-        }
-        break;
-      case Direction.DESCENDING:
-        if ($numbers.includes(2)) {
-          crosses += 1;
-        }
-    }
-
-    return POINTS[crosses] || 0;
+  const canUndo = derived([history, position], ([$history, $position]) => {
+    return Boolean($history[$position - 1]);
   });
-  const isLocked = persisted(`qwixx-locked-${label}`, false);
 
-  const [hue, saturation, lightness] = color;
-  const style = `--hue: ${hue}; --saturation: ${saturation}%; --lightness: ${lightness}%;`;
+  const canRedo = derived([history, position], ([$history, $position]) => {
+    return $position < $history.length - 1;
+  });
 
-  const toggleNumber = (number: number) => {
-    numbers.update((prev) => {
-      // Push
-      if (!prev.includes(number)) {
-        // eslint-disable-next-line default-case
-        switch (direction) {
-          case Direction.ASCENDING:
-            if (number <= Math.max(...prev)) {
-              throw new Error('Can only push a larger number');
-            }
-            if (number === 12) {
-              isLocked.set(true);
-            }
-            break;
-          case Direction.DESCENDING:
-            if (number >= Math.min(...prev)) {
-              throw new Error('Can only push a smaller number');
-            }
-            if (number === 2) {
-              isLocked.set(true);
-            }
-        }
-
-        return [...prev, number];
-      }
-
-      // Pop
-      // eslint-disable-next-line default-case
-      switch (direction) {
-        case Direction.ASCENDING:
-          if (number !== Math.max(...prev)) {
-            throw new Error('Can only pop the largest number');
+  const update = (updater: (value: Value) => Value) => {
+    store.update((value) => {
+      const nextValue = updater(value);
+      position.update((prevPosition) => {
+        history.update((prevHistory) => {
+          if (prevPosition < prevHistory.length - 1) {
+            return [...prevHistory.slice(0, prevPosition + 1), nextValue];
           }
-          if (number === 12) {
-            isLocked.set(false);
-          }
-          break;
-        case Direction.DESCENDING:
-          if (number !== Math.min(...prev)) {
-            throw new Error('Can only pop the smallest number');
-          }
-          if (number === 2) {
-            isLocked.set(false);
-          }
-      }
-
-      return prev.filter((n) => n !== number);
+          return [...prevHistory, nextValue];
+        });
+        return prevPosition + 1;
+      });
+      return nextValue;
     });
   };
 
-  const reset = () => {
-    numbers.reset();
-    isLocked.reset();
+  const set = (nextValue: Value) => {
+    update(() => nextValue);
   };
 
-  return {
-    label,
-    direction,
-    numbers,
-    toggleNumber,
-    points,
-    isLocked,
-    style,
-    reset,
+  const undo = () => {
+    const prevValue = get(history)[get(position) - 1];
+    if (prevValue) {
+      store.set(prevValue);
+      position.update((prev) => prev - 1);
+    }
   };
+
+  const redo = () => {
+    const nextValue = get(history)[get(position) + 1];
+    if (nextValue) {
+      store.set(nextValue);
+      position.update((prev) => prev + 1);
+    }
+  };
+
+  return { ...store, update, set, undo, redo, canUndo, canRedo };
+}
+
+export function getPoints(state: Readable<GameState>) {
+  return derived(state, ($state) => {
+    const red = getColorPoints($state, RED);
+    const yellow = getColorPoints($state, YELLOW);
+    const green = getColorPoints($state, GREEN);
+    const blue = getColorPoints($state, BLUE);
+    const penalties = getPenaltyPoints($state);
+    const total = red + yellow + green + blue + penalties;
+
+    return { red, yellow, green, blue, penalties, total };
+  });
+}
+
+export function isColorLocked(numbers: number[], color: ColorConfig) {
+  const { direction } = color;
+  return (
+    (direction === Direction.ASCENDING && numbers.includes(12)) ||
+    (direction === Direction.DESCENDING && numbers.includes(2))
+  );
+}
+
+function getColorPoints(state: GameState, color: ColorConfig) {
+  const numbers = state[color.key];
+  let crosses = numbers.length;
+
+  if (isColorLocked(numbers, color)) {
+    crosses += 1;
+  }
+
+  return POINTS[crosses] || 0;
+}
+
+function getPenaltyPoints(state: GameState) {
+  return state.penalties * PENALTY_POINTS;
 }

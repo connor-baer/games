@@ -1,0 +1,19 @@
+---
+import Layout from '../../layouts/Wizard.astro';
+import BidsForm from '../../components/wizard/BidsForm.svelte';
+
+const title = 'Bids';
+const description =
+  'Each player predicts how many tricks they will take this round.';
+---
+
+<Layout
+  title={title}
+  description={description}
+  link={{ label: 'Scores', href: '/wizard/scores' }}
+>
+  <h2>{title}</h2>
+  <p>{description}</p>
+
+  <BidsForm client:load />
+</Layout>

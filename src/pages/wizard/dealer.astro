@@ -1,0 +1,15 @@
+---
+import Layout from '../../layouts/Wizard.astro';
+import DealerForm from '../../components/wizard/DealerForm.svelte';
+
+const title = 'Dealer';
+const description = 'TODO:';
+---
+
+<Layout
+  title={title}
+  description={description}
+  link={{ label: 'Scores', href: '/wizard/scores' }}
+>
+  <DealerForm client:load />
+</Layout>

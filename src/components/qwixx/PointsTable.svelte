@@ -1,22 +1,27 @@
 <script lang="ts">
+  import { t } from '../../utils/i18n';
   import { POINTS } from '../../lib/qwixx/constants';
 
-  const [, ...tmp] = POINTS;
+  const [, ...points] = POINTS;
 </script>
 
 <section>
-  <h2>Points</h2>
+  <h2>{t.qwixx.points}</h2>
   <table>
-    <tr>
-      {#each tmp as _, index}
-        <td>{index + 1}x</td>
-      {/each}
-    </tr>
-    <tr>
-      {#each tmp as points}
-        <td>{points}</td>
-      {/each}
-    </tr>
+    <thead>
+      <tr>
+        {#each points as _, index}
+          <td>{index + 1}x</td>
+        {/each}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        {#each points as value}
+          <td>{value}</td>
+        {/each}
+      </tr>
+    </tbody>
   </table>
 </section>
 
@@ -35,13 +40,13 @@
     letter-spacing: -0.66px;
   }
 
-  tr:first-child td {
+  thead td {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border-bottom-width: 1px;
   }
 
-  tr:last-child td {
+  tbody td {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     border-top-width: 1px;

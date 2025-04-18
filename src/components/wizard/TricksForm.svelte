@@ -1,63 +1,99 @@
 <script lang="ts">
-  import { actions } from 'astro:actions';
   import { onMount } from 'svelte';
-  import { writable } from 'svelte/store';
+  import { derived, writable } from 'svelte/store';
 
+  import { createId } from '../../utils/id';
   import { isNumber } from '../../utils/type';
-  import type { Score } from '../../lib/wizard/types';
+  import {
+    getCurrentGame,
+    getCurrentPlayers,
+    getScores,
+  } from '../../lib/wizard/stores';
 
   import ScoreInput from './ScoreInput.svelte';
+  import Placeholder from './Placeholder.svelte';
 
-  export let gameId: string;
-  export let round: number;
-  export let players: { id: string; name: string }[];
-  export let scores: Score[] | null;
-
-  let mounted = false;
+  const game = getCurrentGame();
+  const players = getCurrentPlayers($game);
+  const scores = getScores();
 
   onMount(() => {
-    mounted = true;
+    if (!$game) {
+      window.location.assign('/wizard/new');
+    }
   });
 
-  const store = writable(
-    players.map((player) => {
-      const score = scores?.find((score) => score.playerId === player.id) || {
-        bid: null,
-        tricks: null,
-      };
-      return { ...player, score };
+  const inputs = writable(
+    $players.map((player) => {
+      const score = $scores.find(
+        (score) =>
+          score.gameId === $game?.id &&
+          score.round === $game?.round &&
+          score.playerId === player.id,
+      ) || { bid: undefined, tricks: undefined };
+      return { player, score };
     }),
   );
 
-  $: total = $store?.reduce((acc, { score }) => acc + (score.tricks || 0), 0);
-  $: allTricks = $store.every(({ score }) => isNumber(score.tricks));
-  $: valid = !mounted || (allTricks && total === round);
+  const total = derived(inputs, ($store) =>
+    $store.reduce((acc, { score }) => acc + (score.tricks || 0), 0),
+  );
+  const valid = derived(
+    [game, inputs, total],
+    ([$game, $inputs, $total]) =>
+      $inputs.every(({ score }) => isNumber(score.tricks)) &&
+      $total === $game?.round,
+  );
+
+  function handleSubmit(event: SubmitEvent) {
+    event.preventDefault();
+    if (!$game) {
+      throw new Error('No active game');
+    }
+    scores.insert(
+      $inputs.map(({ score, player }) => ({
+        id: createId(),
+        gameId: $game.id,
+        round: $game.round,
+        playerId: player.id,
+        bid: score.bid,
+        tricks: score.tricks,
+      })),
+    );
+    game.update((prev) => {
+      if (!prev) {
+        throw new Error('No active game');
+      }
+      return { ...prev, round: prev.round + 1 };
+    });
+    window.location.assign('/wizard/dealer');
+  }
 </script>
 
-<form method="POST" action={actions.updateTricks}>
-  <input type="hidden" name="gameId" value={gameId} />
-  <input type="hidden" name="round" value={round} />
+<form onsubmit={handleSubmit}>
   <ol>
-    {#each $store as player (player.id)}
+    {#each $inputs as field, index (field.player.id)}
       <li>
-        <ScoreInput name="tricks" {round} bind:player />
+        <ScoreInput
+          name="tricks"
+          round={$game?.round}
+          player={$inputs[index]!.player}
+          bind:score={$inputs[index]!.score}
+        />
       </li>
     {/each}
   </ol>
 
   <div class="footer">
-    <div class="total"><strong>Total:</strong> {total}/{round}</div>
+    <div class="total">
+      <strong>Total:</strong>
+      {$total}/<Placeholder value={$game?.round} placeholder={0} />
+    </div>
     <div class="buttons">
-      <button class="button primary" type="submit" disabled={!valid}>
+      <button class="button primary" type="submit" disabled={!$valid}>
         Save tricks
       </button>
-      <a
-        class="button"
-        aria-label="Back"
-        href={`/wizard/${gameId}/round/${round}/bids`}
-      >
-        ←
-      </a>
+      <a class="button" aria-label="Back" href="/wizard/bids"> ← </a>
     </div>
   </div>
 </form>
@@ -67,9 +103,5 @@
     display: flex;
     gap: 0.5rem;
     flex-direction: row-reverse;
-  }
-
-  :global(.no-js) .total {
-    display: none;
   }
 </style>

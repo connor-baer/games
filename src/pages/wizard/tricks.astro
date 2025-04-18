@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Wizard.astro';
+import Header from '../../components/wizard/Header.svelte';
 import TricksForm from '../../components/wizard/TricksForm.svelte';
 
 const title = 'Tricks';
@@ -11,8 +12,7 @@ const description = 'Count how many tricks each player managed to take.';
   description={description}
   link={{ label: 'Scores', href: '/wizard/scores' }}
 >
-  <h2>{title}</h2>
-  <p>{description}</p>
+  <Header title={title} description={description} />
 
   <TricksForm client:load />
 </Layout>

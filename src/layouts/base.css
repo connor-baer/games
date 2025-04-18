@@ -30,7 +30,7 @@
     DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
   --font-size-ui: 1rem;
   --font-size-prose: 1.125rem;
-  --line-height-prose: 1.8;
+  --line-height-prose: 1.5;
   --line-height-heading: 1.25;
 
   /* Transitions */
@@ -261,10 +261,8 @@ li + li {
   margin-top: 1rem;
 }
 
-h2 {
-  font-family: var(--font-family-display);
-}
-
+h1,
+h2,
 h3 {
   font-family: var(--font-family-display);
 }

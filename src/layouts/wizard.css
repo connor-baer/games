@@ -9,11 +9,6 @@ body {
   --font-family-display: 'Metamorphous', system-ui, sans-serif;
 }
 
-h1 {
-  font-size: 2rem;
-  line-height: var(--line-height-heading);
-}
-
 .footer {
   position: sticky;
   bottom: 0;

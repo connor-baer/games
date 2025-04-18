@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Wizard.astro';
+import Header from '../../components/wizard/Header.svelte';
 import NewGameForm from '../../components/wizard/NewGameForm.svelte';
 import { MAX_PLAYERS, MIN_PLAYERS } from '../../lib/wizard/constants';
 
@@ -8,17 +9,10 @@ const description = 'Start a new game of Wizard, the trick-taking card game';
 ---
 
 <Layout title={title} description={description}>
-  <h2>Players</h2>
-  <p>
-    Add {MIN_PLAYERS} to {MAX_PLAYERS} players in the order they are sitting. The
-    first player deals first.
-  </p>
+  <Header
+    title="Players"
+    description={`Add ${MIN_PLAYERS} to ${MAX_PLAYERS} players in the order they are sitting. The first player deals first.`}
+  />
 
   <NewGameForm client:load />
 </Layout>
-
-<style>
-  p {
-    margin-bottom: var(--layout-gutter);
-  }
-</style>

@@ -2,13 +2,14 @@
   import { getCurrentGame, getDealer } from '../../lib/wizard/stores';
   import { pluralize } from '../../utils/format';
 
+  import Header from './Header.svelte';
   import Placeholder from './Placeholder.svelte';
 
   const game = getCurrentGame();
   const dealer = getDealer($game);
 </script>
 
-<h1>Dealer</h1>
+<Header title="Dealer" />
 
 <p>
   <Placeholder value={$dealer?.name} placeholder="Name" />
@@ -21,12 +22,6 @@
 </div>
 
 <style>
-  p {
-    font-size: var(--font-size-prose);
-    line-height: var(--line-height-prose);
-    margin-bottom: var(--layout-gutter);
-  }
-
   .footer {
     margin-top: 1rem;
     justify-content: flex-start;

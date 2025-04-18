@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Wizard.astro';
 import { MAX_PLAYERS, MIN_PLAYERS } from '../../lib/wizard/constants';
+import Header from '../../components/wizard/Header.svelte';
 
 const title = 'Wizard Scorekeeper';
 const description =
@@ -8,7 +9,7 @@ const description =
 ---
 
 <Layout title={title} description={description}>
-  <h2>About</h2>
+  <Header title="About" />
   <p>
     <a href="https://en.wikipedia.org/wiki/Wizard_(card_game)" target="_blank"
       >Wizard</a
@@ -31,9 +32,13 @@ const description =
 </Layout>
 
 <style>
-  h2,
   p {
     margin-bottom: 0.75rem;
+  }
+
+  p {
+    font-size: var(--font-size-prose);
+    line-height: var(--line-height-prose);
   }
 
   p a {

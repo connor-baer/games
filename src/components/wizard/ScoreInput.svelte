@@ -150,8 +150,13 @@
 
   .slider {
     display: inline-block;
-    border-radius: 1rem;
+    border-radius: 99999px;
   }
+
+  .slider:focus {
+    outline: 2px solid var(--color-fg-subtle);
+  }
+
   .option {
     display: inline-grid;
     place-content: center;

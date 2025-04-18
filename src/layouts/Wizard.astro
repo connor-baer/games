@@ -24,10 +24,10 @@ const { title, description, link } = Astro.props;
     crossorigin
   />
   <header>
-    <a aria-label="Home" class="logo" href="/wizard">
-      {LOGO}
-    </a>
-    <h1 class="title">{title}</h1>
+    <div class="brand">
+      <a href="/" aria-label="All games" class="logo">{LOGO}</a>
+      <h2>Wizard</h2>
+    </div>
     {
       link && (
         <a class="link" href={link.href}>
@@ -44,7 +44,6 @@ const { title, description, link } = Astro.props;
 
 <style>
   header {
-    position: relative;
     max-width: var(--layout-max-width-prose);
     margin: 0 auto;
     padding: var(--layout-gutter) var(--layout-frame);
@@ -53,15 +52,20 @@ const { title, description, link } = Astro.props;
     justify-content: space-between;
   }
 
-  a {
-    padding: 0.25rem;
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-family-display);
+    font-size: 2rem;
+    line-height: var(--line-height-heading);
   }
 
   .logo {
-    font-size: 2rem;
     line-height: 1;
     transition: transform var(--transition-micro);
     text-decoration: none;
+    border-radius: 4px;
   }
 
   .logo:hover,
@@ -69,13 +73,8 @@ const { title, description, link } = Astro.props;
     transform: scale(1.1);
   }
 
-  .title {
-    position: absolute;
-    bottom: 50%;
-    right: 50%;
-    transform: translate(50%, 50%);
-    font-size: 1.25rem;
-    font-family: var(--font-family-display);
+  h2 {
+    font-size: 1.33rem;
   }
 
   .link {

@@ -12,3 +12,7 @@ export function inDaysFromNow(days: number) {
   const today = new Date();
   return new Date(today.getTime() + days * 24 * 60 * 60 * 1000);
 }
+
+export function createTimestamp() {
+  return new Date().toISOString();
+}

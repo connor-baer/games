@@ -9,7 +9,7 @@ body {
   --font-family-display: 'Metamorphous', system-ui, sans-serif;
 }
 
-h2 {
+h1 {
   font-size: 2rem;
   line-height: var(--line-height-heading);
 }

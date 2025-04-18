@@ -9,20 +9,18 @@
   import { createArray } from '../../utils/array';
   import { calculateScoreDelta } from '../../lib/wizard/game';
   import type { Score } from '../../lib/wizard/types';
+  import type { Player } from '../../lib/wizard/stores';
 
   interface Props {
     name: 'bids' | 'tricks';
-    round: number;
-    player: {
-      id: string;
-      name: string;
-      score: Score;
-    };
+    round?: number;
+    player: Player;
+    score: Score;
   }
 
-  const { name, round, player = $bindable() }: Props = $props();
+  const { name, round = 0, player, score = $bindable() }: Props = $props();
 
-  const delta = $derived(calculateScoreDelta(player.score));
+  const delta = $derived(calculateScoreDelta(score));
 
   let timeoutId: ReturnType<typeof setTimeout>;
   let previousKeys = '';
@@ -36,22 +34,18 @@
   function handleKeyDown(event: KeyboardEvent) {
     if (isArrowUp(event) || isArrowRight(event)) {
       event.preventDefault();
-      player.score[key] = isNumber(player.score[key])
-        ? Math.min(max, player.score[key] + 1)
-        : 0;
+      score[key] = isNumber(score[key]) ? Math.min(max, score[key] + 1) : 0;
     }
     if (isArrowDown(event) || isArrowLeft(event)) {
       event.preventDefault();
-      player.score[key] = isNumber(player.score[key])
-        ? Math.max(min, player.score[key] - 1)
-        : 0;
+      score[key] = isNumber(score[key]) ? Math.max(min, score[key] - 1) : 0;
     }
     // Allow typing of the value, including numbers with multiple digits
     if (isNumber(Number.parseInt(event.key))) {
       clearTimeout(timeoutId);
       const number = Number.parseInt(`${previousKeys}${event.key}`);
       if (number >= min && number <= max) {
-        player.score[key] = number;
+        score[key] = number;
         previousKeys += event.key;
       }
       timeoutId = setTimeout(() => {
@@ -63,7 +57,7 @@
   }
 
   function handleSelect(event: MouseEvent) {
-    player.score[key] = Number.parseInt(
+    score[key] = Number.parseInt(
       (event.currentTarget as HTMLDivElement).dataset.value as string,
     );
   }
@@ -91,7 +85,7 @@
   class="input"
   type="number"
   {name}
-  bind:value={player.score[key]}
+  bind:value={score[key]}
   aria-labelledby={labelId}
   {min}
   {max}
@@ -104,7 +98,7 @@
   tabindex="0"
   aria-valuemin={min}
   aria-valuemax={max}
-  aria-valuenow={player.score[key]}
+  aria-valuenow={score[key]}
   onkeydown={handleKeyDown}
 >
   {#each createArray(round + 1) as _, option}
@@ -113,8 +107,8 @@
     <div
       class="option"
       data-value={option}
-      data-active={option === player.score[key]}
-      data-predicted={option === player.score.bid}
+      data-active={option === score[key]}
+      data-predicted={option === score.bid}
       onclick={handleSelect}
     >
       {option}
@@ -127,10 +121,6 @@
     display: flex;
     gap: 1ch;
     align-items: baseline;
-  }
-
-  :global(.no-js) .delta {
-    display: none;
   }
 
   .positive {
@@ -159,19 +149,10 @@
     border: 1px solid var(--color-fg-default);
   }
 
-  :global(.no-js) .input {
-    display: block;
-  }
-
   .slider {
     display: inline-block;
     border-radius: 1rem;
   }
-
-  :global(.no-js) .slider {
-    display: none;
-  }
-
   .option {
     display: inline-grid;
     place-content: center;

@@ -1,0 +1,18 @@
+---
+import Layout from '../../layouts/Wizard.astro';
+import ScoreTable from '../../components/wizard/ScoreTable.svelte';
+
+// TODO: Dynamic back URL or turn into dialog?
+---
+
+<Layout
+  title="Scores"
+  description="Score sheet for the current game of Wizard"
+  link={{ label: 'Back', href: '/wizard/dealer' }}
+>
+  <ScoreTable client:load />
+  <!-- <form method="POST" action={actions.endGame}>
+    <input type="hidden" name="gameId" value={gameId} />
+    <button class="button destructive" type="submit">End game</button>
+  </form> -->
+</Layout>

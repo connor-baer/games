@@ -6,17 +6,7 @@ import AstroPWA from '@vite-pwa/astro';
 
 // https://astro.build/config
 export default defineConfig({
-  experimental: {
-    svg: true,
-  },
-  security: {
-    checkOrigin: true,
-  },
   site: 'https://games.connorbaer.com',
-  prefetch: {
-    prefetchAll: true,
-    defaultStrategy: 'hover',
-  },
   integrations: [
     svelte(),
     AstroPWA({

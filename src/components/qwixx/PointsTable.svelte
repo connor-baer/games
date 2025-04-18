@@ -1,23 +1,24 @@
 <script lang="ts">
+  import { t } from '../../utils/i18n';
   import { POINTS } from '../../lib/qwixx/constants';
 
-  const [, ...tmp] = POINTS;
+  const [, ...points] = POINTS;
 </script>
 
 <section>
-  <h2>Points</h2>
+  <h2>{t.qwixx.points}</h2>
   <table>
     <thead>
       <tr>
-        {#each tmp as _, index}
+        {#each points as _, index}
           <td>{index + 1}x</td>
         {/each}
       </tr>
     </thead>
     <tbody>
       <tr>
-        {#each tmp as points}
-          <td>{points}</td>
+        {#each points as value}
+          <td>{value}</td>
         {/each}
       </tr>
     </tbody>

@@ -7,7 +7,6 @@ export type Color = 'red' | 'yellow' | 'green' | 'blue';
 
 export type ColorConfig = {
   key: Color;
-  name: string;
   style: string;
   direction: Direction;
 };

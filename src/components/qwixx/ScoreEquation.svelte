@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { t } from '../../utils/i18n';
   import type { Points } from '../../lib/qwixx/types';
   import { COLORS } from '../../lib/qwixx/constants';
 
@@ -10,11 +11,11 @@
 </script>
 
 <section>
-  <h2>Totals</h2>
+  <h2>{t.qwixx.totals}</h2>
   <div class="container">
     {#each COLORS as color, index (color.key)}
       <label style={color.style} class="color">
-        <span class="hide-visually">{color.name}</span>
+        <span class="hide-visually">{t.qwixx.colors[color.key]}</span>
         <input type="number" value={points[color.key]} readonly />
       </label>
       {#if index + 1 !== COLORS.length}
@@ -25,14 +26,14 @@
     <span class="sign">-</span>
 
     <label class="penalties">
-      <span class="hide-visually">Penalties</span>
+      <span class="hide-visually">{t.qwixx.penalties}</span>
       <input type="number" value={Math.abs(points.penalties)} readonly />
     </label>
 
     <span class="sign">=</span>
 
     <label class="total">
-      <span class="hide-visually">Total</span>
+      <span class="hide-visually">{t.qwixx.total}</span>
       <input type="number" value={points.total} readonly />
     </label>
   </div>

@@ -3,12 +3,15 @@
   import { persisted } from 'svelte-persisted-store';
 
   import type { ColorConfig, GameState } from '../../lib/qwixx/types.ts';
+  import { t } from '../../utils/i18n.ts';
   import { stack, getPoints } from '../../lib/qwixx/game.ts';
   import { COLORS } from '../../lib/qwixx/constants.ts';
   import NumbersInput from './NumbersInput.svelte';
   import PointsTable from './PointsTable.svelte';
   import PenaltiesInput from './PenaltiesInput.svelte';
   import ScoreEquation from './ScoreEquation.svelte';
+  import Undo from './Undo.svelte';
+  import Redo from './Redo.svelte';
 
   const initialState: GameState = {
     red: [],
@@ -79,16 +82,32 @@
     <h1>Qwixx™</h1>
   </div>
   <div class="controls">
-    <button onclick={undo} disabled={!$canUndo} class="button"> Undo</button>
-    <button onclick={redo} disabled={!$canRedo} class="button"> Redo</button>
+    <button
+      onclick={undo}
+      disabled={!$canUndo}
+      class="button"
+      title={t.qwixx.undo}
+      aria-label={t.qwixx.undo}
+    >
+      <Undo />
+    </button>
+    <button
+      onclick={redo}
+      disabled={!$canRedo}
+      class="button"
+      title={t.qwixx.redo}
+      aria-label={t.qwixx.redo}
+    >
+      <Redo />
+    </button>
     <button onclick={reset} disabled={$points.total === 0} class="button">
-      Reset
+      {t.qwixx.reset}
     </button>
   </div>
 </header>
 
 <section>
-  <h2>Numbers</h2>
+  <h2>{t.qwixx.numbers}</h2>
 
   <div class="numbers">
     {#each COLORS as color (color.key)}

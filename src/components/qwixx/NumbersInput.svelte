@@ -1,8 +1,10 @@
 <script lang="ts">
-  import { Direction, type ColorConfig } from '../../lib/qwixx/types';
   import { createArray } from '../../utils/array';
+  import { t } from '../../utils/i18n';
+  import { Direction, type ColorConfig } from '../../lib/qwixx/types';
   import { NUMBERS } from '../../lib/qwixx/constants';
   import { isColorLocked } from '../../lib/qwixx/game';
+
   import Lock from './Lock.svelte';
   import LockOpen from './LockOpen.svelte';
 
@@ -14,7 +16,7 @@
 
   const { color, numbers, toggleNumber }: Props = $props();
 
-  const { key, name, direction, style } = color;
+  const { key, direction, style } = color;
 
   const numberRange = createArray(NUMBERS).map((_, index) => {
     switch (direction) {
@@ -55,7 +57,7 @@
 </script>
 
 <fieldset {style} class:locked={isLocked}>
-  <legend class="hide-visually">{name}</legend>
+  <legend class="hide-visually">{t.qwixx.colors[key]}</legend>
   {#each numberRange as number}
     <input
       id={`${key}-${number}`}

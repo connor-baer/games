@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createArray } from '../../utils/array';
+  import { t } from '../../utils/i18n';
   import { PENALTIES } from '../../lib/qwixx/constants';
 
   import Cross from './Cross.svelte';
@@ -27,7 +28,7 @@
 </script>
 
 <section>
-  <h2 id="penalties-heading">Penalties</h2>
+  <h2 id="penalties-heading">{t.qwixx.penalties}</h2>
   <div role="group" aria-labelledby="penalties-heading">
     {#each maxPenalties as penalty}
       <input

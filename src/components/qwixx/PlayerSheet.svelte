@@ -79,9 +79,11 @@
     <h1>Qwixx™</h1>
   </div>
   <div class="controls">
-    <button onclick={undo} disabled={!$canUndo} class="button">Undo</button>
-    <button onclick={redo} disabled={!$canRedo} class="button">Redo</button>
-    <button onclick={reset} class="button">Reset</button>
+    <button onclick={undo} disabled={!$canUndo} class="button"> Undo</button>
+    <button onclick={redo} disabled={!$canRedo} class="button"> Redo</button>
+    <button onclick={reset} disabled={$points.total === 0} class="button">
+      Reset
+    </button>
   </div>
 </header>
 

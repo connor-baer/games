@@ -24,8 +24,15 @@ export function stack<Value, Store extends Writable<Value>>(store: Store) {
   const update = (updater: (value: Value) => Value) => {
     store.update((value) => {
       const nextValue = updater(value);
-      history.update((prev) => [...prev, nextValue]);
-      position.update((prev) => prev + 1);
+      position.update((prevPosition) => {
+        history.update((prevHistory) => {
+          if (prevPosition < prevHistory.length - 1) {
+            return [...prevHistory.slice(0, prevPosition + 1), nextValue];
+          }
+          return [...prevHistory, nextValue];
+        });
+        return prevPosition + 1;
+      });
       return nextValue;
     });
   };

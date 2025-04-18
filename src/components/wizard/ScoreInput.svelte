@@ -8,14 +8,13 @@
   } from '../../utils/keyboard';
   import { createArray } from '../../utils/array';
   import { calculateScoreDelta } from '../../lib/wizard/game';
-  import type { Score } from '../../lib/wizard/types';
-  import type { Player } from '../../lib/wizard/stores';
+  import type { Player, Score } from '../../lib/wizard/stores';
 
   interface Props {
     name: 'bids' | 'tricks';
     round?: number;
     player: Player;
-    score: Score;
+    score: Pick<Score, 'bid' | 'tricks'>;
   }
 
   const { name, round = 0, player, score = $bindable() }: Props = $props();

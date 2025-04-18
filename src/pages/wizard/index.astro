@@ -1,19 +1,10 @@
 ---
 import Layout from '../../layouts/Wizard.astro';
-import GameCard from '../../components/wizard/GameCard.astro';
-import { getGames } from '../../lib/wizard/db';
-import {
-  LEAGUE_COOKIE,
-  MAX_PLAYERS,
-  MIN_PLAYERS,
-} from '../../lib/wizard/constants';
+import { MAX_PLAYERS, MIN_PLAYERS } from '../../lib/wizard/constants';
 
 const title = 'Wizard Scorekeeper';
 const description =
   'Keep track of the scores in the trick-taking card game Wizard for three to six players';
-
-const games = await getGames(Astro.cookies.get(LEAGUE_COOKIE)?.value);
-const hasActiveGame = games.some((game) => !game.endedAt);
 ---
 
 <Layout title={title} description={description}>
@@ -35,29 +26,8 @@ const hasActiveGame = games.some((game) => !game.endedAt);
     validation and automatic point calculation.
   </p>
   <div class="buttons">
-    <a
-      class="button"
-      class:list={{ primary: !hasActiveGame }}
-      href="/wizard/new"
-    >
-      New game
-    </a>
+    <a class="button primary" href="/wizard/new"> New game </a>
   </div>
-
-  {
-    games.length > 0 && (
-      <>
-        <h2 class="games-title">Games</h2>
-        <ul class="games">
-          {games.map((game) => (
-            <li>
-              <GameCard {...game} />
-            </li>
-          ))}
-        </ul>
-      </>
-    )
-  }
 </Layout>
 
 <style>

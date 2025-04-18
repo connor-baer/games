@@ -13,7 +13,7 @@ function db<Value>(name: string, initialValues: Value[] = []) {
   return { subscribe: store.subscribe, insert };
 }
 
-type Game = {
+export type Game = {
   id: string;
   round: number;
   startedAt: string;
@@ -50,7 +50,7 @@ export function getPlayersInGame() {
   return db<PlayerInGame>('wizard-players-in-game');
 }
 
-type Score = {
+export type Score = {
   id: string;
   gameId: string;
   playerId: string;

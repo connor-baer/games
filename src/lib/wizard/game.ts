@@ -1,9 +1,11 @@
 import { isNumber } from '../../utils/type';
 
-import type { Score } from './types';
+import type { Score } from './stores';
 import { NUMBER_OF_CARDS, POINTS_CORRECT, POINTS_PER_TRICK } from './constants';
 
-export function calculateScoreDelta(score: Score | null | undefined) {
+export function calculateScoreDelta(
+  score: Pick<Score, 'bid' | 'tricks'> | null | undefined,
+) {
   if (!score || !isNumber(score.bid) || !isNumber(score.tricks)) {
     return null;
   }

@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config';
-import db from '@astrojs/db';
 import svelte from '@astrojs/svelte';
 import vercel from '@astrojs/vercel/serverless';
 import { browserslistToTargets } from 'lightningcss';
@@ -25,7 +24,6 @@ export default defineConfig({
   },
   integrations: [
     svelte(),
-    db(),
     AstroPWA({
       base: '/',
       scope: '/',

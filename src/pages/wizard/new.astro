@@ -1,9 +1,9 @@
 ---
 import Layout from '../../layouts/Wizard.astro';
 import NewGameForm from '../../components/wizard/NewGameForm.svelte';
+import { t } from '../../utils/i18n';
 
-const title = 'New game';
-const description = 'Start a new game of Wizard, the trick-taking card game';
+const { title, description } = t.wizard.new;
 ---
 
 <Layout title={title} description={description}>

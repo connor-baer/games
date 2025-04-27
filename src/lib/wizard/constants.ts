@@ -1,6 +1,5 @@
 // App
 export const LOGO = '🔮';
-export const LOCALE = 'en-US';
 
 // Game
 export const NUMBER_OF_CARDS = 60;

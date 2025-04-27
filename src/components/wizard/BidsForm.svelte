@@ -3,6 +3,7 @@
   import { derived, writable } from 'svelte/store';
 
   import { createId } from '../../utils/id';
+  import { t } from '../../utils/i18n';
   import { isNumber } from '../../utils/type';
   import {
     getCurrentGame,
@@ -15,9 +16,7 @@
   import ScoreInput from './ScoreInput.svelte';
   import Placeholder from './Placeholder.svelte';
 
-  const title = 'Bids';
-  const description =
-    'Each player predicts how many tricks they will take this round.';
+  const { title, description } = t.wizard.bids;
 
   const game = getCurrentGame();
   const players = getCurrentPlayers($game);
@@ -85,14 +84,21 @@
 
   <Footer>
     <div class="total">
-      <strong>Total:</strong>
+      <strong>{t.wizard.total}:</strong>
       {$total}/<Placeholder value={$game?.round} placeholder={0} />
     </div>
     <div class="buttons">
       <button class="button primary" type="submit" disabled={!$valid}>
-        Save bids
+        {t.wizard.bids.action}
       </button>
-      <a class="button" aria-label="Back" href="/wizard/dealer">←</a>
+      <a
+        class="button"
+        aria-label={t.wizard.back}
+        title={t.wizard.back}
+        href="/wizard/dealer"
+      >
+        ←
+      </a>
     </div>
   </Footer>
 </form>

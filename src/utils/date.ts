@@ -1,7 +1,7 @@
-import { LOCALE } from '../lib/wizard/constants';
+import { LANGUAGE } from 'astro:env/client';
 
-const dateTimeFormat = new Intl.DateTimeFormat(LOCALE, {
-  dateStyle: 'medium',
+const dateTimeFormat = new Intl.DateTimeFormat(LANGUAGE, {
+  dateStyle: 'long',
 });
 
 export function formatDate(date: Date): string {

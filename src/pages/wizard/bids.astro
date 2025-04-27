@@ -1,10 +1,9 @@
 ---
 import Layout from '../../layouts/Wizard.astro';
 import BidsForm from '../../components/wizard/BidsForm.svelte';
+import { t } from '../../utils/i18n';
 
-const title = 'Bids';
-const description =
-  'Each player predicts how many tricks they will take this round.';
+const { title, description } = t.wizard.bids;
 ---
 
 <Layout title={title} description={description}>

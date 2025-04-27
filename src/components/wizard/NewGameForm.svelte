@@ -9,6 +9,8 @@
   import { createArray } from '../../utils/array';
   import { createId, createHumanId } from '../../utils/id';
   import { createTimestamp } from '../../utils/date';
+  import { t } from '../../utils/i18n';
+
   import Header from './Header.svelte';
   import Footer from './Footer.svelte';
 
@@ -46,16 +48,16 @@
   }
 </script>
 
-<Header
-  title="Players"
-  description={`Add ${MIN_PLAYERS} to ${MAX_PLAYERS} players in the order they are sitting. The first player deals first.`}
-/>
+<Header title={t.wizard.new.players} description={t.wizard.new.instructions} />
 
 <form onsubmit={onSubmit}>
   <div class="inputs">
     {#each newPlayers as player, index (player.id)}
       <div class="field">
-        <label for={`player-name-${player.id}`}>Player {index + 1}</label>
+        <label for={`player-name-${player.id}`}>
+          {t.wizard.new.player}
+          {index + 1}
+        </label>
         <input
           id={`player-name-${player.id}`}
           name="playerNames"
@@ -68,7 +70,7 @@
     {/each}
   </div>
   <Footer>
-    <button class="button primary" type="submit">Start game</button>
+    <button class="button primary" type="submit">{t.wizard.new.start}</button>
   </Footer>
 </form>
 

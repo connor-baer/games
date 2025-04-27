@@ -1,5 +1,6 @@
 <script lang="ts">
   import { sortByDate } from '../../utils/date';
+  import { t } from '../../utils/i18n';
   import { getCurrentGame, getGames } from '../../lib/wizard/stores';
   import GameCard from './GameCard.svelte';
 
@@ -8,10 +9,10 @@
   const sortedGames = sortByDate($games, (game) => game.startedAt);
 </script>
 
-<h2>Past Games</h2>
+<h2>{t.wizard.about.past}</h2>
 
 <ul>
-  {#each $games as game (game.id)}
+  {#each sortedGames as game (game.id)}
     <li>
       <GameCard {game} {currentGame} />
     </li>

@@ -1,9 +1,9 @@
 ---
 import Layout from '../../layouts/Wizard.astro';
 import DealerForm from '../../components/wizard/DealerForm.svelte';
+import { t } from '../../utils/i18n';
 
-const title = 'Dealer';
-const description = 'Players take turns dealing cards.';
+const { title, description } = t.wizard.dealer;
 ---
 
 <Layout title={title} description={description}>

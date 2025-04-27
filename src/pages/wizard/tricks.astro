@@ -1,9 +1,9 @@
 ---
 import Layout from '../../layouts/Wizard.astro';
 import TricksForm from '../../components/wizard/TricksForm.svelte';
+import { t } from '../../utils/i18n';
 
-const title = 'Tricks';
-const description = 'Count how many tricks each player managed to take.';
+const { title, description } = t.wizard.tricks;
 ---
 
 <Layout title={title} description={description}>

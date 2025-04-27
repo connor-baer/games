@@ -4,6 +4,7 @@
 
   import { createId } from '../../utils/id';
   import { isNumber } from '../../utils/type';
+  import { t } from '../../utils/i18n';
   import {
     getCurrentGame,
     getCurrentPlayers,
@@ -15,8 +16,7 @@
   import ScoreInput from './ScoreInput.svelte';
   import Placeholder from './Placeholder.svelte';
 
-  const title = 'Tricks';
-  const description = 'Count how many tricks each player managed to take.';
+  const { title, description } = t.wizard.tricks;
 
   const game = getCurrentGame();
   const players = getCurrentPlayers($game);
@@ -93,14 +93,21 @@
 
   <Footer>
     <div class="total">
-      <strong>Total:</strong>
+      <strong>{t.wizard.total}:</strong>
       {$total}/<Placeholder value={$game?.round} placeholder={0} />
     </div>
     <div class="buttons">
       <button class="button primary" type="submit" disabled={!$valid}>
-        Save tricks
+        {t.wizard.tricks.action}
       </button>
-      <a class="button" aria-label="Back" href="/wizard/bids"> ← </a>
+      <a
+        class="button"
+        aria-label={t.wizard.back}
+        title={t.wizard.back}
+        href="/wizard/bids"
+      >
+        ←
+      </a>
     </div>
   </Footer>
 </form>

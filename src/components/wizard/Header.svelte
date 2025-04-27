@@ -1,8 +1,11 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+
   import { LOGO } from '../../lib/wizard/constants';
   import { getCurrentGame } from '../../lib/wizard/stores';
+  import { t } from '../../utils/i18n';
   import Dialog from '../Dialog.svelte';
+
   import ScoreTable from './ScoreTable.svelte';
 
   type Props = {
@@ -25,8 +28,10 @@
     <h2>Wizard</h2>
   </div>
   {#if $game && showScores}
-    <button onclick={() => dialog?.showModal()} class="button">Scores</button>
-    <Dialog bind:dialog title="Scores">
+    <button onclick={() => dialog?.showModal()} class="button">
+      {t.wizard.scores}
+    </button>
+    <Dialog bind:dialog title={t.wizard.scores}>
       <ScoreTable />
     </Dialog>
   {/if}

@@ -7,6 +7,7 @@
     type Game,
     type CurrentGame,
   } from '../../lib/wizard/stores';
+  import { t } from '../../utils/i18n';
 
   type Props = {
     game: Game;
@@ -33,7 +34,7 @@
     </time>
   </div>
   <button class="button" class:primary={isCurrent} onclick={resumeGame}>
-    Resume
+    {t.wizard.about.resume}
   </button>
 </div>
 

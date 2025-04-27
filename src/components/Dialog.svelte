@@ -2,6 +2,8 @@
   import type { Snippet } from 'svelte';
   import type { HTMLDialogAttributes } from 'svelte/elements';
 
+  import { t } from '../utils/i18n';
+
   type Props = HTMLDialogAttributes & {
     dialog: HTMLDialogElement | undefined;
     title: string;
@@ -24,7 +26,9 @@
   <div class="content">
     <div class="header">
       <h2 id="dialog-title">{title}</h2>
-      <button onclick={() => dialog?.close()} class="button">Close</button>
+      <button onclick={() => dialog?.close()} class="button">
+        {t.wizard.close}
+      </button>
     </div>
     {@render children()}
   </div>

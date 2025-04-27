@@ -15,12 +15,9 @@
   import ScoreInput from './ScoreInput.svelte';
   import Placeholder from './Placeholder.svelte';
 
-  type Props = {
-    title: string;
-    description: string;
-  };
-
-  const { title, description }: Props = $props();
+  const title = 'Bids';
+  const description =
+    'Each player predicts how many tricks they will take this round.';
 
   const game = getCurrentGame();
   const players = getCurrentPlayers($game);

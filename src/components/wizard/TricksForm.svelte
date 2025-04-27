@@ -15,12 +15,8 @@
   import ScoreInput from './ScoreInput.svelte';
   import Placeholder from './Placeholder.svelte';
 
-  type Props = {
-    title: string;
-    description: string;
-  };
-
-  const { title, description }: Props = $props();
+  const title = 'Tricks';
+  const description = 'Count how many tricks each player managed to take.';
 
   const game = getCurrentGame();
   const players = getCurrentPlayers($game);

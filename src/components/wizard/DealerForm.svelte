@@ -20,7 +20,7 @@
   }
 </script>
 
-<Header title="Dealer">
+<Header title="Dealer" showScores>
   <Placeholder value={$dealer?.name} placeholder="Name" />
   deals <Placeholder value={$game?.round} placeholder="0" />
   {pluralize({ singular: 'card', plural: 'cards' }, $game?.round)}.

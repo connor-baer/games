@@ -4,6 +4,8 @@ import { MAX_PLAYERS, MIN_PLAYERS } from 'src/lib/wizard/constants';
 export const t =
   LANGUAGE === 'en'
     ? {
+        games: 'Games',
+        tagline: 'A collection of score sheets for tabletop games',
         qwixx: {
           undo: 'Undo',
           redo: 'Redo',
@@ -69,6 +71,8 @@ export const t =
         },
       }
     : {
+        games: 'Spiele',
+        tagline: 'Eine Sammlung von Wertungsbögen für Brettspiele',
         qwixx: {
           undo: 'Rückgängig',
           redo: 'Wiederholen',

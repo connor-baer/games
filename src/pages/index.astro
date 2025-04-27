@@ -1,14 +1,12 @@
 ---
 import Layout from '../layouts/Base.astro';
 
-import WizardLogo from 'src/components/wizard/WizardLogo.svg';
-import QwixxLogo from 'src/components/qwixx/QwixxLogo.svg';
+import { t } from '../utils/i18n';
+import WizardLogo from '../components/wizard/WizardLogo.svg';
+import QwixxLogo from '../components/qwixx/QwixxLogo.svg';
 ---
 
-<Layout
-  title="Games"
-  description="A collection of score sheets for tabletop games"
->
+<Layout title={t.games} description={t.tagline}>
   <ul>
     <li>
       <a href="/wizard" aria-label="Wizard"><WizardLogo /></a>

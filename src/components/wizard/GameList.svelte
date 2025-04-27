@@ -9,15 +9,17 @@
   const sortedGames = sortByDate($games, (game) => game.startedAt);
 </script>
 
-<h2>{t.wizard.about.past}</h2>
+{#if $games.length > 0}
+  <h2>{t.wizard.about.past}</h2>
 
-<ul>
-  {#each sortedGames as game (game.id)}
-    <li>
-      <GameCard {game} {currentGame} />
-    </li>
-  {/each}
-</ul>
+  <ul>
+    {#each sortedGames as game (game.id)}
+      <li>
+        <GameCard {game} {currentGame} />
+      </li>
+    {/each}
+  </ul>
+{/if}
 
 <style>
   h2 {

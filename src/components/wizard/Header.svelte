@@ -1,22 +1,85 @@
 <script lang="ts">
+  import type { Snippet } from 'svelte';
+  import { LOGO } from '../../lib/wizard/constants';
+  import { getCurrentGame } from '../../lib/wizard/stores';
+  import Dialog from '../Dialog.svelte';
+  import ScoreTable from './ScoreTable.svelte';
+
   type Props = {
     title: string;
     description?: string;
+    children?: Snippet;
+    showScores?: boolean;
   };
 
-  const { title, description }: Props = $props();
+  const { title, description, children, showScores = false }: Props = $props();
+
+  const game = getCurrentGame();
+
+  let dialog = $state<HTMLDialogElement>();
 </script>
 
-<div>
+<header>
+  <div class="brand">
+    <a href="/" aria-label="All games" class="logo">{LOGO}</a>
+    <h2>Wizard</h2>
+  </div>
+  {#if $game && showScores}
+    <button onclick={() => dialog?.showModal()} class="button">Scores</button>
+    <Dialog bind:dialog title="Scores">
+      <ScoreTable />
+    </Dialog>
+  {/if}
+</header>
+
+<div class="hero">
   <h1>{title}</h1>
   {#if description}
     <p>{description}</p>
+  {:else if children}
+    {@render children()}
   {/if}
 </div>
 
 <style>
-  div {
-    margin-bottom: var(--layout-gutter);
+  header {
+    max-width: var(--layout-max-width-prose);
+    margin: 0 auto;
+    padding: var(--layout-gutter) var(--layout-frame);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-family-display);
+    font-size: 2rem;
+    line-height: var(--line-height-heading);
+  }
+
+  .logo {
+    line-height: 1;
+    transition: transform var(--transition-micro);
+    text-decoration: none;
+    border-radius: 4px;
+  }
+
+  .logo:hover,
+  .logo:focus-visible {
+    transform: scale(1.1);
+  }
+
+  h2 {
+    font-size: 1.33rem;
+  }
+
+  .hero {
+    max-width: var(--layout-max-width-prose);
+    margin: var(--layout-gutter) auto;
+    padding-inline: var(--layout-frame);
   }
 
   h1 {

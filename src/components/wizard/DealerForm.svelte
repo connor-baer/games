@@ -3,29 +3,41 @@
   import { pluralize } from '../../utils/format';
 
   import Header from './Header.svelte';
+  import Footer from './Footer.svelte';
   import Placeholder from './Placeholder.svelte';
 
   const game = getCurrentGame();
   const dealer = getDealer($game);
+
+  function goBack() {
+    game.update((prev) => {
+      if (!prev) {
+        throw new Error('No active game');
+      }
+      return { ...prev, round: prev.round - 1 };
+    });
+    window.location.assign('/wizard/tricks');
+  }
 </script>
 
-<Header title="Dealer" />
-
-<p>
+<Header title="Dealer">
   <Placeholder value={$dealer?.name} placeholder="Name" />
   deals <Placeholder value={$game?.round} placeholder="0" />
   {pluralize({ singular: 'card', plural: 'cards' }, $game?.round)}.
-</p>
+</Header>
 
-<div class="footer">
-  <a href="/wizard/bids" class="button primary">Start bidding</a>
-</div>
+<Footer>
+  <div class="buttons">
+    <a href="/wizard/bids" class="button primary">Start bidding</a>
+    <button class="button" aria-label="Back" onclick={goBack}>←</button>
+  </div>
+</Footer>
 
 <style>
-  .footer {
-    margin-top: 1rem;
-    justify-content: flex-start;
+  .buttons {
+    display: flex;
     gap: 0.5rem;
     flex-direction: row-reverse;
+    margin-left: auto;
   }
 </style>

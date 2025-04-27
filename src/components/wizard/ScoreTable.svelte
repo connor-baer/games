@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import { derived } from 'svelte/store';
 
   import {
@@ -16,12 +15,6 @@
   const players = getCurrentPlayers($game);
   const scores = getScores();
 
-  onMount(() => {
-    if (!$game) {
-      window.location.assign('/wizard/new');
-    }
-  });
-
   const scoreCard = derived(
     [game, players, scores],
     ([$game, $players, $scores]) => {
@@ -33,7 +26,7 @@
         return $players.map((player) => {
           const score = $scores.find(
             (s) =>
-              s.gameId === $game.id &&
+              s.gameId === $game?.id &&
               s.playerId === player.id &&
               s.round === round,
           );
@@ -89,7 +82,6 @@
     table-layout: fixed;
     border-collapse: collapse;
     text-align: center;
-    margin-bottom: var(--layout-gutter);
   }
 
   thead {

@@ -10,8 +10,17 @@
     getScores,
   } from '../../lib/wizard/stores';
 
+  import Header from './Header.svelte';
+  import Footer from './Footer.svelte';
   import ScoreInput from './ScoreInput.svelte';
   import Placeholder from './Placeholder.svelte';
+
+  type Props = {
+    title: string;
+    description: string;
+  };
+
+  const { title, description }: Props = $props();
 
   const game = getCurrentGame();
   const players = getCurrentPlayers($game);
@@ -61,8 +70,10 @@
   }
 </script>
 
+<Header {title} {description} showScores />
+
 <form onsubmit={handleSubmit}>
-  <ol>
+  <ol class="inputs">
     {#each $inputs as field, index (field.player.id)}
       <li>
         <ScoreInput
@@ -75,7 +86,7 @@
     {/each}
   </ol>
 
-  <div class="footer">
+  <Footer>
     <div class="total">
       <strong>Total:</strong>
       {$total}/<Placeholder value={$game?.round} placeholder={0} />
@@ -86,10 +97,16 @@
       </button>
       <a class="button" aria-label="Back" href="/wizard/dealer">←</a>
     </div>
-  </div>
+  </Footer>
 </form>
 
 <style>
+  .inputs {
+    max-width: var(--layout-max-width-prose);
+    margin-inline: auto;
+    padding-inline: var(--layout-frame);
+  }
+
   .buttons {
     display: flex;
     gap: 0.5rem;

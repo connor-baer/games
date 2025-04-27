@@ -1,6 +1,5 @@
 ---
 import Layout from '../../layouts/Wizard.astro';
-import Header from '../../components/wizard/Header.svelte';
 import BidsForm from '../../components/wizard/BidsForm.svelte';
 
 const title = 'Bids';
@@ -8,12 +7,6 @@ const description =
   'Each player predicts how many tricks they will take this round.';
 ---
 
-<Layout
-  title={title}
-  description={description}
-  link={{ label: 'Scores', href: '/wizard/scores' }}
->
-  <Header title={title} description={description} />
-
-  <BidsForm client:load />
+<Layout title={title} description={description}>
+  <BidsForm title={title} description={description} client:load />
 </Layout>

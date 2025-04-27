@@ -153,7 +153,7 @@
     border-radius: 99999px;
   }
 
-  .slider:focus {
+  .slider:focus-visible {
     outline: 2px solid var(--color-fg-subtle);
   }
 

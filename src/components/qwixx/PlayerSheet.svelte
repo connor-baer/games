@@ -162,7 +162,7 @@
   }
 
   .logo:hover,
-  .logo:focus {
+  .logo:focus-visible {
     transform: scale(1.1);
   }
 

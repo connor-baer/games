@@ -16,3 +16,11 @@ export function inDaysFromNow(days: number) {
 export function createTimestamp() {
   return new Date().toISOString();
 }
+
+export function sortByDate<T>(list: T[], get: (item: T) => string) {
+  const getTime = (item: T) => {
+    const date = new Date(get(item));
+    return date.getTime();
+  };
+  return list.sort((a, b) => getTime(b) - getTime(a));
+}

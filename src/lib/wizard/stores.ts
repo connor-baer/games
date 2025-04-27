@@ -20,7 +20,7 @@ export type Game = {
   endedAt?: string;
 };
 
-type CurrentGame = Game | null;
+export type CurrentGame = Game | null;
 
 export function getCurrentGame() {
   return persisted<CurrentGame>('wizard-current-game', null);
@@ -63,7 +63,7 @@ export function getScores() {
   return db<Score>('wizard-scores');
 }
 
-export function getCurrentPlayers(game: CurrentGame) {
+export function getCurrentPlayers(game: CurrentGame, shift = true) {
   const players = getPlayers();
   const playersInGame = getPlayersInGame();
   return derived([players, playersInGame], ([$players, $playersInGame]) => {
@@ -76,11 +76,11 @@ export function getCurrentPlayers(game: CurrentGame) {
       .map(
         (p) => $players.find((player) => p.playerId === player.id) as Player,
       );
-    return shiftArray(activePlayers, game.round);
+    return shift ? shiftArray(activePlayers, game.round) : activePlayers;
   });
 }
 
 export function getDealer(game: CurrentGame) {
-  const players = getCurrentPlayers(game);
+  const players = getCurrentPlayers(game, true);
   return derived(players, ($players) => $players[$players.length - 1]);
 }

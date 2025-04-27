@@ -22,3 +22,12 @@ export function pluralize(
 
   return word.plural;
 }
+
+const listFormat = new Intl.ListFormat(LOCALE, {
+  style: 'long',
+  type: 'conjunction',
+});
+
+export function join(list: string[]): string {
+  return listFormat.format(list);
+}

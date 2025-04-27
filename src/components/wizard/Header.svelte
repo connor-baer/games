@@ -44,7 +44,7 @@
 <style>
   header {
     max-width: var(--layout-max-width-prose);
-    margin: 0 auto;
+    margin-inline: auto;
     padding: var(--layout-gutter) var(--layout-frame);
     display: flex;
     align-items: center;

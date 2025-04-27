@@ -29,7 +29,9 @@
 <Footer>
   <div class="buttons">
     <a href="/wizard/bids" class="button primary">Start bidding</a>
-    <button class="button" aria-label="Back" onclick={goBack}>←</button>
+    {#if $game && $game.round > 1}
+      <button class="button" aria-label="Back" onclick={goBack}>←</button>
+    {/if}
   </div>
 </Footer>
 

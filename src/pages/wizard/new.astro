@@ -1,19 +1,11 @@
 ---
 import Layout from '../../layouts/Wizard.astro';
-import Header from '../../components/wizard/Header.svelte';
 import NewGameForm from '../../components/wizard/NewGameForm.svelte';
-import { MAX_PLAYERS, MIN_PLAYERS } from '../../lib/wizard/constants';
 
 const title = 'New game';
 const description = 'Start a new game of Wizard, the trick-taking card game';
 ---
 
 <Layout title={title} description={description}>
-  <Header
-    title="Players"
-    description={`Add ${MIN_PLAYERS} to ${MAX_PLAYERS} players in the order they are sitting. The first player deals first.`}
-    client:load
-  />
-
   <NewGameForm client:load />
 </Layout>

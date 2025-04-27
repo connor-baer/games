@@ -9,6 +9,8 @@
   import { createArray } from '../../utils/array';
   import { createId, createHumanId } from '../../utils/id';
   import { createTimestamp } from '../../utils/date';
+  import Header from './Header.svelte';
+  import Footer from './Footer.svelte';
 
   const newPlayers = $state(
     createArray(MAX_PLAYERS).map(() => ({ id: createId(), name: '' })),
@@ -43,26 +45,39 @@
   }
 </script>
 
+<Header
+  title="Players"
+  description={`Add ${MIN_PLAYERS} to ${MAX_PLAYERS} players in the order they are sitting. The first player deals first.`}
+/>
+
 <form onsubmit={onSubmit}>
-  {#each newPlayers as player, index (player.id)}
-    <div class="field">
-      <label for={`player-name-${player.id}`}>Player {index + 1}</label>
-      <input
-        id={`player-name-${player.id}`}
-        name="playerNames"
-        type="text"
-        required={index < MIN_PLAYERS}
-        class="input"
-        bind:value={player.name}
-      />
-    </div>
-  {/each}
-  <div class="footer">
-    <button class="button primary" type="submit">Start game</button>
+  <div class="inputs">
+    {#each newPlayers as player, index (player.id)}
+      <div class="field">
+        <label for={`player-name-${player.id}`}>Player {index + 1}</label>
+        <input
+          id={`player-name-${player.id}`}
+          name="playerNames"
+          type="text"
+          required={index < MIN_PLAYERS}
+          class="input"
+          bind:value={player.name}
+        />
+      </div>
+    {/each}
   </div>
+  <Footer>
+    <button class="button primary" type="submit">Start game</button>
+  </Footer>
 </form>
 
 <style>
+  .inputs {
+    max-width: var(--layout-max-width-prose);
+    margin-inline: auto;
+    padding-inline: var(--layout-frame);
+  }
+
   .field {
     margin-bottom: 12px;
   }
@@ -75,9 +90,5 @@
 
   input {
     max-width: 40ch;
-  }
-
-  .footer {
-    margin-top: 1rem;
   }
 </style>

@@ -1,16 +1,12 @@
 ---
 import Layout from '../layouts/Base.astro';
 
-import WizardLogo from 'src/components/wizard/WizardLogo.astro';
-import QwixxLogo from 'src/components/qwixx/QwixxLogo.astro';
-
-export const prerender = true;
+import { t } from '../utils/i18n';
+import WizardLogo from '../components/wizard/WizardLogo.svg';
+import QwixxLogo from '../components/qwixx/QwixxLogo.svg';
 ---
 
-<Layout
-  title="Games"
-  description="A collection of score sheets for tabletop games"
->
+<Layout title={t.games} description={t.tagline}>
   <ul>
     <li>
       <a href="/wizard" aria-label="Wizard"><WizardLogo /></a>
@@ -29,5 +25,16 @@ export const prerender = true;
     gap: var(--layout-gutter);
     min-height: 66vh;
     padding: var(--layout-frame);
+  }
+
+  a {
+    display: block;
+    border-radius: 4px;
+    line-height: 1;
+  }
+
+  a:focus-visible {
+    outline: 2px solid var(--color-fg-subtle);
+    outline-offset: 3px;
   }
 </style>

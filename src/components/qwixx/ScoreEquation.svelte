@@ -1,52 +1,41 @@
 <script lang="ts">
-  import { derived, type Readable } from 'svelte/store';
+  import { t } from '../../utils/i18n';
+  import type { Points } from '../../lib/qwixx/types';
+  import { COLORS } from '../../lib/qwixx/constants';
 
-  import type { ColorConfig } from '../../lib/qwixx/types';
-  import { PENALTY_POINTS } from '../../lib/qwixx/constants';
+  interface Props {
+    points: Points;
+  }
 
-  import Score from './Score.svelte';
-
-  export let colors: ColorConfig[];
-  export let penalties: Readable<number>;
-
-  const colorPoints = derived(
-    colors.map((color) => color.points),
-    ($points) => $points.reduce((acc, points) => acc + points, 0),
-  );
-  const penaltyPoints = derived(
-    penalties,
-    ($penalties) => $penalties * PENALTY_POINTS,
-  );
+  const { points }: Props = $props();
 </script>
 
 <section>
-  <h2>Totals</h2>
+  <h2>{t.qwixx.totals}</h2>
   <div class="container">
-    {#each colors as config, index (config.label)}
-      <Score label={config.label} points={config.points} style={config.style} />
-      {#if index + 1 !== colors.length}
+    {#each COLORS as color, index (color.key)}
+      <label style={color.style} class="color">
+        <span class="hide-visually">{t.qwixx.colors[color.key]}</span>
+        <input type="number" value={points[color.key]} readonly />
+      </label>
+      {#if index + 1 !== COLORS.length}
         <span class="sign">+</span>
       {/if}
     {/each}
 
     <span class="sign">-</span>
 
-    <div class="penalties">
-      <label for="penalties" class="hide-visually">Penalties</label>
-      <input id="penalties" type="number" value={$penaltyPoints} readonly />
-    </div>
+    <label class="penalties">
+      <span class="hide-visually">{t.qwixx.penalties}</span>
+      <input type="number" value={Math.abs(points.penalties)} readonly />
+    </label>
 
     <span class="sign">=</span>
 
-    <div class="total">
-      <label for="total" class="hide-visually">Total</label>
-      <input
-        id="total"
-        type="number"
-        value={$colorPoints - $penaltyPoints}
-        readonly
-      />
-    </div>
+    <label class="total">
+      <span class="hide-visually">{t.qwixx.total}</span>
+      <input type="number" value={points.total} readonly />
+    </label>
   </div>
 </section>
 
@@ -65,6 +54,7 @@
     flex-shrink: 0;
   }
 
+  .color,
   .penalties {
     width: 3rem;
     flex-grow: 1;
@@ -86,11 +76,20 @@
     text-align: center;
   }
 
-  input#penalties {
+  input:focus {
+    border-width: 3px;
+    outline: none;
+  }
+
+  .color input {
+    border-color: hsl(var(--hue) var(--saturation) var(--lightness));
+  }
+
+  .penalties input {
     border-color: var(--color-fg-subtle);
   }
 
-  input#total {
+  .total input {
     border-color: var(--color-fg-default);
   }
 </style>

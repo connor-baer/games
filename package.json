@@ -1,57 +1,55 @@
 {
-  "name": "games",
-  "type": "module",
-  "version": "8.0.0",
-  "description": "A collection of score sheets for tabletop games",
-  "author": {
-    "name": "Connor Bär, connor-baer",
-    "email": "github@connorbaer.com"
-  },
-  "homepage": "https://github.com/connor-baer/games",
-  "private": true,
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/connor-baer/games.git"
-  },
-  "keywords": [
-    "connor",
-    "baer",
-    "developer",
-    "website"
-  ],
-  "bugs": {
-    "url": "https://github.com/connor-baer/games/issues"
-  },
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "check": "astro check",
-    "sync": "astro sync",
-    "prebuild": "npm run check",
-    "build": "astro build --remote",
-    "preview": "astro preview",
-    "prelint": "npm run sync",
-    "lint": "foundry run eslint . --ext .js,.jsx,.json,.ts,.tsx",
-    "lint:fix": "npm run lint -- --fix"
-  },
-  "dependencies": {
-    "@astrojs/check": "^0.9.1",
-    "@astrojs/db": "^0.12.0",
-    "@astrojs/mdx": "^3.1.3",
-    "@astrojs/svelte": "^5.7.0",
-    "@astrojs/vercel": "^7.7.2",
-    "@vite-pwa/astro": "^1.0.0",
-    "astro": "^4.16.18",
-    "browserslist": "^4.23.3",
-    "ky": "^1.5.0",
-    "lightningcss": "^1.25.1",
-    "svelte": "^4.2.19",
-    "svelte-persisted-store": "^0.11.0",
-    "typescript": "^5.5.4"
-  },
-  "devDependencies": {
-    "@sumup-oss/foundry": "^8.1.1",
-    "prettier-plugin-astro": "^0.14.1"
-  }
+	"name": "games",
+	"type": "module",
+	"version": "8.0.0",
+	"description": "A collection of score sheets for tabletop games",
+	"author": {
+		"name": "Connor Bär, connor-baer",
+		"email": "github@connorbaer.com"
+	},
+	"homepage": "https://github.com/connor-baer/games",
+	"private": true,
+	"license": "ISC",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/connor-baer/games.git"
+	},
+	"keywords": [
+		"connor",
+		"baer",
+		"developer",
+		"website"
+	],
+	"bugs": {
+		"url": "https://github.com/connor-baer/games/issues"
+	},
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"check": "astro check",
+		"sync": "astro sync",
+		"prebuild": "npm run check",
+		"build": "astro build --remote",
+		"preview": "astro preview",
+		"prelint": "npm run sync",
+		"lint": "foundry run eslint . --ext .js,.jsx,.json,.ts,.tsx",
+		"lint:fix": "npm run lint -- --fix"
+	},
+	"dependencies": {
+		"@astrojs/check": "^0.9.4",
+		"@astrojs/mdx": "^4.2.4",
+		"@astrojs/svelte": "^7.0.10",
+		"@vite-pwa/astro": "^1.0.1",
+		"astro": "^5.7.4",
+		"browserslist": "^4.24.4",
+		"ky": "^1.8.1",
+		"lightningcss": "^1.29.3",
+		"svelte": "^5.28.1",
+		"svelte-persisted-store": "^0.12.0",
+		"typescript": "^5.8.3"
+	},
+	"devDependencies": {
+		"@sumup-oss/foundry": "^8.4.1",
+		"prettier-plugin-astro": "^0.14.1"
+	}
 }

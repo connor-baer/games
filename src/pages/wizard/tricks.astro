@@ -1,0 +1,11 @@
+---
+import Layout from '../../layouts/Wizard.astro';
+import TricksForm from '../../components/wizard/TricksForm.svelte';
+import { t } from '../../utils/i18n';
+
+const { title, description } = t.wizard.tricks;
+---
+
+<Layout title={title} description={description}>
+  <TricksForm title={title} description={description} client:load />
+</Layout>

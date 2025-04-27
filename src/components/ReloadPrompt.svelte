@@ -55,7 +55,7 @@
     bottom: 0;
     transform: translateX(50%);
     z-index: 1;
-    padding: var(--layout-frame);
+    margin: var(--layout-gutter);
     width: 100%;
     max-width: var(--layout-max-width-prose);
     display: flex;
@@ -65,12 +65,12 @@
   }
 
   .toast {
-    padding: 12px 16px;
+    padding: 8px 16px;
     display: flex;
     align-items: center;
     gap: 8px;
     border: 2px solid var(--color-fg-success);
-    border-radius: 8px;
+    border-radius: 12px;
     text-align: left;
     background-color: var(--color-bg-elevated);
   }

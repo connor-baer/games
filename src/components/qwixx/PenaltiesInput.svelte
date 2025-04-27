@@ -1,36 +1,44 @@
 <script lang="ts">
-  import type { Writable } from 'svelte/store';
-
   import { createArray } from '../../utils/array';
+  import { t } from '../../utils/i18n';
   import { PENALTIES } from '../../lib/qwixx/constants';
 
   import Cross from './Cross.svelte';
 
-  export let penalties: Writable<number>;
+  interface Props {
+    penalties: number;
+    togglePenalty: (penalty: number) => void;
+  }
+
+  const { penalties, togglePenalty }: Props = $props();
 
   const maxPenalties = createArray(PENALTIES).map((_, index) => index + 1);
 
-  function onInput(
+  function onClick(
     event: Event & { currentTarget: EventTarget & HTMLInputElement },
   ) {
-    const { value } = event.currentTarget;
+    const { value, ariaDisabled } = event.currentTarget;
+    if (ariaDisabled === 'true') {
+      event.preventDefault();
+      return;
+    }
     const penalty = Number.parseInt(value, 10);
-    penalties.update((prev) => (penalty === prev ? penalty - 1 : penalty));
+    togglePenalty(penalty);
   }
 </script>
 
 <section>
-  <h2 id="penalties-heading">Penalties</h2>
+  <h2 id="penalties-heading">{t.qwixx.penalties}</h2>
   <div role="group" aria-labelledby="penalties-heading">
     {#each maxPenalties as penalty}
       <input
         id={`penalty-${penalty}`}
         type="checkbox"
         name="penalty"
-        checked={penalty <= $penalties}
-        disabled={penalty < $penalties || penalty > $penalties + 1}
+        checked={penalty <= penalties}
+        aria-disabled={penalty < penalties || penalty > penalties + 1}
         value={penalty}
-        on:input={onInput}
+        onclick={onClick}
         class="hide-visually"
       />
       <label for={`penalty-${penalty}`}>
@@ -67,7 +75,7 @@
     padding: 2px;
   }
 
-  input:disabled + label {
+  input[aria-disabled='true'] + label {
     cursor: not-allowed;
   }
 
@@ -79,5 +87,10 @@
 
   input:checked + label :global(.icon-cross) {
     opacity: 1;
+  }
+
+  input:focus-visible + label {
+    outline: 2px solid var(--color-fg-subtle);
+    outline-offset: 3px;
   }
 </style>

@@ -1,13 +1,22 @@
 <script lang="ts">
-  import { Direction, type ColorConfig } from '../../lib/qwixx/types';
   import { createArray } from '../../utils/array';
+  import { t } from '../../utils/i18n';
+  import { Direction, type ColorConfig } from '../../lib/qwixx/types';
   import { NUMBERS } from '../../lib/qwixx/constants';
+  import { isColorLocked } from '../../lib/qwixx/game';
+
   import Lock from './Lock.svelte';
   import LockOpen from './LockOpen.svelte';
 
-  export let config: ColorConfig;
+  interface Props {
+    color: ColorConfig;
+    numbers: number[];
+    toggleNumber: (color: ColorConfig, number: number) => void;
+  }
 
-  const { label, direction, numbers, toggleNumber, isLocked, style } = config;
+  const { color, numbers, toggleNumber }: Props = $props();
+
+  const { key, direction, style } = color;
 
   const numberRange = createArray(NUMBERS).map((_, index) => {
     switch (direction) {
@@ -19,54 +28,60 @@
   });
   const lastNumber = numberRange[numberRange.length - 1] as number;
 
-  $: min = Math.min(...$numbers);
-  $: max = Math.max(...$numbers);
-  $: length = $numbers.length;
+  const min = $derived(Math.min(...numbers));
+  const max = $derived(Math.max(...numbers));
+  const length = $derived(numbers.length);
 
-  $: isDisabled = (number: number) => {
+  const isLocked = isColorLocked(numbers, color);
+
+  const isDisabled = $derived((number: number) => {
     switch (direction) {
       case Direction.ASCENDING:
         return number === 12 ? length < 5 : number < max;
       case Direction.DESCENDING:
         return number === 2 ? length < 5 : number > min;
     }
-  };
+  });
 
-  function onInput(
-    event: Event & { currentTarget: EventTarget & HTMLInputElement },
-  ) {
-    const { value } = event.currentTarget;
-    const number = Number.parseInt(value, 10);
-    toggleNumber(number);
-  }
+  const onClick = $derived(
+    (event: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
+      const { value, ariaDisabled } = event.currentTarget;
+      if (ariaDisabled === 'true') {
+        event.preventDefault();
+        return;
+      }
+      const number = Number.parseInt(value, 10);
+      toggleNumber(color, number);
+    },
+  );
 </script>
 
-<fieldset {style} class:locked={$isLocked}>
-  <legend class="hide-visually">{label}</legend>
+<fieldset {style} class:locked={isLocked}>
+  <legend class="hide-visually">{t.qwixx.colors[key]}</legend>
   {#each numberRange as number}
     <input
-      id={`${label}-${number}`}
+      id={`${key}-${number}`}
       type="checkbox"
-      name={label}
-      checked={$numbers.includes(number)}
-      disabled={isDisabled(number)}
+      name={key}
+      checked={numbers.includes(number)}
+      aria-disabled={isDisabled(number)}
       value={number}
-      on:input={onInput}
+      onclick={onClick}
       class="hide-visually"
     />
-    <label for={`${label}-${number}`}>{number}</label>
+    <label for={`${key}-${number}`}>{number}</label>
   {/each}
   <input
-    id={`${label}-lock`}
+    id={`${key}-lock`}
     type="checkbox"
-    name={label}
-    checked={$numbers.includes(lastNumber)}
-    disabled={isDisabled(lastNumber)}
+    name={key}
+    checked={numbers.includes(lastNumber)}
+    aria-disabled={isDisabled(lastNumber)}
     value={lastNumber}
-    on:input={onInput}
+    onclick={onClick}
     class="hide-visually lock"
   />
-  <label for={`${label}-lock`}>
+  <label for={`${key}-lock`}>
     <Lock class="icon-lock" />
     <LockOpen class="icon-lock-open" />
   </label>
@@ -109,7 +124,7 @@
     }
   }
 
-  input:disabled + label {
+  input[aria-disabled='true'] + label {
     cursor: not-allowed;
   }
 
@@ -119,15 +134,20 @@
     font-weight: var(--font-weight-ui-bold);
   }
 
+  input:focus-visible + label {
+    outline: 2px solid hsl(var(--hue) var(--saturation) var(--lightness));
+    outline-offset: 3px;
+  }
+
   .locked label {
     opacity: 0.5;
   }
 
-  input:disabled:not(:checked) + label {
+  input[aria-disabled='true']:not(:checked) + label {
     opacity: 0.5;
   }
 
-  input:nth-last-of-type(-n + 2):disabled + label {
+  input:nth-last-of-type(-n + 2)[aria-disabled='true'] + label {
     opacity: 0.5;
   }
 

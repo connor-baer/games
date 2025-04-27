@@ -1,6 +1,4 @@
 ---
-import { LOGO } from '../lib/wizard/constants';
-
 import Layout from './Base.astro';
 
 import './wizard.css';
@@ -8,10 +6,9 @@ import './wizard.css';
 export interface Props {
   title: string;
   description: string;
-  link?: { label: string; href: string };
 }
 
-const { title, description, link } = Astro.props;
+const { title, description } = Astro.props;
 ---
 
 <Layout title={title} description={description} faviconDir="wizard">
@@ -23,76 +20,14 @@ const { title, description, link } = Astro.props;
     href="/fonts/Metamorphous-Regular.woff2"
     crossorigin
   />
-  <header>
-    <a aria-label="Home" class="logo" href="/wizard">
-      {LOGO}
-    </a>
-    <h1 class="title">{title}</h1>
-    {
-      link && (
-        <a class="link" href={link.href}>
-          {link.label}
-        </a>
-      )
-    }
-  </header>
 
-  <main>
-    <slot />
-  </main>
+  <slot />
 </Layout>
 
 <style>
-  header {
-    position: relative;
-    max-width: var(--layout-max-width-prose);
-    margin: 0 auto;
-    padding: var(--layout-gutter) var(--layout-frame);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  a {
-    padding: 0.25rem;
-  }
-
-  .logo {
-    font-size: 2rem;
-    line-height: 1;
-    transition: transform var(--transition-micro);
-    text-decoration: none;
-  }
-
-  .logo:hover,
-  .logo:focus {
-    transform: scale(1.1);
-  }
-
-  .title {
-    position: absolute;
-    bottom: 50%;
-    right: 50%;
-    transform: translate(50%, 50%);
-    font-size: 1.25rem;
-    font-family: var(--font-family-display);
-  }
-
-  .link {
-    color: var(--color-fg-default);
-    text-decoration: underline;
-    text-underline-position: under;
-    text-decoration-thickness: max(0.05em, 1px);
-  }
-
-  .link:hover,
-  .link:focus {
-    text-decoration-thickness: max(0.1em, 2px);
-  }
-
   main {
     max-width: var(--layout-max-width-prose);
-    margin: 0 auto;
+    margin-inline: auto;
     padding: var(--layout-gutter) var(--layout-frame);
   }
 </style>

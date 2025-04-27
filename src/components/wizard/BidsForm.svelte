@@ -1,74 +1,118 @@
 <script lang="ts">
-  import { actions } from 'astro:actions';
   import { onMount } from 'svelte';
-  import { writable } from 'svelte/store';
+  import { derived, writable } from 'svelte/store';
 
+  import { createId } from '../../utils/id';
+  import { t } from '../../utils/i18n';
   import { isNumber } from '../../utils/type';
-  import type { Score } from '../../lib/wizard/types';
+  import {
+    getCurrentGame,
+    getCurrentPlayers,
+    getScores,
+  } from '../../lib/wizard/stores';
 
+  import Header from './Header.svelte';
+  import Footer from './Footer.svelte';
   import ScoreInput from './ScoreInput.svelte';
+  import Placeholder from './Placeholder.svelte';
 
-  export let gameId: string;
-  export let round: number;
-  export let players: { id: string; name: string }[];
-  export let scores: Score[] | null;
+  const { title, description } = t.wizard.bids;
 
-  let mounted = false;
+  const game = getCurrentGame();
+  const players = getCurrentPlayers($game);
+  const scores = getScores();
 
   onMount(() => {
-    mounted = true;
+    if (!$game) {
+      window.location.assign('/wizard/new');
+    }
   });
 
-  const store = writable(
-    players.map((player) => {
-      const score = scores?.find((score) => score.playerId === player.id) || {
-        bid: null,
-        tricks: null,
-      };
-      return { ...player, score };
+  const inputs = writable(
+    $players.map((player) => {
+      const score = $scores.find(
+        (score) =>
+          score.gameId === $game?.id &&
+          score.round === $game?.round &&
+          score.playerId === player.id,
+      ) || { bid: undefined, tricks: undefined };
+      return { player, score };
     }),
   );
 
-  $: total = $store?.reduce((acc, { score }) => acc + (score.bid || 0), 0);
-  $: valid = !mounted || $store.every(({ score }) => isNumber(score.bid));
+  const total = derived(inputs, ($store) =>
+    $store.reduce((acc, { score }) => acc + (score.bid || 0), 0),
+  );
+  const valid = derived(inputs, ($store) =>
+    $store.every(({ score }) => isNumber(score.bid)),
+  );
+
+  function handleSubmit(event: SubmitEvent) {
+    event.preventDefault();
+    if (!$game) {
+      throw new Error('No active game');
+    }
+    scores.insert(
+      $inputs.map(({ score, player }) => ({
+        id: createId(),
+        gameId: $game.id,
+        round: $game.round,
+        playerId: player.id,
+        bid: score.bid,
+        tricks: score.tricks,
+      })),
+    );
+    window.location.assign('/wizard/tricks');
+  }
 </script>
 
-<form method="POST" action={actions.updateBids}>
-  <input type="hidden" name="gameId" value={gameId} />
-  <input type="hidden" name="round" value={round} />
-  <ol>
-    {#each $store as player (player.id)}
+<Header {title} {description} showScores />
+
+<form onsubmit={handleSubmit}>
+  <ol class="inputs">
+    {#each $inputs as field, index (field.player.id)}
       <li>
-        <ScoreInput name="bids" {round} bind:player />
+        <ScoreInput
+          name="bids"
+          round={$game?.round}
+          player={$inputs[index]!.player}
+          bind:score={$inputs[index]!.score}
+        />
       </li>
     {/each}
   </ol>
 
-  <div class="footer">
-    <div class="total"><strong>Total:</strong> {total}/{round}</div>
+  <Footer>
+    <div class="total">
+      <strong>{t.wizard.total}:</strong>
+      {$total}/<Placeholder value={$game?.round} placeholder={0} />
+    </div>
     <div class="buttons">
-      <button class="button primary" type="submit" disabled={!valid}>
-        Save bids
+      <button class="button primary" type="submit" disabled={!$valid}>
+        {t.wizard.bids.action}
       </button>
       <a
         class="button"
-        aria-label="Back"
-        href={`/wizard/${gameId}/round/${round}/dealer`}
+        aria-label={t.wizard.back}
+        title={t.wizard.back}
+        href="/wizard/dealer"
       >
         ←
       </a>
     </div>
-  </div>
+  </Footer>
 </form>
 
 <style>
+  .inputs {
+    max-width: var(--layout-max-width-prose);
+    margin-inline: auto;
+    padding-inline: var(--layout-frame);
+  }
+
   .buttons {
     display: flex;
     gap: 0.5rem;
     flex-direction: row-reverse;
-  }
-
-  :global(.no-js) .total {
-    display: none;
   }
 </style>

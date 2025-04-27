@@ -1,0 +1,11 @@
+---
+import Layout from '../../layouts/Wizard.astro';
+import BidsForm from '../../components/wizard/BidsForm.svelte';
+import { t } from '../../utils/i18n';
+
+const { title, description } = t.wizard.bids;
+---
+
+<Layout title={title} description={description}>
+  <BidsForm title={title} description={description} client:load />
+</Layout>

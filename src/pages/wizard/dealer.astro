@@ -1,11 +1,11 @@
 ---
 import Layout from '../../layouts/Wizard.astro';
-import NewGameForm from '../../components/wizard/NewGameForm.svelte';
+import DealerForm from '../../components/wizard/DealerForm.svelte';
 import { t } from '../../utils/i18n';
 
-const { title, description } = t.wizard.new;
+const { title, description } = t.wizard.dealer;
 ---
 
 <Layout title={title} description={description}>
-  <NewGameForm client:load />
+  <DealerForm client:load />
 </Layout>

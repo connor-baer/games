@@ -1,7 +1,7 @@
-import { LOCALE } from '../lib/wizard/constants';
+import { LANGUAGE } from 'astro:env/client';
 
-const dateTimeFormat = new Intl.DateTimeFormat(LOCALE, {
-  dateStyle: 'medium',
+const dateTimeFormat = new Intl.DateTimeFormat(LANGUAGE, {
+  dateStyle: 'long',
 });
 
 export function formatDate(date: Date): string {
@@ -11,4 +11,16 @@ export function formatDate(date: Date): string {
 export function inDaysFromNow(days: number) {
   const today = new Date();
   return new Date(today.getTime() + days * 24 * 60 * 60 * 1000);
+}
+
+export function createTimestamp() {
+  return new Date().toISOString();
+}
+
+export function sortByDate<T>(list: T[], get: (item: T) => string) {
+  const getTime = (item: T) => {
+    const date = new Date(get(item));
+    return date.getTime();
+  };
+  return list.sort((a, b) => getTime(b) - getTime(a));
 }

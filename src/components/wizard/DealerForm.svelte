@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { getCurrentGame, getDealer } from '../../lib/wizard/stores';
   import { pluralize } from '../../utils/format';
 
@@ -8,6 +9,12 @@
 
   const game = getCurrentGame();
   const dealer = getDealer($game);
+
+  onMount(() => {
+    if (!$game) {
+      window.location.assign('/wizard/new');
+    }
+  });
 
   function goBack() {
     game.update((prev) => {

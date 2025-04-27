@@ -32,9 +32,10 @@
 
     curentGame.set(game);
     games.insert(game);
-    players.insert(newPlayers.filter((player) => Boolean(player.name)));
+    const validPlayers = newPlayers.filter((player) => Boolean(player.name));
+    players.insert(validPlayers);
     playersInGame.insert(
-      $players.map((player, index) => ({
+      validPlayers.map((player, index) => ({
         id: `${game.id}-${player.id}`,
         gameId: game.id,
         playerId: player.id,

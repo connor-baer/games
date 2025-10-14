@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'Metamorphous';
+  font-family: Metamorphous;
   font-style: normal;
   font-display: fallback;
-  src: url('/fonts/Metamorphous-Regular.woff2') format('woff2');
+  src: url("/fonts/Metamorphous-Regular.woff2") format("woff2");
 }
 
 body {
-  --font-family-display: 'Metamorphous', system-ui, sans-serif;
+  --font-family-display: "Metamorphous", system-ui, sans-serif;
 }

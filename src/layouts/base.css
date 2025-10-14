@@ -1,45 +1,50 @@
 /* Variables */
 :root {
-  color-scheme: light;
-
-  /* Colors */
-  /* type-layer-role(-state) */
-  --color-fg-default: hsl(0, 0%, 4%);
-  --color-fg-subtle: hsl(0, 0%, 42%);
-  --color-fg-success: hsl(140, 90%, 20%);
-  --color-fg-danger: hsl(350, 100%, 30%);
+  --color-fg-default: hsl(0deg 0% 4%);
+  --color-fg-subtle: hsl(0deg 0% 42%);
+  --color-fg-success: hsl(140deg 90% 20%);
+  --color-fg-danger: hsl(350deg 100% 30%);
+  /* stylelint-disable-next-line custom-property-pattern -- JS variable */
   --color-fg-primary: var(--fgColor, #fff);
-  --color-bg-default: hsl(0, 0%, 100%);
-  --color-bg-subtle: hsl(0, 0%, 90%);
+  --color-bg-default: hsl(0deg 0% 100%);
+  --color-bg-subtle: hsl(0deg 0% 90%);
   --color-bg-elevated: var(--color-bg-default);
+  /* stylelint-disable-next-line custom-property-pattern -- JS variable */
   --color-bg-primary: var(--bgColor, #8e4491);
-  --color-mg-default: hsl(0, 0%, 75%);
+  --color-mg-default: hsl(0deg 0% 75%);
 
   /* Shadows */
+
   /* type-role(-level) */
-  --shadow-elevation-zero: 0 0 6px rgba(0, 0, 0, 0.12);
-  --shadow-elevation-one: 0 2px 12px rgba(0, 0, 0, 0.12);
+  --shadow-elevation-zero: 0 0 6px rgb(0 0 0 / 12%);
+  --shadow-elevation-one: 0 2px 12px rgb(0 0 0 / 12%);
 
   /* Fonts */
+
   /* type-role(-state) */
   --font-family-display: system-ui, sans-serif;
   --font-family-ui: system-ui, sans-serif;
   --font-weight-ui: regular;
   --font-weight-ui-bold: bold;
-  --font-family-code: Menlo, Monaco, Lucida Console, Liberation Mono,
+  /* stylelint-disable value-keyword-case -- Font names */
+  --font-family-code:
+    Menlo, Monaco, Lucida Console, Liberation Mono,
     DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+  /* stylelint-enable value-keyword-case -- Font names */
   --font-size-ui: 1rem;
   --font-size-prose: 1.125rem;
   --line-height-prose: 1.5;
   --line-height-heading: 1.25;
 
   /* Transitions */
+
   /* type-interaction */
   --transition-micro: 150ms ease-in-out;
   --transition-appear: 300ms cubic-bezier(0, 0, 0.2, 1);
   --transition-motion: 900ms cubic-bezier(0, 0, 0.2, 1);
 
   /* Layout */
+
   /* type-spacing-role */
   --layout-gutter: 16px;
   --layout-frame: 16px;
@@ -48,6 +53,8 @@
   --layout-grid-prose: [full-start] minmax(var(--layout-frame), 1fr)
     [main-start] minmax(0, var(--layout-max-width-prose)) [main-end]
     minmax(var(--layout-frame), 1fr) [full-end];
+
+  color-scheme: light;
 }
 
 @media (min-width: 600px) {
@@ -66,20 +73,22 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    color-scheme: dark;
-
     /* Colors */
+
     /* type-layer-role(-state) */
-    --color-fg-default: hsl(0, 0%, 96%);
-    --color-fg-subtle: hsl(0, 0%, 75%);
-    --color-fg-success: hsl(140, 90%, 50%);
-    --color-fg-danger: hsl(350, 100%, 60%);
-    --color-bg-default: hsl(0, 0%, 5%);
-    --color-bg-subtle: hsl(0, 0%, 20%);
-    --color-bg-elevated: hsl(0, 0%, 15%);
-    --color-mg-default: hsl(0, 0%, 40%);
+    --color-fg-default: hsl(0deg 0% 96%);
+    --color-fg-subtle: hsl(0deg 0% 75%);
+    --color-fg-success: hsl(140deg 90% 50%);
+    --color-fg-danger: hsl(350deg 100% 60%);
+    --color-bg-default: hsl(0deg 0% 5%);
+    --color-bg-subtle: hsl(0deg 0% 20%);
+    --color-bg-elevated: hsl(0deg 0% 15%);
+    --color-mg-default: hsl(0deg 0% 40%);
+
+    color-scheme: dark;
   }
 }
+
 /* Base */
 
 /* 1. Use a more-intuitive box-sizing model */
@@ -127,8 +136,8 @@ h3,
 h4,
 h5,
 h6 {
-  overflow-wrap: break-word;
   hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 @media (min-width: 600px) {
@@ -138,21 +147,21 @@ h6 {
   h4,
   h5,
   h6 {
-    overflow-wrap: normal;
     hyphens: none;
+    overflow-wrap: normal;
   }
 }
 
 /* 7. Create a root stacking context */
 #root {
-  isolation: isolate;
   background-color: var(--color-bg-default);
+  isolation: isolate;
   transition: background var(--transition-micro);
 }
 
 html {
   text-decoration-skip-ink: auto;
-  font-feature-settings: 'kern';
+  font-feature-settings: "kern";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -164,10 +173,10 @@ html {
 body {
   font-family: var(--font-family-ui);
   font-weight: var(--font-weight-ui);
+  line-height: 1.5;
   color: var(--color-fg-default);
   background-color: var(--color-bg-default);
   transition: background var(--transition-micro);
-  line-height: 1.5;
 }
 
 [hidden] {
@@ -182,28 +191,30 @@ select {
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
   margin: 0;
+  /* stylelint-disable-next-line property-no-vendor-prefix -- Browser compatibility */
+  -webkit-appearance: none;
 }
 
 /* Firefox */
-input[type='number'] {
+input[type="number"] {
+  /* stylelint-disable-next-line property-no-vendor-prefix -- Browser compatibility */
   -moz-appearance: textfield;
 }
 
 a {
   color: inherit;
-  text-underline-position: under;
   text-decoration-thickness: max(0.05em, 1px);
+  text-underline-position: under;
 }
 
 a:hover {
   text-decoration-thickness: max(0.1em, 2px);
 }
 
-a[rel*='external']::after,
-a:not([href^='/']):not([href^='#']):not([href^='mailto'])::after,
-a[href^='mailto']::after {
+a[rel*="external"]::after,
+a:not([href^="/"]):not([href^="#"]):not([href^="mailto"])::after,
+a[href^="mailto"]::after {
   display: inline-block;
   width: 0.85em;
   margin-left: 0.15em;
@@ -211,51 +222,51 @@ a[href^='mailto']::after {
   transform: translateY(0.075em);
 }
 
-a[rel*='external']::after,
-a:not([href^='/']):not([href^='#']):not([href^='mailto'])::after {
+a[rel*="external"]::after,
+a:not([href^="/"]):not([href^="#"]):not([href^="mailto"])::after {
   /* Feather icon */
   content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3'/%3E%3C/svg%3E");
 }
 
-a[href^='mailto']::after {
+a[href^="mailto"]::after {
   /* Feather icon */
   content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z'/%3E%3Cpath d='m22 6-10 7L2 6'/%3E%3C/svg%3E");
 }
 
 @media (prefers-color-scheme: dark) {
-  a[rel*='external']::after,
-  a:not([href^='/']):not([href^='#'])::after {
+  a[rel*="external"]::after,
+  a:not([href^="/"]):not([href^="#"])::after {
     filter: invert(100%);
   }
 }
 
 .sr-only,
 .hide-visually {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
   border: 0;
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
 }
 
 .disable-visually,
 *:disabled {
-  cursor: not-allowed;
   pointer-events: none;
+  cursor: not-allowed;
   opacity: 0.5;
   filter: grayscale(33%);
 }
 
 ol {
-  list-style: none;
   padding: 0;
   margin-top: var(--layout-gutter);
   margin-bottom: var(--layout-gutter);
+  list-style: none;
 }
 
 li + li {
@@ -274,17 +285,17 @@ p {
 
 .button {
   display: inline-flex;
-  align-items: center;
   gap: 6px;
-  border-radius: 8px;
-  background-color: var(--color-bg-subtle);
-  color: var(--color-fg-default);
-  border: none;
-  text-decoration: none;
+  align-items: center;
   padding: 8px 12px;
   font-family: var(--font-family-ui);
-  font-weight: var(--font-weight-ui-bold);
   font-size: var(--font-size-ui);
+  font-weight: var(--font-weight-ui-bold);
+  color: var(--color-fg-default);
+  text-decoration: none;
+  background-color: var(--color-bg-subtle);
+  border: none;
+  border-radius: 8px;
   transition:
     background-color var(--transition-micro),
     color var(--transition-micro);
@@ -296,8 +307,8 @@ p {
 }
 
 .button.primary {
-  background-color: var(--color-bg-primary);
   color: var(--color-fg-primary);
+  background-color: var(--color-bg-primary);
 }
 
 .button.primary:focus-visible {
@@ -308,9 +319,9 @@ p {
   width: 100%;
   height: 42px;
   padding: 0 12px;
+  font-size: var(--font-size-prose);
   border: 1px solid var(--color-fg-subtle);
   border-radius: 8px;
-  font-size: var(--font-size-prose);
   transition:
     outline var(--transition-micro),
     border var(--transition-micro);
@@ -322,6 +333,6 @@ p {
 
 .input:focus,
 .input:active {
-  border-color: var(--color-bg-primary);
   outline: 1px solid var(--color-bg-primary);
+  border-color: var(--color-bg-primary);
 }

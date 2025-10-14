@@ -15,6 +15,7 @@
       }
     },
     onRegisterError(error) {
+      // biome-ignore lint/suspicious/noConsole: Exception for debugging
       console.error('Service Worker registration error', error);
     },
   });

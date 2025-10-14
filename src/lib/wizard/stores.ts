@@ -1,5 +1,5 @@
-import { persisted } from 'svelte-persisted-store';
 import { derived } from 'svelte/store';
+import { persisted } from 'svelte-persisted-store';
 
 import { shiftArray } from '../../utils/array';
 

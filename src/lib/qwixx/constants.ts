@@ -1,6 +1,6 @@
 // Game
 
-import { Direction, type ColorConfig } from './types';
+import { type ColorConfig, Direction } from './types';
 
 export const RED = {
   key: 'red',

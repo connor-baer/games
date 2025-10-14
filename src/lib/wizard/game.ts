@@ -1,7 +1,7 @@
 import { isNumber } from '../../utils/type';
 
-import type { Score } from './stores';
 import { NUMBER_OF_CARDS, POINTS_CORRECT, POINTS_PER_TRICK } from './constants';
+import type { Score } from './stores';
 
 export function calculateScoreDelta(
   score: Pick<Score, 'bid' | 'tricks'> | null | undefined,

@@ -1,25 +1,26 @@
 import {
   derived,
   get,
-  writable,
   type Readable,
   type Writable,
+  writable,
 } from 'svelte/store';
 
-import { Direction, type ColorConfig, type GameState } from './types';
-import { RED, YELLOW, GREEN, BLUE, PENALTY_POINTS, POINTS } from './constants';
+import { BLUE, GREEN, PENALTY_POINTS, POINTS, RED, YELLOW } from './constants';
+import { type ColorConfig, Direction, type GameState } from './types';
 
 export function stack<Value, Store extends Writable<Value>>(store: Store) {
   const history = writable<Value[]>([get(store)]);
   const position = writable(0);
 
-  const canUndo = derived([history, position], ([$history, $position]) => {
-    return Boolean($history[$position - 1]);
-  });
+  const canUndo = derived([history, position], ([$history, $position]) =>
+    Boolean($history[$position - 1]),
+  );
 
-  const canRedo = derived([history, position], ([$history, $position]) => {
-    return $position < $history.length - 1;
-  });
+  const canRedo = derived(
+    [history, position],
+    ([$history, $position]) => $position < $history.length - 1,
+  );
 
   const update = (updater: (value: Value) => Value) => {
     store.update((value) => {

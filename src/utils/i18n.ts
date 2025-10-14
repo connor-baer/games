@@ -1,5 +1,6 @@
 import { LANGUAGE } from 'astro:env/client';
-import { MAX_PLAYERS, MIN_PLAYERS } from 'src/lib/wizard/constants';
+
+import { MAX_PLAYERS, MIN_PLAYERS } from '../lib/wizard/constants';
 
 export const t =
   LANGUAGE === 'en'

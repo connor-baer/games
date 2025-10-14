@@ -24,6 +24,8 @@
         return index + 2;
       case Direction.DESCENDING:
         return NUMBERS + 1 - index;
+      default:
+        throw new Error('Unreachable code')
     }
   });
   const lastNumber = numberRange[numberRange.length - 1] as number;

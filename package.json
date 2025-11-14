@@ -42,7 +42,7 @@
     "@astrojs/mdx": "^4.2.4",
     "@astrojs/svelte": "^7.0.10",
     "@vite-pwa/astro": "^1.0.1",
-    "astro": "^5.14.4",
+    "astro": "^5.15.6",
     "browserslist": "^4.24.4",
     "ky": "^1.8.1",
     "lightningcss": "^1.29.3",

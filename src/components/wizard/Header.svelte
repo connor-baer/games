@@ -1,12 +1,12 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
+  import type { Snippet } from "svelte";
 
-  import { LOGO } from '../../lib/wizard/constants';
-  import { getCurrentGame } from '../../lib/wizard/stores';
-  import { t } from '../../utils/i18n';
-  import Dialog from '../Dialog.svelte';
+  import { LOGO } from "../../lib/wizard/constants";
+  import { getCurrentGame } from "../../lib/wizard/stores";
+  import { t } from "../../utils/i18n";
+  import Dialog from "../Dialog.svelte";
 
-  import ScoreTable from './ScoreTable.svelte';
+  import ScoreTable from "./ScoreTable.svelte";
 
   type Props = {
     title: string;
@@ -59,7 +59,7 @@
   .brand {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 8px;
     font-family: var(--font-family-display);
     font-size: 2rem;
     line-height: var(--line-height-heading);

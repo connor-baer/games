@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
+  import type { Snippet } from "svelte";
 
   type Props = {
     children: Snippet;
@@ -37,10 +37,10 @@
   }
 
   .footer::before {
-    content: '';
+    content: "";
     display: block;
     width: 100%;
-    height: 1rem;
+    height: 16px;
     position: absolute;
     bottom: 100%;
     background: linear-gradient(transparent, var(--color-bg-default));

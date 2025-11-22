@@ -1,21 +1,21 @@
 <script lang="ts">
-  import { MAX_PLAYERS, MIN_PLAYERS } from '../../lib/wizard/constants';
+  import { MAX_PLAYERS, MIN_PLAYERS } from "../../lib/wizard/constants";
   import {
     getCurrentGame,
     getGames,
     getPlayers,
     getPlayersInGame,
-  } from '../../lib/wizard/stores';
-  import { createArray } from '../../utils/array';
-  import { createId, createHumanId } from '../../utils/id';
-  import { createTimestamp } from '../../utils/date';
-  import { t } from '../../utils/i18n';
+  } from "../../lib/wizard/stores";
+  import { createArray } from "../../utils/array";
+  import { createId, createHumanId } from "../../utils/id";
+  import { createTimestamp } from "../../utils/date";
+  import { t } from "../../utils/i18n";
 
-  import Header from './Header.svelte';
-  import Footer from './Footer.svelte';
+  import Header from "./Header.svelte";
+  import Footer from "./Footer.svelte";
 
   const newPlayers = $state(
-    createArray(MAX_PLAYERS).map(() => ({ id: createId(), name: '' })),
+    createArray(MAX_PLAYERS).map(() => ({ id: createId(), name: "" })),
   );
 
   const curentGame = getCurrentGame();
@@ -44,7 +44,7 @@
         position: index,
       })),
     );
-    window.location.assign('/wizard/dealer');
+    window.location.assign("/wizard/dealer");
   }
 </script>
 
@@ -79,6 +79,7 @@
     max-width: var(--layout-max-width-prose);
     margin-inline: auto;
     padding-inline: var(--layout-frame);
+    padding-bottom: 90px;
   }
 
   .field {

@@ -1,20 +1,20 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { derived, writable } from 'svelte/store';
+  import { onMount } from "svelte";
+  import { derived, writable } from "svelte/store";
 
-  import { createId } from '../../utils/id';
-  import { t } from '../../utils/i18n';
-  import { isNumber } from '../../utils/type';
+  import { createId } from "../../utils/id";
+  import { t } from "../../utils/i18n";
+  import { isNumber } from "../../utils/type";
   import {
     getCurrentGame,
     getCurrentPlayers,
     getScores,
-  } from '../../lib/wizard/stores';
+  } from "../../lib/wizard/stores";
 
-  import Header from './Header.svelte';
-  import Footer from './Footer.svelte';
-  import ScoreInput from './ScoreInput.svelte';
-  import Placeholder from './Placeholder.svelte';
+  import Header from "./Header.svelte";
+  import Footer from "./Footer.svelte";
+  import ScoreInput from "./ScoreInput.svelte";
+  import Placeholder from "./Placeholder.svelte";
 
   const { title, description } = t.wizard.bids;
 
@@ -24,7 +24,7 @@
 
   onMount(() => {
     if (!$game) {
-      window.location.assign('/wizard/new');
+      window.location.assign("/wizard/new");
     }
   });
 
@@ -50,7 +50,7 @@
   function handleSubmit(event: SubmitEvent) {
     event.preventDefault();
     if (!$game) {
-      throw new Error('No active game');
+      throw new Error("No active game");
     }
     scores.insert(
       $inputs.map(({ score, player }) => ({
@@ -62,7 +62,7 @@
         tricks: score.tricks,
       })),
     );
-    window.location.assign('/wizard/tricks');
+    window.location.assign("/wizard/tricks");
   }
 </script>
 
@@ -108,6 +108,7 @@
     max-width: var(--layout-max-width-prose);
     margin-inline: auto;
     padding-inline: var(--layout-frame);
+    padding-bottom: 90px;
   }
 
   .buttons {

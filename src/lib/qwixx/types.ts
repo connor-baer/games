@@ -16,6 +16,7 @@ export type GameState = {
   yellow: number[];
   green: number[];
   blue: number[];
+  locked: { [key in Color]?: boolean };
   penalties: number;
 };
 

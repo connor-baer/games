@@ -1,20 +1,22 @@
 <script lang="ts">
-  import { createArray } from '../../utils/array';
-  import { t } from '../../utils/i18n';
-  import { Direction, type ColorConfig } from '../../lib/qwixx/types';
-  import { NUMBERS } from '../../lib/qwixx/constants';
-  import { isColorLocked } from '../../lib/qwixx/game';
-
-  import Lock from './Lock.svelte';
-  import LockOpen from './LockOpen.svelte';
+  import { createArray } from "../../utils/array";
+  import { t } from "../../utils/i18n";
+  import { Direction, type ColorConfig } from "../../lib/qwixx/types";
+  import { NUMBERS } from "../../lib/qwixx/constants";
+  import { isColorCompleted } from "../../lib/qwixx/game";
+  import Lock from "./Lock.svelte";
+  import LockOpen from "./LockOpen.svelte";
 
   interface Props {
     color: ColorConfig;
     numbers: number[];
+    isLocked: boolean;
     toggleNumber: (color: ColorConfig, number: number) => void;
+    toggleLocked: (color: ColorConfig) => void;
   }
 
-  const { color, numbers, toggleNumber }: Props = $props();
+  const { color, numbers, isLocked, toggleNumber, toggleLocked }: Props =
+    $props();
 
   const { key, direction, style } = color;
 
@@ -25,7 +27,7 @@
       case Direction.DESCENDING:
         return NUMBERS + 1 - index;
       default:
-        throw new Error('Unreachable code')
+        throw new Error("Unreachable code");
     }
   });
   const lastNumber = numberRange[numberRange.length - 1] as number;
@@ -34,7 +36,7 @@
   const max = $derived(Math.max(...numbers));
   const length = $derived(numbers.length);
 
-  const isLocked = isColorLocked(numbers, color);
+  const isCompleted = $derived(isColorCompleted(numbers, color));
 
   const isDisabled = $derived((number: number) => {
     switch (direction) {
@@ -48,7 +50,7 @@
   const onClick = $derived(
     (event: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
       const { value, ariaDisabled } = event.currentTarget;
-      if (ariaDisabled === 'true') {
+      if (ariaDisabled === "true") {
         event.preventDefault();
         return;
       }
@@ -56,9 +58,37 @@
       toggleNumber(color, number);
     },
   );
+
+  let clickTimerId: ReturnType<typeof setTimeout> | null = null;
+
+  const onLockClick = $derived(
+    (event: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
+      event.preventDefault();
+
+      if (!clickTimerId) {
+        // Single click
+        const { value, ariaDisabled } = event.currentTarget;
+        clickTimerId = setTimeout(() => {
+          clickTimerId = null;
+          if (ariaDisabled !== "true") {
+            const number = Number.parseInt(value, 10);
+            toggleNumber(color, number);
+          }
+        }, 300);
+      } else {
+        // FIXME: There's something wrong on mobile
+        // Double click
+        clearTimeout(clickTimerId);
+        clickTimerId = null;
+        if (!isCompleted) {
+          toggleLocked(color);
+        }
+      }
+    },
+  );
 </script>
 
-<fieldset {style} class:locked={isLocked}>
+<fieldset {style} class:locked={isCompleted || isLocked}>
   <legend class="hide-visually">{t.qwixx.colors[key]}</legend>
   {#each numberRange as number}
     <input
@@ -66,7 +96,7 @@
       type="checkbox"
       name={key}
       checked={numbers.includes(number)}
-      aria-disabled={isDisabled(number)}
+      aria-disabled={isLocked || isDisabled(number)}
       value={number}
       onclick={onClick}
       class="hide-visually"
@@ -77,11 +107,12 @@
     id={`${key}-lock`}
     type="checkbox"
     name={key}
-    checked={numbers.includes(lastNumber)}
+    checked={isCompleted || isLocked}
     aria-disabled={isDisabled(lastNumber)}
     value={lastNumber}
-    onclick={onClick}
+    onclick={onLockClick}
     class="hide-visually lock"
+    class:locked={isLocked}
   />
   <label for={`${key}-lock`}>
     <Lock class="icon-lock" />
@@ -118,6 +149,7 @@
       background-color var(--transition-micro),
       opacity var(--transition-micro);
     cursor: pointer;
+    touch-action: manipulation;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -126,7 +158,7 @@
     }
   }
 
-  input[aria-disabled='true'] + label {
+  input[aria-disabled="true"] + label {
     cursor: not-allowed;
   }
 
@@ -145,16 +177,24 @@
     opacity: 0.5;
   }
 
-  input[aria-disabled='true']:not(:checked) + label {
+  input[aria-disabled="true"]:not(:checked) + label {
     opacity: 0.5;
   }
 
-  input:nth-last-of-type(-n + 2)[aria-disabled='true'] + label {
+  input:nth-last-of-type(-n + 2)[aria-disabled="true"] + label {
     opacity: 0.5;
   }
 
   input.lock + label {
     border-radius: 100%;
+  }
+
+  input.lock.locked + label {
+    color: hsl(var(--hue) var(--saturation) calc(var(--lightness) - 15%));
+    background-color: hsl(
+      var(--hue) calc(var(--saturation) - 10%) calc(var(--lightness) + 15%) /
+        0.2
+    );
   }
 
   input.lock:checked + label :global(.icon-lock-open) {

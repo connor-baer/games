@@ -86,6 +86,12 @@
       }
     },
   );
+
+  const checked = $derived(isCompleted || isLocked);
+
+  $effect(() => {
+    console.log(color.key, isCompleted, isLocked, checked);
+  });
 </script>
 
 <fieldset {style} class:locked={isCompleted || isLocked}>
@@ -107,7 +113,7 @@
     id={`${key}-lock`}
     type="checkbox"
     name={key}
-    checked={isCompleted || isLocked}
+    {checked}
     aria-disabled={isDisabled(lastNumber)}
     value={lastNumber}
     onclick={onLockClick}

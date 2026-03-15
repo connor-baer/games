@@ -16,7 +16,12 @@
   import ScoreInput from "./ScoreInput.svelte";
   import Placeholder from "./Placeholder.svelte";
 
-  const { title, description } = t.wizard.bids;
+  type Props = {
+    title: string;
+    description: string;
+  };
+
+  const { title, description }: Props = $props();
 
   const game = getCurrentGame();
   const players = getCurrentPlayers($game);

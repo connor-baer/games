@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { createArray } from '../../utils/array';
-  import { t } from '../../utils/i18n';
-  import { PENALTIES } from '../../lib/qwixx/constants';
+  import { createArray } from "../../utils/array";
+  import { t } from "../../utils/i18n";
+  import { PENALTIES } from "../../lib/qwixx/constants";
 
-  import Cross from './Cross.svelte';
+  import Cross from "./Cross.svelte";
 
   interface Props {
     penalties: number;
@@ -18,7 +18,7 @@
     event: Event & { currentTarget: EventTarget & HTMLInputElement },
   ) {
     const { value, ariaDisabled } = event.currentTarget;
-    if (ariaDisabled === 'true') {
+    if (ariaDisabled === "true") {
       event.preventDefault();
       return;
     }
@@ -43,14 +43,14 @@
       />
       <label for={`penalty-${penalty}`}>
         <span class="hide-visually">{penalty}</span>
-        <Cross class="icon-cross" />
+        <Cross class="icon-cross" aria-hidden="true" />
       </label>
     {/each}
   </div>
 </section>
 
 <style>
-  div[role='group'] {
+  div[role="group"] {
     display: flex;
     gap: 0.5rem;
     padding: 0;
@@ -75,7 +75,7 @@
     padding: 2px;
   }
 
-  input[aria-disabled='true'] + label {
+  input[aria-disabled="true"] + label {
     cursor: not-allowed;
   }
 

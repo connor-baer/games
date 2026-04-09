@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { createArray } from '../../utils/array';
-  import { t } from '../../utils/i18n';
-  import { Direction, type ColorConfig } from '../../lib/qwixx/types';
-  import { NUMBERS } from '../../lib/qwixx/constants';
-  import { isColorLocked } from '../../lib/qwixx/game';
+  import { createArray } from "../../utils/array";
+  import { t } from "../../utils/i18n";
+  import { Direction, type ColorConfig } from "../../lib/qwixx/types";
+  import { NUMBERS } from "../../lib/qwixx/constants";
+  import { isColorLocked } from "../../lib/qwixx/game";
 
-  import Lock from './Lock.svelte';
-  import LockOpen from './LockOpen.svelte';
+  import Lock from "./Lock.svelte";
+  import LockOpen from "./LockOpen.svelte";
 
   interface Props {
     color: ColorConfig;
@@ -25,7 +25,7 @@
       case Direction.DESCENDING:
         return NUMBERS + 1 - index;
       default:
-        throw new Error('Unreachable code')
+        throw new Error("Unreachable code");
     }
   });
   const lastNumber = numberRange[numberRange.length - 1] as number;
@@ -48,7 +48,7 @@
   const onClick = $derived(
     (event: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
       const { value, ariaDisabled } = event.currentTarget;
-      if (ariaDisabled === 'true') {
+      if (ariaDisabled === "true") {
         event.preventDefault();
         return;
       }
@@ -84,8 +84,9 @@
     class="hide-visually lock"
   />
   <label for={`${key}-lock`}>
-    <Lock class="icon-lock" />
-    <LockOpen class="icon-lock-open" />
+    <span class="hide-visually">{t.qwixx.lock}</span>
+    <Lock class="icon-lock" aria-hidden="true" />
+    <LockOpen class="icon-lock-open" aria-hidden="true" />
   </label>
 </fieldset>
 
@@ -126,7 +127,7 @@
     }
   }
 
-  input[aria-disabled='true'] + label {
+  input[aria-disabled="true"] + label {
     cursor: not-allowed;
   }
 
@@ -145,11 +146,11 @@
     opacity: 0.5;
   }
 
-  input[aria-disabled='true']:not(:checked) + label {
+  input[aria-disabled="true"]:not(:checked) + label {
     opacity: 0.5;
   }
 
-  input:nth-last-of-type(-n + 2)[aria-disabled='true'] + label {
+  input:nth-last-of-type(-n + 2)[aria-disabled="true"] + label {
     opacity: 0.5;
   }
 

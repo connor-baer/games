@@ -11,6 +11,7 @@ export const t =
           undo: 'Undo',
           redo: 'Redo',
           reset: 'Reset',
+          lock: 'Lock',
           colors: {
             red: 'Red',
             yellow: 'Yellow',

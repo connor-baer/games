@@ -74,7 +74,7 @@ export function getPoints(state: Readable<GameState>) {
   });
 }
 
-export function isColorLocked(numbers: number[], color: ColorConfig) {
+export function isColorCompleted(numbers: number[], color: ColorConfig) {
   const { direction } = color;
   return (
     (direction === Direction.ASCENDING && numbers.includes(12)) ||
@@ -86,7 +86,7 @@ function getColorPoints(state: GameState, color: ColorConfig) {
   const numbers = state[color.key];
   let crosses = numbers.length;
 
-  if (isColorLocked(numbers, color)) {
+  if (isColorCompleted(numbers, color)) {
     crosses += 1;
   }
 

@@ -18,6 +18,7 @@
     yellow: [],
     green: [],
     blue: [],
+    locked: {},
     penalties: 0,
   };
 
@@ -50,6 +51,19 @@
       return {
         ...state,
         penalties: penalty === state.penalties ? penalty - 1 : penalty,
+      };
+    });
+  }
+
+  function toggleLocked(color: ColorConfig) {
+    const { key } = color;
+    game.update((state) => {
+      return {
+        ...state,
+        locked: {
+          ...state.locked,
+          [key]: !state.locked[key],
+        },
       };
     });
   }
@@ -111,7 +125,13 @@
 
   <div class="numbers">
     {#each COLORS as color (color.key)}
-      <NumbersInput {color} numbers={$game[color.key]} {toggleNumber} />
+      <NumbersInput
+        {color}
+        numbers={$game[color.key]}
+        isLocked={Boolean($game.locked[color.key])}
+        {toggleNumber}
+        {toggleLocked}
+      />
     {/each}
   </div>
 </section>

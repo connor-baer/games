@@ -40,10 +40,10 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/mdx": "^4.2.4",
-    "@astrojs/svelte": "^7.0.10",
+    "@astrojs/mdx": "^7.0.3",
+    "@astrojs/svelte": "^9.0.1",
     "@vite-pwa/astro": "^1.0.1",
-    "astro": "^5.15.9",
+    "astro": "^7.0.9",
     "browserslist": "^4.24.4",
     "ky": "^1.8.1",
     "lightningcss": "^1.29.3",
